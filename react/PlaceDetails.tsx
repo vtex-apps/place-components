@@ -18,7 +18,7 @@ const countryDescriptions: CountryDescription[] = [
       [{ name: 'complement' }],
       [{ name: 'postalCode' }],
       [{ name: 'city' }, { delimiter: ', ', name: 'state' }],
-    ]
+    ],
   },
   {
     name: 'BRA',
@@ -34,7 +34,7 @@ const countryDescriptions: CountryDescription[] = [
         { delimiter: ' - ', name: 'state' },
       ],
       [{ name: 'postalCode' }],
-    ]
+    ],
   },
   {
     name: 'KOR',
@@ -45,8 +45,8 @@ const countryDescriptions: CountryDescription[] = [
         { delimiter: ', ', name: 'state' },
         { delimiter: ' ', name: 'postalCode' },
       ],
-    ]
-  }
+    ],
+  },
 ]
 
 const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
@@ -60,7 +60,7 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
         options={[
           { value: 'ARG', label: 'Argentina' },
           { value: 'BRA', label: 'Brazil' },
-          { value: 'KOR', label: 'Korea' }
+          { value: 'KOR', label: 'Korea' },
         ]}
         value={option}
         onChange={(_: any, newVal: string) => {
@@ -73,11 +73,13 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
         placeholder="Select a country"
       />
       {summary.map((line: LineComponent[], index: number) => [
-        ...line.map((field: LineComponent, index: number, line: LineComponent[]) => {
-          const hasPreviousField = index > 0 && address[line[index - 1].name]
-          const hasNextField = index + 1 < line.length && address[line[index + 1].name]
-          const hasDifferentDelimiter = field.delimiterAfter !== '-'
-          const shouldShowDelimiter = hasNextField || hasDifferentDelimiter
+        ...line.map(
+          (field: LineComponent, index: number, line: LineComponent[]) => {
+            const hasPreviousField = index > 0 && address[line[index - 1].name]
+            const hasNextField =
+              index + 1 < line.length && address[line[index + 1].name]
+            const hasDifferentDelimiter = field.delimiterAfter !== '-'
+            const shouldShowDelimiter = hasNextField || hasDifferentDelimiter
 
             return address[field.name] ? (
               <span key={field.name}>
@@ -94,14 +96,15 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
                 )}
               </span>
             ) : null
-        }),
+          }
+        ),
         <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
-      ])} 
+      ])}
     </div>
   )
 }
 
-interface PlaceDetailsProps { }
+interface PlaceDetailsProps {}
 
 interface CountryDescription {
   name: string
