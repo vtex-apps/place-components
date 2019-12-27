@@ -1,9 +1,9 @@
 {
   "vendor": "vtex",
-  "name": "base-store-component",
-  "version": "0.2.1",
-  "title": "IO Base Component",
-  "description": "IO Base component",
+  "name": "place-components",
+  "version": "0.1.0",
+  "title": "Place Components",
+  "description": "Place Components",
   "defaultLocale": "pt-BR",
   "builders": {
     "messages": "1.x",
@@ -12,9 +12,6 @@
     "docs": "0.x"
   },
   "mustUpdateAt": "2019-04-02",
-  "scripts": {
-    "postreleasy": "vtex publish --verbose"
-  },
   "dependencies": {
     "vtex.styleguide": "9.x"
   },
