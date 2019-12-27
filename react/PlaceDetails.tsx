@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
-import styles from './styles.css'
+const address: { [index: string]: any } = {
+  street: 'Av. Belgrano',
+  number: 2248,
+  complement: '',
+  postalCode: '2000',
+  city: 'Rosario',
+  state: 'Santa Fe',
+}
 
 const countryDescriptions: CountryDescription[] = [
   {
@@ -47,9 +54,9 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
   const [summary, setSummary] = useState<LineComponent[][]>([])
 
   return (
-    <div className={`${styles.container} flex flex-column pv6 ph4`}>
+    <div>
       <Dropdown
-        label='Country'
+        label="Country"
         options={[
           { value: 'ARG', label: 'Argentina' },
           { value: 'BRA', label: 'Brazil' },
@@ -65,17 +72,31 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
         }}
         placeholder="Select a country"
       />
-      {summary.map((line: LineComponent[], _: number) => {
-        let printedLine = line.map(lineComponent => {
-          return (
-            <span style={{ display: 'inline' }}>
-              {lineComponent.name}
-            </span>
-          )
-        })
-        printedLine.push(<br />)
-        return printedLine
-      })}
+      {summary.map((line: LineComponent[], index: number) => [
+        ...line.map((field: LineComponent, index: number, line: LineComponent[]) => {
+          const hasPreviousField = index > 0 && address[line[index - 1].name]
+          const hasNextField = index + 1 < line.length && address[line[index + 1].name]
+          const hasDifferentDelimiter = field.delimiterAfter !== '-'
+          const shouldShowDelimiter = hasNextField || hasDifferentDelimiter
+
+            return address[field.name] ? (
+              <span key={field.name}>
+                {field.delimiter && hasPreviousField && (
+                  <span className={field.name + '-delimiter'}>
+                    {field.delimiter}
+                  </span>
+                )}
+                <span className={field.name}>{address[field.name]}</span>
+                {field.delimiterAfter && shouldShowDelimiter && (
+                  <span className={field.name + '-delimiter-after'}>
+                    {field.delimiterAfter}
+                  </span>
+                )}
+              </span>
+            ) : null
+        }),
+        <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
+      ])} 
     </div>
   )
 }
