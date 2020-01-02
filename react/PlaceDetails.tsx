@@ -19,6 +19,14 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
   const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineComponent[][]>([])
 
+  const onDropdownChange = (_: any, newVal: string) => {
+    setOption(newVal)
+    let newSummary = countryDescriptions.find(
+      (description: CountryDescription) => description.name == newVal
+    )
+    setSummary(newSummary ? newSummary.summary : [])
+  }
+
   return (
     <div>
       <Dropdown
@@ -29,13 +37,7 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
           { value: 'KOR', label: 'Korea' },
         ]}
         value={option}
-        onChange={(_: any, newVal: string) => {
-          setOption(newVal)
-          let newSummary = countryDescriptions.find(
-            (description: CountryDescription) => description.name == newVal
-          )
-          setSummary(newSummary ? newSummary.summary : [])
-        }}
+        onChange={onDropdownChange}
         placeholder="Select a country"
       />
       {summary.map((line: LineComponent[], index: number) => [
