@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
 import { Dropdown } from 'vtex.styleguide'
+import {
+  countryDescriptions,
+  CountryDescription,
+  LineComponent,
+} from './CountryDescriptions'
 
 const address: { [index: string]: any } = {
   street: 'Av. Belgrano',
@@ -10,47 +15,8 @@ const address: { [index: string]: any } = {
   state: 'Santa Fe',
 }
 
-const countryDescriptions: CountryDescription[] = [
-  {
-    name: 'ARG',
-    summary: [
-      [{ name: 'street' }, { delimiter: ' ', name: 'number' }],
-      [{ name: 'complement' }],
-      [{ name: 'postalCode' }],
-      [{ name: 'city' }, { delimiter: ', ', name: 'state' }],
-    ],
-  },
-  {
-    name: 'BRA',
-    summary: [
-      [
-        { name: 'street' },
-        { delimiter: ' ', name: 'number' },
-        { delimiter: ', ', name: 'complement' },
-      ],
-      [
-        { name: 'neighborhood', delimiterAfter: ' - ' },
-        { name: 'city' },
-        { delimiter: ' - ', name: 'state' },
-      ],
-      [{ name: 'postalCode' }],
-    ],
-  },
-  {
-    name: 'KOR',
-    summary: [
-      [{ name: 'street' }, { delimiter: ', ', name: 'complement' }],
-      [
-        { name: 'city' },
-        { delimiter: ', ', name: 'state' },
-        { delimiter: ' ', name: 'postalCode' },
-      ],
-    ],
-  },
-]
-
 const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
-  const [option, setOption] = useState<string>('ARG')
+  const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineComponent[][]>([])
 
   return (
@@ -66,7 +32,7 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
         onChange={(_: any, newVal: string) => {
           setOption(newVal)
           let newSummary = countryDescriptions.find(
-            description => description.name == newVal
+            (description: CountryDescription) => description.name == newVal
           )
           setSummary(newSummary ? newSummary.summary : [])
         }}
@@ -105,17 +71,6 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
 }
 
 interface PlaceDetailsProps {}
-
-interface CountryDescription {
-  name: string
-  summary: LineComponent[][]
-}
-
-interface LineComponent {
-  name: string
-  delimiter?: string
-  delimiterAfter?: string
-}
 
 PlaceDetails.schema = {
   title: 'editor.base-store-component.title',
