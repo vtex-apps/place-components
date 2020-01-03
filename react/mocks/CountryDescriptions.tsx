@@ -1,4 +1,4 @@
-export interface LineComponent {
+export interface LineFragment {
   name: string
   delimiter?: string
   delimiterAfter?: string
@@ -6,7 +6,7 @@ export interface LineComponent {
 
 export interface CountryDescription {
   name: string
-  summary: LineComponent[][]
+  summary: LineFragment[][]
 }
 
 export const countryDescriptions: CountryDescription[] = [
@@ -47,3 +47,12 @@ export const countryDescriptions: CountryDescription[] = [
     ],
   },
 ]
+
+export const sampleAddress: { [index: string]: string | number } = {
+  street: 'Av. Belgrano',
+  number: 2248,
+  complement: '',
+  postalCode: '2000',
+  city: 'Rosario',
+  state: 'Santa Fe',
+}

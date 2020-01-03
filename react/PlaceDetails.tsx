@@ -2,29 +2,21 @@ import React, { useState } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 import {
   countryDescriptions,
+  sampleAddress,
   CountryDescription,
-  LineComponent,
+  LineFragment,
 } from './mocks/CountryDescriptions'
-
-const address: { [index: string]: string | number } = {
-  street: 'Av. Belgrano',
-  number: 2248,
-  complement: '',
-  postalCode: '2000',
-  city: 'Rosario',
-  state: 'Santa Fe',
-}
 
 const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
-  const [summary, setSummary] = useState<LineComponent[][]>([])
+  const [summary, setSummary] = useState<LineFragment[][]>([])
 
-  const onDropdownChange = (_: any, newVal: string) => {
-    setOption(newVal)
-    let newSummary = countryDescriptions.find(
-      (description: CountryDescription) => description.name == newVal
+  const onDropdownChange = (_: any, country: string) => {
+    setOption(country)
+    let description = countryDescriptions.find(
+      (description: CountryDescription) => description.name == country
     )
-    setSummary(newSummary ? newSummary.summary : [])
+    setSummary(description ? description.summary : [])
   }
 
   return (
@@ -40,23 +32,24 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
         onChange={onDropdownChange}
         placeholder="Select a country"
       />
-      {summary.map((line: LineComponent[], index: number) => [
+      {summary.map((line: LineFragment[], index: number) => [
         ...line.map(
-          (field: LineComponent, index: number, line: LineComponent[]) => {
-            const hasPreviousField = index > 0 && address[line[index - 1].name]
+          (field: LineFragment, index: number, line: LineFragment[]) => {
+            const hasPreviousField =
+              index > 0 && sampleAddress[line[index - 1].name]
             const hasNextField =
-              index + 1 < line.length && address[line[index + 1].name]
+              index + 1 < line.length && sampleAddress[line[index + 1].name]
             const hasDifferentDelimiter = field.delimiterAfter !== '-'
             const shouldShowDelimiter = hasNextField || hasDifferentDelimiter
 
-            return address[field.name] ? (
+            return sampleAddress[field.name] ? (
               <span key={field.name}>
                 {field.delimiter && hasPreviousField && (
                   <span className={field.name + '-delimiter'}>
                     {field.delimiter}
                   </span>
                 )}
-                <span className={field.name}>{address[field.name]}</span>
+                <span className={field.name}>{sampleAddress[field.name]}</span>
                 {field.delimiterAfter && shouldShowDelimiter && (
                   <span className={field.name + '-delimiter-after'}>
                     {field.delimiterAfter}
