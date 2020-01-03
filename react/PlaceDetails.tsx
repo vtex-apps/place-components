@@ -4,9 +4,9 @@ import {
   countryDescriptions,
   CountryDescription,
   LineComponent,
-} from './CountryDescriptions'
+} from './mocks/CountryDescriptions'
 
-const address: { [index: string]: any } = {
+const address: { [index: string]: string | number } = {
   street: 'Av. Belgrano',
   number: 2248,
   complement: '',
@@ -15,7 +15,7 @@ const address: { [index: string]: any } = {
   state: 'Santa Fe',
 }
 
-const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
+const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineComponent[][]>([])
 
@@ -71,8 +71,6 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = () => {
     </div>
   )
 }
-
-interface PlaceDetailsProps {}
 
 PlaceDetails.schema = {
   title: 'editor.base-store-component.title',
