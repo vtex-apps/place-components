@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 import {
   countryDescriptions,
-  sampleAddress,
+  sampleAddress as address,
   CountryDescription,
   LineFragment,
 } from './mocks/CountryDescriptions'
@@ -11,13 +11,46 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineFragment[][]>([])
 
-  const onDropdownChange = (_: any, country: string) => {
+  const onDropdownChange = (_: Event, country: string) => {
     setOption(country)
     let description = countryDescriptions.find(
       (description: CountryDescription) => description.name == country
     )
     setSummary(description ? description.summary : [])
   }
+
+  const parseLineFragment = (
+    fragment: LineFragment,
+    index: number,
+    line: LineFragment[]
+  ) => {
+    const hasPreviousFragment = index > 0 && address[line[index - 1].name]
+    const hasNextFragment =
+      index + 1 < line.length && address[line[index + 1].name]
+    const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
+    const shouldShowDelimiter = hasNextFragment || hasDifferentDelimiter
+
+    return address[fragment.name] ? (
+      <span key={fragment.name}>
+        {fragment.delimiter && hasPreviousFragment && (
+          <span className={fragment.name + '-delimiter'}>
+            {fragment.delimiter}
+          </span>
+        )}
+        <span className={fragment.name}>{address[fragment.name]}</span>
+        {fragment.delimiterAfter && shouldShowDelimiter && (
+          <span className={fragment.name + '-delimiter-after'}>
+            {fragment.delimiterAfter}
+          </span>
+        )}
+      </span>
+    ) : null
+  }
+
+  const parseLine = (line: LineFragment[], index: number) => [
+    ...line.map(parseLineFragment),
+    <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
+  ]
 
   return (
     <div>
@@ -32,35 +65,7 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
         onChange={onDropdownChange}
         placeholder="Select a country"
       />
-      {summary.map((line: LineFragment[], index: number) => [
-        ...line.map(
-          (field: LineFragment, index: number, line: LineFragment[]) => {
-            const hasPreviousField =
-              index > 0 && sampleAddress[line[index - 1].name]
-            const hasNextField =
-              index + 1 < line.length && sampleAddress[line[index + 1].name]
-            const hasDifferentDelimiter = field.delimiterAfter !== '-'
-            const shouldShowDelimiter = hasNextField || hasDifferentDelimiter
-
-            return sampleAddress[field.name] ? (
-              <span key={field.name}>
-                {field.delimiter && hasPreviousField && (
-                  <span className={field.name + '-delimiter'}>
-                    {field.delimiter}
-                  </span>
-                )}
-                <span className={field.name}>{sampleAddress[field.name]}</span>
-                {field.delimiterAfter && shouldShowDelimiter && (
-                  <span className={field.name + '-delimiter-after'}>
-                    {field.delimiterAfter}
-                  </span>
-                )}
-              </span>
-            ) : null
-          }
-        ),
-        <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
-      ])}
+      {summary.map(parseLine)}
     </div>
   )
 }
