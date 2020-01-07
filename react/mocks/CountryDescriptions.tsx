@@ -6,13 +6,9 @@ export interface LineFragment {
   delimiterAfter?: string
 }
 
-export type Line = LineFragment[]
-
-export type Summary = Line[]
-
 export interface CountryDescription {
   name: string
-  summary: Summary
+  summary: LineFragment[][]
 }
 
 export const countryDescriptions: CountryDescription[] = [

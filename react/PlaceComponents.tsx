@@ -4,13 +4,13 @@ import { Dropdown } from 'vtex.styleguide'
 import {
   countryDescriptions,
   CountryDescription,
-  Summary,
+  LineFragment,
   sampleAddress as address,
 } from './mocks/CountryDescriptions'
 
 const PlaceComponents: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
-  const [summary, setSummary] = useState<Summary>([])
+  const [summary, setSummary] = useState<LineFragment[][]>([])
 
   const onDropdownChange = (_: Event, country: string) => {
     setOption(country)

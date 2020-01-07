@@ -1,12 +1,9 @@
 import React from 'react'
-import {
-  LineFragment,
-  Line,
-  CheckoutAddress,
-} from './mocks/CountryDescriptions'
+import { LineFragment } from './mocks/CountryDescriptions'
+import { Address } from 'vtex.checkout-graphql'
 
 interface PlaceDetailsProps {
-  address: CheckoutAddress
+  address: Address
   summary: LineFragment[][]
 }
 
@@ -17,7 +14,7 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = ({
   const parseLineFragment = (
     fragment: LineFragment,
     index: number,
-    line: Line
+    line: LineFragment[]
   ) => {
     const hasPreviousFragment = index > 0 && address[line[index - 1].name]
     const hasNextFragment =
@@ -42,7 +39,7 @@ const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = ({
     ) : null
   }
 
-  const parseLine = (line: Line, index: number) => [
+  const parseLine = (line: LineFragment[], index: number) => [
     ...line.map(parseLineFragment),
     <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
   ]
