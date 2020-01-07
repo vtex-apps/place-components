@@ -5,11 +5,13 @@ import {
   sampleAddress as address,
   CountryDescription,
   LineFragment,
+  Line,
+  Summary,
 } from './mocks/CountryDescriptions'
 
 const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
-  const [summary, setSummary] = useState<LineFragment[][]>([])
+  const [summary, setSummary] = useState<Summary>([])
 
   const onDropdownChange = (_: Event, country: string) => {
     setOption(country)
@@ -22,7 +24,7 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
   const parseLineFragment = (
     fragment: LineFragment,
     index: number,
-    line: LineFragment[]
+    line: Line
   ) => {
     const hasPreviousFragment = index > 0 && address[line[index - 1].name]
     const hasNextFragment =
@@ -47,7 +49,7 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
     ) : null
   }
 
-  const parseLine = (line: LineFragment[], index: number) => [
+  const parseLine = (line: Line, index: number) => [
     ...line.map(parseLineFragment),
     <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
   ]

@@ -4,9 +4,13 @@ export interface LineFragment {
   delimiterAfter?: string
 }
 
+export type Line = LineFragment[]
+
+export type Summary = Line[]
+
 export interface CountryDescription {
   name: string
-  summary: LineFragment[][]
+  summary: Summary
 }
 
 export const countryDescriptions: CountryDescription[] = [
