@@ -1,5 +1,5 @@
 export interface LineFragment {
-  name: string
+  name: keyof CheckoutAddress
   delimiter?: string
   delimiterAfter?: string
 }
@@ -52,11 +52,34 @@ export const countryDescriptions: CountryDescription[] = [
   },
 ]
 
-export const sampleAddress: { [index: string]: string | number } = {
+export const sampleAddress: CheckoutAddress = {
   street: 'Av. Belgrano',
-  number: 2248,
+  number: '2248',
   complement: '',
   postalCode: '2000',
   city: 'Rosario',
   state: 'Santa Fe',
+  addressId: '',
+  addressType: '',
+  country: 'Argentina',
+  geoCoordinates: [],
+  neighborhood: null,
+  receiverName: null,
+  reference: null,
+}
+
+export interface CheckoutAddress {
+  addressId: string
+  addressType: string
+  city: string | null
+  complement: string | null
+  country: string
+  geoCoordinates: number[]
+  neighborhood: string | null
+  number: string | null
+  postalCode: string | null
+  receiverName: string | null
+  reference: string | null
+  state: string | null
+  street: string | null
 }

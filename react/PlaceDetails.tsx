@@ -1,26 +1,19 @@
-import React, { useState } from 'react'
-import { Dropdown } from 'vtex.styleguide'
+import React from 'react'
 import {
-  countryDescriptions,
-  sampleAddress as address,
-  CountryDescription,
   LineFragment,
   Line,
-  Summary,
+  CheckoutAddress,
 } from './mocks/CountryDescriptions'
 
-const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
-  const [option, setOption] = useState<string>('')
-  const [summary, setSummary] = useState<Summary>([])
+interface PlaceDetailsProps {
+  address: CheckoutAddress
+  summary: LineFragment[][]
+}
 
-  const onDropdownChange = (_: Event, country: string) => {
-    setOption(country)
-    let description = countryDescriptions.find(
-      (description: CountryDescription) => description.name == country
-    )
-    setSummary(description?.summary || [])
-  }
-
+const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = ({
+  address,
+  summary,
+}) => {
   const parseLineFragment = (
     fragment: LineFragment,
     index: number,
@@ -54,22 +47,7 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
     <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
   ]
 
-  return (
-    <div>
-      <Dropdown
-        label="Country"
-        options={[
-          { value: 'ARG', label: 'Argentina' },
-          { value: 'BRA', label: 'Brazil' },
-          { value: 'KOR', label: 'Korea' },
-        ]}
-        value={option}
-        onChange={onDropdownChange}
-        placeholder="Select a country"
-      />
-      {summary.map(parseLine)}
-    </div>
-  )
+  return <div>{summary.map(parseLine)}</div>
 }
 
 export default PlaceDetails
