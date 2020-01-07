@@ -18,7 +18,7 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
     let description = countryDescriptions.find(
       (description: CountryDescription) => description.name == country
     )
-    setSummary(description ? description.summary : [])
+    setSummary(description?.summary || [])
   }
 
   const parseLineFragment = (
@@ -70,20 +70,6 @@ const PlaceDetails: StorefrontFunctionComponent<{}> = () => {
       {summary.map(parseLine)}
     </div>
   )
-}
-
-PlaceDetails.schema = {
-  title: 'editor.base-store-component.title',
-  description: 'editor.base-store-component.description',
-  type: 'object',
-  properties: {
-    title: {
-      title: 'editor.base-store-component.title.title',
-      description: 'editor.base-store-component.title.description',
-      type: 'string',
-      default: null,
-    },
-  },
 }
 
 export default PlaceDetails
