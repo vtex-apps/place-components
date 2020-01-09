@@ -31,7 +31,7 @@ export const mockSummaries: CountryDescription[] = [
   ],
 ]
 
-export const sampleAddress: Address = {
+export const completeAddress: Address = {
   street: 'Av. Belgrano',
   number: '2248',
   complement: 'B',
@@ -43,6 +43,22 @@ export const sampleAddress: Address = {
   country: 'Argentina',
   geoCoordinates: [],
   neighborhood: 'Las Delicias',
+  receiverName: null,
+  reference: null,
+}
+
+export const incompleteAddress: Address = {
+  street: 'Av. Belgrano',
+  number: '2248',
+  complement: '',
+  postalCode: '2000',
+  city: 'Rosario',
+  state: '',
+  addressId: '',
+  addressType: null,
+  country: 'Argentina',
+  geoCoordinates: [],
+  neighborhood: '',
   receiverName: null,
   reference: null,
 }

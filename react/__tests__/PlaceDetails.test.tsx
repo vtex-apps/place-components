@@ -2,7 +2,8 @@ import React from 'react'
 import { render } from '@vtex/test-tools/react'
 import {
   mockSummaries as summaries,
-  sampleAddress as address,
+  completeAddress,
+  incompleteAddress,
 } from '../__mocks__/mockSummaries'
 import PlaceDetails from '../PlaceDetails'
 
@@ -10,27 +11,51 @@ describe('Place Details', () => {
   it('should render all data present in the summary and in the address', () => {
     const { queryByText } = render(
       <div>
-        <PlaceDetails address={address} summary={summaries[0]} />
+        <PlaceDetails address={completeAddress} summary={summaries[0]} />
       </div>
     )
 
-    expect(queryByText(address.street as string)).toBeTruthy()
-    expect(queryByText(address.number as string)).toBeTruthy()
-    expect(queryByText(address.complement as string)).toBeTruthy()
-    expect(queryByText(address.postalCode as string)).toBeTruthy()
-    expect(queryByText(address.city as string)).toBeTruthy()
-    expect(queryByText(address.state as string)).toBeTruthy()
+    expect(queryByText(completeAddress.street as string)).toBeTruthy()
+    expect(queryByText(completeAddress.number as string)).toBeTruthy()
+    expect(queryByText(completeAddress.complement as string)).toBeTruthy()
+    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
+    expect(queryByText(completeAddress.city as string)).toBeTruthy()
+    expect(queryByText(completeAddress.state as string)).toBeTruthy()
   })
 
-  it('should not render data not present in the summary', () => {
+  it('should not render data present in the address, but not present in the summary', () => {
     const { queryByText } = render(
       <div>
-        <PlaceDetails address={address} summary={summaries[2]} />
+        <PlaceDetails address={completeAddress} summary={summaries[2]} />
       </div>
     )
 
-    expect(queryByText(address.number as string)).toBeFalsy()
-    expect(queryByText(address.country as string)).toBeFalsy()
-    expect(queryByText(address.neighborhood as string)).toBeFalsy()
+    expect(queryByText(completeAddress.number as string)).toBeFalsy()
+    expect(queryByText(completeAddress.country as string)).toBeFalsy()
+    expect(queryByText(completeAddress.neighborhood as string)).toBeFalsy()
+  })
+
+  it('should not render delimiter attached to a value if the value is not rendered', () => {
+    const { queryByText } = render(
+      <div>
+        <PlaceDetails address={incompleteAddress} summary={summaries[0]} />
+      </div>
+    )
+
+    expect(queryByText(', ' as string)).toBeFalsy()
+  })
+
+  it('should correctly render delimiters when all required values are present', () => {
+    const { queryByText, queryAllByText } = render(
+      <div>
+        <PlaceDetails address={completeAddress} summary={summaries[1]} />
+      </div>
+    )
+
+    expect(queryByText(completeAddress.neighborhood as string)).toBeTruthy()
+    expect(queryByText(completeAddress.city as string)).toBeTruthy()
+    expect(queryByText(completeAddress.state as string)).toBeTruthy()
+    let query = queryAllByText(' - ' as string, { exact: false, trim: false })
+    expect(query.length).toEqual(2)
   })
 })
