@@ -2,12 +2,12 @@ import React from 'react'
 import { LineFragment } from './mocks/CountryDescriptions'
 import { Address } from 'vtex.checkout-graphql'
 
-interface PlaceDetailsProps {
+interface Props {
   address: Address
   summary: LineFragment[][]
 }
 
-const PlaceDetails: StorefrontFunctionComponent<PlaceDetailsProps> = ({
+const PlaceDetails: StorefrontFunctionComponent<Props> = ({
   address,
   summary,
 }) => {
