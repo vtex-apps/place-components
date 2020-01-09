@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import PlaceDetails from './PlaceDetails'
+import PlaceDetails, { LineFragment } from './PlaceDetails'
 import { Dropdown } from 'vtex.styleguide'
 import {
   countryDescriptions,
   CountryDescription,
-  LineFragment,
   sampleAddress as address,
 } from './mocks/CountryDescriptions'
 
