@@ -1,23 +1,24 @@
 import React from 'react'
 import { render } from '@vtex/test-tools/react'
-//import Component from '../components/index'
-import { Dropdown } from 'vtex.styleguide'
+import {
+  mockSummaries as summaries,
+  sampleAddress as address,
+} from '../__mocks__/mockSummaries'
+import PlaceDetails from '../PlaceDetails'
 
-describe('HelloWorld Component', () => {
-  const { getByText } = render(
-    <Dropdown
-      label="Option"
-      options={[
-        { value: 'first', label: '1' },
-        { value: 'second', label: '2' },
-      ]}
-      onChange={() => {}}
-      value={'first'}
-      placeholder="Select an option"
-    />
-  )
+describe('Place Details', () => {
+  it('should render all data related to Argentina', () => {
+    const { getByText } = render(
+      <div>
+        <PlaceDetails address={address} summary={summaries[0]} />
+      </div>
+    )
 
-  it('should render the example in TypeScript', () => {
-    expect(getByText(/Select a painter/)).toBeDefined()
+    expect(getByText(address.street as string)).toBeDefined()
+    expect(getByText(address.number as string)).toBeDefined()
+    expect(getByText(address.complement as string)).toBeDefined()
+    expect(getByText(address.postalCode as string)).toBeDefined()
+    expect(getByText(address.city as string)).toBeDefined()
+    expect(getByText(address.state as string)).toBeDefined()
   })
 })
