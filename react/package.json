@@ -30,5 +30,5 @@
     "vtex.render-runtime": "http://vtex.vteximg.com.br/_v/public/typings/v1/vtex.render-runtime@8.88.0/public/@types/vtex.render-runtime",
     "vtex.checkout-graphql": "http://vtex.vteximg.com.br/_v/public/typings/v1/vtex.checkout-graphql@0.20.1/public/@types/vtex.checkout-graphql"
   },
-  "version": "0.2.1"
+  "version": "0.2.0"
 }
