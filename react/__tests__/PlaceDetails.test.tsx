@@ -7,18 +7,30 @@ import {
 import PlaceDetails from '../PlaceDetails'
 
 describe('Place Details', () => {
-  it('should render all data related to Argentina', () => {
-    const { getByText } = render(
+  it('should render all data present in the summary and in the address', () => {
+    const { queryByText } = render(
       <div>
         <PlaceDetails address={address} summary={summaries[0]} />
       </div>
     )
 
-    expect(getByText(address.street as string)).toBeDefined()
-    expect(getByText(address.number as string)).toBeDefined()
-    expect(getByText(address.complement as string)).toBeDefined()
-    expect(getByText(address.postalCode as string)).toBeDefined()
-    expect(getByText(address.city as string)).toBeDefined()
-    expect(getByText(address.state as string)).toBeDefined()
+    expect(queryByText(address.street as string)).toBeTruthy()
+    expect(queryByText(address.number as string)).toBeTruthy()
+    expect(queryByText(address.complement as string)).toBeTruthy()
+    expect(queryByText(address.postalCode as string)).toBeTruthy()
+    expect(queryByText(address.city as string)).toBeTruthy()
+    expect(queryByText(address.state as string)).toBeTruthy()
+  })
+
+  it('should not render data not present in the summary', () => {
+    const { queryByText } = render(
+      <div>
+        <PlaceDetails address={address} summary={summaries[2]} />
+      </div>
+    )
+
+    expect(queryByText(address.number as string)).toBeFalsy()
+    expect(queryByText(address.country as string)).toBeFalsy()
+    expect(queryByText(address.neighborhood as string)).toBeFalsy()
   })
 })
