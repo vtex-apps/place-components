@@ -1,35 +1,11 @@
 import { Address } from 'vtex.checkout-graphql'
-import { CountryDescription } from '../mocks'
+import { countryDescriptions } from '../mocks/CountryDescriptions'
 
-export const mockSummaries: CountryDescription[] = [
-  [
-    [{ name: 'street' }, { delimiter: ' ', name: 'number' }],
-    [{ name: 'complement' }],
-    [{ name: 'postalCode' }],
-    [{ name: 'city' }, { delimiter: ', ', name: 'state' }],
-  ],
-  [
-    [
-      { name: 'street' },
-      { delimiter: ' ', name: 'number' },
-      { delimiter: ', ', name: 'complement' },
-    ],
-    [
-      { name: 'neighborhood', delimiterAfter: ' - ' },
-      { name: 'city' },
-      { delimiter: ' - ', name: 'state' },
-    ],
-    [{ name: 'postalCode' }],
-  ],
-  [
-    [{ name: 'street' }, { delimiter: ', ', name: 'complement' }],
-    [
-      { name: 'city' },
-      { delimiter: ', ', name: 'state' },
-      { delimiter: ' ', name: 'postalCode' },
-    ],
-  ],
-]
+export const mockDescriptions = {
+  ARG: countryDescriptions[0],
+  BRA: countryDescriptions[1],
+  KOR: countryDescriptions[2],
+}
 
 export const completeAddress: Address = {
   street: 'Av. Belgrano',

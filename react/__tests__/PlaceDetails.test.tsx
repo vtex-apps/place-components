@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@vtex/test-tools/react'
 import {
-  mockSummaries as summaries,
+  mockDescriptions as descriptions,
   completeAddress,
   incompleteAddress,
 } from '../__mocks__/mockSummaries'
@@ -11,7 +11,10 @@ describe('Place Details', () => {
   it('should render all data present in the summary and in the address', () => {
     const { queryByText } = render(
       <div>
-        <PlaceDetails address={completeAddress} summary={summaries[0]} />
+        <PlaceDetails
+          address={completeAddress}
+          summary={descriptions.ARG.summary}
+        />
       </div>
     )
 
@@ -26,7 +29,10 @@ describe('Place Details', () => {
   it('should not render data present in the address, but not present in the summary', () => {
     const { queryByText } = render(
       <div>
-        <PlaceDetails address={completeAddress} summary={summaries[2]} />
+        <PlaceDetails
+          address={completeAddress}
+          summary={descriptions.KOR.summary}
+        />
       </div>
     )
 
@@ -38,7 +44,10 @@ describe('Place Details', () => {
   it('should not render delimiter attached to a value if the value is not rendered', () => {
     const { queryByText } = render(
       <div>
-        <PlaceDetails address={incompleteAddress} summary={summaries[0]} />
+        <PlaceDetails
+          address={incompleteAddress}
+          summary={descriptions.ARG.summary}
+        />
       </div>
     )
 
@@ -48,14 +57,17 @@ describe('Place Details', () => {
   it('should correctly render delimiters when all required values are present', () => {
     const { queryByText, queryAllByText } = render(
       <div>
-        <PlaceDetails address={completeAddress} summary={summaries[1]} />
+        <PlaceDetails
+          address={completeAddress}
+          summary={descriptions.BRA.summary}
+        />
       </div>
     )
 
     expect(queryByText(completeAddress.neighborhood as string)).toBeTruthy()
     expect(queryByText(completeAddress.city as string)).toBeTruthy()
     expect(queryByText(completeAddress.state as string)).toBeTruthy()
-    let query = queryAllByText(' - ' as string, { exact: false, trim: false })
+    const query = queryAllByText(' - ' as string, { exact: false, trim: false })
     expect(query.length).toEqual(2)
   })
 })
