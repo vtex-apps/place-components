@@ -7,17 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.2.0] - 2020-01-09
+## [0.0.3] - 2020-01-16
 
-## [0.2.1] - 2019-11-19
-
-## [0.2.0] - 2019-11-18
-
-## [0.1.0] - 2019-09-23
 ### Added
-- Test example for VTEX IO app.
 
-## Changed
-- Removed `injectIntl` from example
+- Automated tests for the PlaceDetails component
+
+### Changed
+
+- Separated PlaceDetails component from the rendered component that adds a Dropdown
+
+## [0.0.2] - 2020-01-09
+
+### Added
+
+- Initial implementation of the PlaceDetails UI component
+- Test component that renders PlaceDetails with a Dropdown to select country
+
+## [0.0.1] - 2019-09-23
+
+### Added
 
 - **Component** Create the VTEX Store Component _IO Base App_
