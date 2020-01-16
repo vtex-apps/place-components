@@ -1,5 +1,8 @@
 {
   "place-components": {
+    "component": "*"
+  },
+  "place-components.place-details": {
     "component": "PlaceComponents"
   }
 }
