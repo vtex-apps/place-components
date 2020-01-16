@@ -6,12 +6,16 @@ import {
   CountryDescription,
   sampleAddress as address,
 } from './mocks/CountryDescriptions'
+import { AddressContextProvider, useAddressContext } from 'vtex.address-context/AddressContext'
 
 const PlaceComponents: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineFragment[][]>([])
+  const { countries } = useAddressContext()
 
   const onDropdownChange = (_: Event, country: string) => {
+    // eslint-disable-next-line no-console
+    console.log(countries)
     setOption(country)
     let description = countryDescriptions.find(
       (description: CountryDescription) => description.name == country
@@ -37,4 +41,10 @@ const PlaceComponents: StorefrontFunctionComponent<{}> = () => {
   )
 }
 
-export default PlaceComponents
+const PlaceComponentsWrapper = () => (
+  <AddressContextProvider>
+    <PlaceComponents />
+  </AddressContextProvider>
+)
+
+export default PlaceComponentsWrapper
