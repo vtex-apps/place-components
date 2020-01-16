@@ -11,11 +11,12 @@ import { AddressContextProvider, useAddressContext } from 'vtex.address-context/
 const PlaceComponents: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineFragment[][]>([])
-  const { countries } = useAddressContext()
+  const { countries, address } = useAddressContext()
 
   const onDropdownChange = (_: Event, country: string) => {
     // eslint-disable-next-line no-console
     console.log(countries)
+    console.log(address)
     setOption(country)
     let description = countryDescriptions.find(
       (description: CountryDescription) => description.name == country
@@ -42,7 +43,7 @@ const PlaceComponents: StorefrontFunctionComponent<{}> = () => {
 }
 
 const PlaceComponentsWrapper = () => (
-  <AddressContextProvider>
+  <AddressContextProvider address={address} countries={["BRA", "KOR"]}>
     <PlaceComponents />
   </AddressContextProvider>
 )
