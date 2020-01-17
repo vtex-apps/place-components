@@ -1,10 +1,5 @@
 import { Address } from 'vtex.checkout-graphql'
-
-export interface LineFragment {
-  name: keyof Address
-  delimiter?: string
-  delimiterAfter?: string
-}
+import { LineFragment } from '../PlaceDetails'
 
 export interface CountryDescription {
   name: string
@@ -61,7 +56,7 @@ export const sampleAddress: Address = {
   addressType: null,
   country: 'Argentina',
   geoCoordinates: [],
-  neighborhood: null,
+  neighborhood: 'Las Delicias',
   receiverName: null,
   reference: null,
 }

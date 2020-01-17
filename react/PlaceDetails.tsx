@@ -1,6 +1,11 @@
 import React from 'react'
-import { LineFragment } from './mocks/CountryDescriptions'
 import { Address } from 'vtex.checkout-graphql'
+
+export interface LineFragment {
+  name: keyof Address
+  delimiter?: string
+  delimiterAfter?: string
+}
 
 interface Props {
   address: Address
