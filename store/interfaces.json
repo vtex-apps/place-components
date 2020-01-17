@@ -2,7 +2,7 @@
   "place-components": {
     "component": "*"
   },
-  "place-components.place-details": {
-    "component": "PlaceComponents"
+  "place-components.example": {
+    "component": "Example"
   }
 }
