@@ -12,13 +12,9 @@ import { AddressContextProvider, useAddressContext } from 'vtex.address-context/
 const Example: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')
   const [summary, setSummary] = useState<LineFragment[][]>([])
-  const { countries, address } = useAddressContext()
+  const { /*countries,*/ address } = useAddressContext()
 
   const onDropdownChange = (_: Event, country: string) => {
-    // eslint-disable-next-line no-console
-    console.log(countries)
-    // eslint-disable-next-line no-console
-    console.log(address)
     setOption(country)
     let description = countryDescriptions.find(
       (description: CountryDescription) => description.name == country
@@ -39,7 +35,7 @@ const Example: StorefrontFunctionComponent<{}> = () => {
         onChange={onDropdownChange}
         placeholder="Select a country"
       />
-      <PlaceDetails address={address} summary={summary}  />
+      <PlaceDetails address={address} summary={summary}/>
       <AddressForm address={address} summary={summary}/>
     </div>
   )

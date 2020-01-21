@@ -1,6 +1,6 @@
 import React from 'react'
 import { Address } from 'vtex.checkout-graphql'
-import { Input } from 'vtex.styleguide'
+import { Input, Button } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 
 export interface LineFragment {
@@ -18,7 +18,7 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
   address,
   summary,
 }) => {
-  const { setAddress } = useAddressContext()
+  const { setAddress, text, setText } = useAddressContext()
 
   const parseLineFragment = (
     fragment: LineFragment
@@ -31,11 +31,25 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
           placeholder={fragment.name}
           label={fragment.name}
           value={address[fragment.name]}
-          onChange={(event: any) => {
-            let newAddress = address
-            newAddress[fragment.name] = event.target.value
-            console.log(event.target.value)
+          /*          onChange={(event: any) => {
+            const newAddress = {
+              ...address,
+              [fragment.name]: event.target.value,
+            }
             setAddress(newAddress)
+            console.log('PRINTING NEW ADDRESS AND EVENT TARGET VALUE')
+            console.log(newAddress)
+            console.log(event.target.value)
+            console.log('---')
+          }}*/
+          onChange={(event: any) => {
+            const newAddress = address
+            newAddress[fragment.name] = event.target.value
+            setAddress(newAddress)
+            console.log('PRINTING NEW ADDRESS AND EVENT TARGET VALUE')
+            console.log(newAddress)
+            console.log(event.target.value)
+            console.log('---')
           }}
         />
       </span>
@@ -47,7 +61,13 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
     <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
   ]
 
-  return <div>{summary.map(parseLine)}</div>
+  return (
+    <div>
+      <p>Texto is: {text}</p>
+      <Button onClick={() => setText('wawawa')}>Click</Button>
+      <div>{summary.map(parseLine)}</div>
+    </div>
+  )
 }
 
 export default AddressForm
