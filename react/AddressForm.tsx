@@ -31,7 +31,7 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
           placeholder={fragment.name}
           label={fragment.name}
           value={address[fragment.name]}
-          /*          onChange={(event: any) => {
+          onChange={(event: any) => {
             const newAddress = {
               ...address,
               [fragment.name]: event.target.value,
@@ -41,7 +41,8 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
             console.log(newAddress)
             console.log(event.target.value)
             console.log('---')
-          }}*/
+          }}
+          /*
           onChange={(event: any) => {
             const newAddress = address
             newAddress[fragment.name] = event.target.value
@@ -50,7 +51,7 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
             console.log(newAddress)
             console.log(event.target.value)
             console.log('---')
-          }}
+          }}*/
         />
       </span>
     ) : null
