@@ -39,8 +39,8 @@ const Example: StorefrontFunctionComponent<{}> = () => {
         onChange={onDropdownChange}
         placeholder="Select a country"
       />
-      <PlaceDetails address={address} summary={summary} />
-      <AddressForm address={address} summary={summary} />
+      <PlaceDetails address={address} summary={summary}  />
+      <AddressForm address={address} summary={summary}/>
     </div>
   )
 }
