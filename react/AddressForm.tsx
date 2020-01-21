@@ -25,7 +25,7 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
     //    index: number,
     //    line: LineFragment[]
   ) => {
-    return address[fragment.name] ? (
+    return address[fragment.name] != null ? (
       <span key={fragment.name} className="w-25 dib mh3">
         <Input
           placeholder={fragment.name}
