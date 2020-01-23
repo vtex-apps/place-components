@@ -34,16 +34,6 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
             }
             setAddress(newAddress)
           }}
-          /*
-          onChange={(event: any) => {
-            const newAddress = address
-            newAddress[fragment.name] = event.target.value
-            setAddress(newAddress)
-            console.log('PRINTING NEW ADDRESS AND EVENT TARGET VALUE')
-            console.log(newAddress)
-            console.log(event.target.value)
-            console.log('---')
-          }}*/
         />
       </span>
     ) : null

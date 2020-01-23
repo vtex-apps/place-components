@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- New `AddressContext` dependency (orchestrator component) that provides means to alter global address object.
+- New `AddressForm` component
+
+### Changed
+
+- The component should be tested in the `/places` route now, isolated from the rest of the store.
+
 ## [0.0.3] - 2020-01-17
 
 ### Added
