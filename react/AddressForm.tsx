@@ -2,7 +2,7 @@ import React from 'react'
 import { Address } from 'vtex.checkout-graphql'
 import { Input } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { LineFragment } from './typings/placeComponentsTypes'
+import { LineFragment } from './typings/countryRulesTypes'
 
 interface Props {
   address: Address

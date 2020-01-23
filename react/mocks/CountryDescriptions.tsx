@@ -1,5 +1,5 @@
 import { Address } from 'vtex.checkout-graphql'
-import { LineFragment } from '../typings/placeComponentsTypes'
+import { LineFragment } from '../typings/countryRulesTypes'
 
 export interface CountryDescription {
   name: string
