@@ -92,7 +92,14 @@ const rules: CountryRules = {
     compact: [
       [{ name: 'street' }, { delimiter: ' ', name: 'number' }],
       [{ name: 'neighborhood' }],
-      [{ name: 'city' }, { delimiter: ' - ', name: 'stateAbbreviation' }],
+      [
+        { name: 'city' },
+        {
+          delimiter: ' - ',
+          name:
+            'state' /* According to Davi's designs, it should be stateAbbreviation  */,
+        },
+      ],
       [{ name: 'postalCode' }],
     ],
     extended: [
@@ -100,7 +107,14 @@ const rules: CountryRules = {
       [{ name: 'street' }, { delimiter: ' ', name: 'number' }],
       [{ name: 'complement' }],
       [{ name: 'neighborhood' }],
-      [{ name: 'city' }, { delimiter: ' - ', name: 'stateAbbreviation' }],
+      [
+        { name: 'city' },
+        {
+          delimiter: ' - ',
+          name:
+            'state' /* According to Davi's designs, it should be stateAbbreviation  */,
+        },
+      ],
       [{ name: 'postalCode' }],
     ],
   },
