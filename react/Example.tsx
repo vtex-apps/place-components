@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PlaceDetails, { LineFragment } from './PlaceDetails'
+import PlaceDetails from './PlaceDetails'
 import AddressForm from './AddressForm'
 import { Dropdown } from 'vtex.styleguide'
 import {
@@ -8,6 +8,7 @@ import {
   sampleAddress as address,
 } from './mocks/CountryDescriptions'
 import { AddressContextProvider, useAddressContext } from 'vtex.address-context/AddressContext'
+import { LineFragment } from './typings/placeComponentsTypes'
 
 const Example: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')

@@ -2,12 +2,7 @@ import React from 'react'
 import { Address } from 'vtex.checkout-graphql'
 import { Input } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-
-export interface LineFragment {
-  name: keyof Address
-  delimiter?: string
-  delimiterAfter?: string
-}
+import { LineFragment } from './typings/placeComponentsTypes'
 
 interface Props {
   address: Address
