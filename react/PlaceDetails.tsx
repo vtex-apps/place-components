@@ -1,16 +1,16 @@
 import React from 'react'
-import { Address } from 'vtex.checkout-graphql'
-import { LineFragment } from './typings/countryRulesTypes.d'
+import { LineFragment, Display } from './typings/countryRulesTypes.d'
+import rules from './countries/rules'
+import { useAddressContext } from 'vtex.address-context/AddressContext'
 
 interface Props {
-  address: Address
-  summary: LineFragment[][]
+  display: keyof Display
 }
 
-const PlaceDetails: StorefrontFunctionComponent<Props> = ({
-  address,
-  summary,
-}) => {
+const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
+  const { address } = useAddressContext()
+  const summary = rules[address.country].display[display]
+
   const parseLineFragment = (
     fragment: LineFragment,
     index: number,

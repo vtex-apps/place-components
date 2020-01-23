@@ -54,7 +54,7 @@ export const sampleAddress: Address = {
   state: 'Santa Fe',
   addressId: '',
   addressType: null,
-  country: 'Argentina',
+  country: 'ARG',
   geoCoordinates: [],
   neighborhood: 'Las Delicias',
   receiverName: null,
