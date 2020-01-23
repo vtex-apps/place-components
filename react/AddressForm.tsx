@@ -1,6 +1,6 @@
 import React from 'react'
 import { Address } from 'vtex.checkout-graphql'
-import { Input, Button } from 'vtex.styleguide'
+import { Input } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 
 export interface LineFragment {
@@ -18,13 +18,9 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
   address,
   summary,
 }) => {
-  const { setAddress, text, setText } = useAddressContext()
+  const { setAddress } = useAddressContext()
 
-  const parseLineFragment = (
-    fragment: LineFragment
-    //    index: number,
-    //    line: LineFragment[]
-  ) => {
+  const parseLineFragment = (fragment: LineFragment) => {
     return address[fragment.name] != null ? (
       <span key={fragment.name} className="w-25 dib mh3">
         <Input
@@ -37,10 +33,6 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
               [fragment.name]: event.target.value,
             }
             setAddress(newAddress)
-            console.log('PRINTING NEW ADDRESS AND EVENT TARGET VALUE')
-            console.log(newAddress)
-            console.log(event.target.value)
-            console.log('---')
           }}
           /*
           onChange={(event: any) => {
@@ -64,8 +56,6 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({
 
   return (
     <div>
-      <p>Texto is: {text}</p>
-      <Button onClick={() => setText('wawawa')}>Click</Button>
       <div>{summary.map(parseLine)}</div>
     </div>
   )
