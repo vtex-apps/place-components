@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- New format for country JSONs for `AddressForm` and `PlaceDetails`
+
 ## [0.0.4] - 2020-01-23
+
+### Added
+
+- AddressForm component
+- Address linked to `AddressContext` orchestrator
 
 ## [0.0.3] - 2020-01-17
 
