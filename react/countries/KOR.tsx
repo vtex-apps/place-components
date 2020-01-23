@@ -1,4 +1,6 @@
-export default {
+import { CountryRules } from '../typings/countryRulesTypes.d'
+
+const rules: CountryRules = {
   fields: {
     country: {
       hidden: true,
@@ -99,7 +101,7 @@ export default {
       maxLength: 750,
       label: 'number',
       hidden: true,
-      defaultValue: 'N/A',
+      // defaultValue: 'N/A',
       autoComplete: 'nope',
     },
     receiverName: {
@@ -133,3 +135,5 @@ export default {
     ],
   },
 }
+
+export default rules

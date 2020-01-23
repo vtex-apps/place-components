@@ -1,4 +1,6 @@
-export default {
+import { CountryRules } from '../typings/countryRulesTypes'
+
+const rules: CountryRules = {
   fields: {
     country: {
       hidden: true,
@@ -64,3 +66,5 @@ export default {
     ],
   },
 }
+
+export default rules

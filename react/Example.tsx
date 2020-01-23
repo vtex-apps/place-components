@@ -8,7 +8,7 @@ import {
   sampleAddress as address,
 } from './mocks/CountryDescriptions'
 import { AddressContextProvider, useAddressContext } from 'vtex.address-context/AddressContext'
-import { LineFragment } from './typings/countryRulesTypes'
+import { LineFragment } from './typings/countryRulesTypes.d'
 
 const Example: StorefrontFunctionComponent<{}> = () => {
   const [option, setOption] = useState<string>('')

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Address } from 'vtex.checkout-graphql'
-import { LineFragment } from './typings/countryRulesTypes'
+import { LineFragment } from './typings/countryRulesTypes.d'
 
 interface Props {
   address: Address
