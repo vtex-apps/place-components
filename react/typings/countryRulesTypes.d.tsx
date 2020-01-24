@@ -32,17 +32,19 @@ export interface Display {
   extended: LineFragment[][]
 }
 
+export interface Fields {
+  country?: Field
+  street?: Field
+  number?: Field
+  complement?: Field
+  reference?: Field
+  neighborhood?: Field
+  state?: OptionsField
+  city?: Field
+  receiverName?: ReceiverField
+}
+
 export interface CountryRules {
-  fields: {
-    country?: Field
-    street?: Field
-    number?: Field
-    complement?: Field
-    reference?: Field
-    neighborhood?: Field
-    state?: OptionsField
-    city?: Field
-    receiverName?: ReceiverField
-  }
+  fields: Fields
   display: Display
 }

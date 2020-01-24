@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PlaceDetails from './PlaceDetails'
+import AddressForm from './AddressForm'
 import { Dropdown } from 'vtex.styleguide'
 import { sampleAddress as address } from './mocks/CountryDescriptions'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
@@ -15,7 +16,7 @@ const Example: StorefrontFunctionComponent<{}> = () => {
   return (
     <div>
       <h1 className="tc">Place Components</h1>
-      <h1>Place Details:</h1>
+      <h2>Place Details:</h2>
       <Dropdown
         label="Display"
         options={[
@@ -28,6 +29,13 @@ const Example: StorefrontFunctionComponent<{}> = () => {
         className="w4"
       />
       <PlaceDetails display={display} />
+      <h2>AddressForm:</h2>
+      <AddressForm
+        summary={[
+          [{ name: 'neighborhood' }, { delimiter: ' ', name: 'state' }],
+          [{ name: 'street' }, { delimiter: ' - ', name: 'number' }],
+        ]}
+      />
     </div>
   )
 }
