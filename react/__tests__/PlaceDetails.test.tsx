@@ -1,73 +1,62 @@
 import React from 'react'
 import { render } from '@vtex/test-tools/react'
-import {
-  mockDescriptions as descriptions,
-  completeAddress,
-  incompleteAddress,
-} from '../__mocks__/mockSummaries'
+import { completeAddress, incompleteAddress } from '../__mocks__/mockSummaries'
 import PlaceDetails from '../PlaceDetails'
+import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 
 describe('Place Details', () => {
-  it('should render all data present in the summary and in the address', () => {
+  it('should render only fields specified in extended format', () => {
     const { queryByText } = render(
-      <div>
-        <PlaceDetails
-          address={completeAddress}
-          summary={descriptions.ARG.summary}
-        />
-      </div>
+      <AddressContextProvider address={completeAddress}>
+        <PlaceDetails display="extended" />
+      </AddressContextProvider>
     )
-
     expect(queryByText(completeAddress.street as string)).toBeTruthy()
     expect(queryByText(completeAddress.number as string)).toBeTruthy()
     expect(queryByText(completeAddress.complement as string)).toBeTruthy()
     expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
     expect(queryByText(completeAddress.city as string)).toBeTruthy()
-    expect(queryByText(completeAddress.state as string)).toBeTruthy()
   })
 
-  it('should not render data present in the address, but not present in the summary', () => {
+  it('should render only fields specified in compact format', () => {
     const { queryByText } = render(
-      <div>
-        <PlaceDetails
-          address={completeAddress}
-          summary={descriptions.KOR.summary}
-        />
-      </div>
+      <AddressContextProvider address={completeAddress}>
+        <PlaceDetails display="compact" />
+      </AddressContextProvider>
     )
-
-    expect(queryByText(completeAddress.number as string)).toBeFalsy()
-    expect(queryByText(completeAddress.country as string)).toBeFalsy()
-    expect(queryByText(completeAddress.neighborhood as string)).toBeFalsy()
-  })
-
-  it('should not render delimiter attached to a value if the value is not rendered', () => {
-    const { queryByText } = render(
-      <div>
-        <PlaceDetails
-          address={incompleteAddress}
-          summary={descriptions.ARG.summary}
-        />
-      </div>
-    )
-
-    expect(queryByText(', ' as string)).toBeFalsy()
-  })
-
-  it('should correctly render delimiters when all required values are present', () => {
-    const { queryByText, queryAllByText } = render(
-      <div>
-        <PlaceDetails
-          address={completeAddress}
-          summary={descriptions.BRA.summary}
-        />
-      </div>
-    )
-
-    expect(queryByText(completeAddress.neighborhood as string)).toBeTruthy()
+    expect(queryByText(completeAddress.street as string)).toBeTruthy()
+    expect(queryByText(completeAddress.number as string)).toBeTruthy()
+    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
     expect(queryByText(completeAddress.city as string)).toBeTruthy()
-    expect(queryByText(completeAddress.state as string)).toBeTruthy()
-    const query = queryAllByText(' - ' as string, { exact: false, trim: false })
-    expect(query.length).toEqual(2)
+
+    expect(queryByText(completeAddress.complement as string)).toBeFalsy()
+  })
+
+  it('should render only fields specified in minimal format', () => {
+    const { queryByText } = render(
+      <AddressContextProvider address={completeAddress}>
+        <PlaceDetails display="minimal" />
+      </AddressContextProvider>
+    )
+    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
+
+    expect(queryByText(completeAddress.street as string)).toBeFalsy()
+    expect(queryByText(completeAddress.number as string)).toBeFalsy()
+    expect(queryByText(completeAddress.city as string)).toBeFalsy()
+    expect(queryByText(completeAddress.complement as string)).toBeFalsy()
+  })
+
+  it('should not render elements not present in the address', () => {
+    const { queryByText } = render(
+      <AddressContextProvider address={incompleteAddress}>
+        <PlaceDetails display="extended" />
+      </AddressContextProvider>
+    )
+    expect(queryByText(completeAddress.street as string)).toBeTruthy()
+    expect(queryByText(completeAddress.number as string)).toBeTruthy()
+    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
+    expect(queryByText(completeAddress.city as string)).toBeTruthy()
+
+    expect(queryByText(completeAddress.complement as string)).toBeFalsy()
   })
 })
