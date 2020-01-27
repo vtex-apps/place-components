@@ -25,15 +25,11 @@ const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
     return address[fragment.name] ? (
       <span key={fragment.name}>
         {fragment.delimiter && hasPreviousFragment && (
-          <span className={fragment.name + '-delimiter'}>
-            {fragment.delimiter}
-          </span>
+          <span>{fragment.delimiter}</span>
         )}
         <span className={fragment.name}>{address[fragment.name]}</span>
         {fragment.delimiterAfter && shouldShowDelimiter && (
-          <span className={fragment.name + '-delimiter-after'}>
-            {fragment.delimiterAfter}
-          </span>
+          <span>{fragment.delimiterAfter}</span>
         )}
       </span>
     ) : null
@@ -41,7 +37,7 @@ const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
 
   const parseLine = (line: LineFragment[], index: number) => [
     ...line.map(parseLineFragment),
-    <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
+    <br key={index} />,
   ]
 
   return <div>{summary.map(parseLine)}</div>

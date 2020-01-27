@@ -1,16 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { LineFragment, Fields } from './typings/countryRulesTypes.d'
+import { LineFragment, Fields, Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
+import PlaceDetails from './PlaceDetails'
+import { ButtonPlain } from 'vtex.styleguide'
 
-interface Props {
-  summary: LineFragment[][]
-}
-
-const AddressForm: StorefrontFunctionComponent<Props> = ({ summary }) => {
+const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
+  const [ editing, setEditing ] = useState<boolean>(false)
   const fields = rules[address.country].fields
+  const summaries = rules[address.country].display
+  const summary = summaries['extended'] as LineFragment[][]
+
+  const getSummaryFields = (summary: LineFragment[][]) => {
+    let summaryFields = new Set()
+    summary.forEach((line: LineFragment[]) => {
+      line.forEach((fragment: LineFragment) => {
+        summaryFields.add(fragment.name)
+      })
+    })
+    return summaryFields
+  }
+
+  const [ ignoredFields, setIgnoredFields ] = useState(getSummaryFields(summaries['compact']))
 
   const getInputProps = (fragment: LineFragment) => {
     const field = fields.hasOwnProperty(fragment.name)
@@ -34,12 +47,12 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({ summary }) => {
       },
       ...(maxLength && { maxLength }),
       ...(autoComplete && { autoComplete }),
-      ...(required && { required }),
+      ...(required && address[fragment.name].length == 0 && { errorMessage: "This field is required" }),
     }
   }
 
   const parseLineFragment = (fragment: LineFragment) => {
-    return address[fragment.name] != null ? (
+    return address[fragment.name] != null && !ignoredFields.has(fragment.name) ? (
       <span key={fragment.name} className="w-25 dib mh3">
         <Input {...getInputProps(fragment)} />
       </span>
@@ -48,11 +61,20 @@ const AddressForm: StorefrontFunctionComponent<Props> = ({ summary }) => {
 
   const parseLine = (line: LineFragment[], index: number) => [
     ...line.map(parseLineFragment),
-    <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
+    <br key={index} />,
   ]
+
+  const onEditButtonClick = () => {
+    setIgnoredFields(getSummaryFields(summaries['minimal']))
+    setEditing(true)
+  }
 
   return (
     <div>
+      <PlaceDetails
+        display={(editing ? 'minimal' : 'compact') as keyof Display}
+      />
+      {!editing && <ButtonPlain onClick={onEditButtonClick}>Edit</ButtonPlain>}
       <div>{summary.map(parseLine)}</div>
     </div>
   )
