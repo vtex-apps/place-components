@@ -6,23 +6,24 @@ export interface LineFragment {
   delimiterAfter?: string
 }
 
-interface Field {
+export interface Field {
+  label: string
   hidden?: boolean
   maxLength?: number
-  label?: string
   size?: string
   required?: boolean
   autoComplete?: string
 }
 
-interface OptionsField extends Field {
+export interface OptionsField extends Field {
   /* I would like to clean the fields with options  */
   optionsCaption?: string
   optionsPairs?: { label: string; value: string }[]
+  optionsMap?: string[]
   options?: string[]
 }
 
-interface ReceiverField extends Field {
+export interface ReceiverField extends Field {
   elementName?: string
 }
 

@@ -3,51 +3,53 @@ import { CountryRules } from '../typings/countryRulesTypes'
 const rules: CountryRules = {
   fields: {
     country: {
+      label: 'country',
       hidden: true,
       maxLength: 100,
-      label: 'country',
       size: 'medium',
-      required: true,
+    },
+    state: {
+      label: 'state',
+      // Not for now...
+    },
+    city: {
+      label: 'city',
+      // Not for now...
+    },
+    neighborhood: {
+      label: 'neighborhood',
+      hidden: true,
+      maxLength: 100,
+      size: 'large',
+      required: 'true',
     },
     street: {
-      label: 'street',
+      label: 'street-road-avenue',
       required: true,
       size: 'xlarge',
     },
     number: {
+      label: 'number+w/o',
       maxLength: 750,
-      label: 'number',
       required: true,
       size: 'mini',
       autoComplete: 'nope',
     },
     complement: {
-      maxLength: 750,
       label: 'complement',
+      maxLength: 750,
       size: 'large',
     },
     reference: {
+      label: 'reference',
       hidden: true,
       maxLength: 750,
-      label: 'reference',
       size: 'xlarge',
     },
-    neighborhood: {
-      hidden: true,
-      maxLength: 100,
-      label: 'neighborhood',
-      size: 'large',
-    },
-    state: {
-      // Not for now...
-    },
-    city: {
-      // Not for now...
-    },
     receiverName: {
+      label: 'receiverName',
       elementName: 'receiver',
       maxLength: 750,
-      label: 'receiverName',
       size: 'xlarge',
       required: true,
     },

@@ -3,45 +3,16 @@ import { CountryRules } from '../typings/countryRulesTypes.d'
 const rules: CountryRules = {
   fields: {
     country: {
+      label: 'country',
       hidden: true,
       maxLength: 100,
-      label: 'country',
       size: 'medium',
     },
-    street: {
-      label: 'addressLine1',
-      required: true,
-      size: 'xlarge',
-    },
-    complement: {
-      maxLength: 750,
-      label: 'addressLine2',
-      size: 'xlarge',
-    },
-    reference: {
-      hidden: true,
-      maxLength: 750,
-      label: 'reference',
-      size: 'xlarge',
-    },
-    neighborhood: {
-      hidden: true,
-      maxLength: 100,
-      label: 'neighborhood',
-      size: 'large',
-    },
-    city: {
-      maxLength: 100,
-      label: 'city',
-      required: true,
-      size: 'large',
-    },
     state: {
+      label: 'stateAbbreviation',
       maxLength: 100,
-      label: 'state',
       required: true,
       size: 'large',
-      /* It seems that this part wasn't being used */
       optionsPairs: [
         { label: 'Alabama', value: 'AL' },
         { label: 'Alaska', value: 'AK' },
@@ -97,41 +68,72 @@ const rules: CountryRules = {
         { label: 'Wyoming', value: 'WY' },
       ],
     },
+    city: {
+      label: 'city',
+      maxLength: 100,
+      required: true,
+      size: 'large',
+    },
+    neighborhood: {
+      label: 'neighborhood',
+      hidden: true,
+      maxLength: 100,
+      size: 'large',
+    },
+    street: {
+      label: 'addressLine1',
+      required: true,
+      size: 'xlarge',
+    },
     number: {
-      maxLength: 750,
       label: 'number',
+      maxLength: 750,
       hidden: true,
       // defaultValue: 'N/A',
       autoComplete: 'nope',
     },
+    complement: {
+      label: 'addressLine2',
+      maxLength: 750,
+      size: 'xlarge',
+    },
+    reference: {
+      label: 'reference',
+      hidden: true,
+      maxLength: 750,
+      size: 'xlarge',
+    },
     receiverName: {
+      label: 'receiverName',
       elementName: 'receiver',
       maxLength: 750,
-      label: 'receiverName',
       size: 'xlarge',
       required: true,
     },
   },
-  /* WARNING: names don't match Davi's designs! */
   display: {
     minimal: [[{ name: 'postalCode' }]],
     compact: [
+      [{ name: 'street' }],
       [
-        { name: 'number' },
-        { delimiter: ', ', name: 'city' },
-        { delimiter: ', ', name: 'neighborhood' },
+        { name: 'city' },
+        { delimiter: ' ', name: 'state' },
+        { delimiter: ' ', name: 'postalCode' },
       ],
-      [{ name: 'state' }, { delimiter: ' ', name: 'postalCode' }],
     ],
     extended: [
       [{ name: 'receiverName' }],
-      [{ name: 'complement' }],
+      [{ name: 'street' }, { delimiter: ' ', name: 'complement' }],
       [
         { name: 'number' },
         { delimiter: ', ', name: 'city' },
         { delimiter: ', ', name: 'neighborhood' },
       ],
-      [{ name: 'state' }, { delimiter: ' ', name: 'postalCode' }],
+      [
+        { name: 'city' },
+        { delimiter: ' ', name: 'state' },
+        { delimiter: ' ', name: 'postalCode' },
+      ],
     ],
   },
 }

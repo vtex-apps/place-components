@@ -3,49 +3,14 @@ import { CountryRules } from '../typings/countryRulesTypes.d'
 const rules: CountryRules = {
   fields: {
     country: {
+      label: 'country',
       hidden: true,
       maxLength: 100,
-      label: 'country',
       size: 'medium',
     },
-    street: {
-      label: 'street',
-      required: true,
-      size: 'xlarge',
-    },
-    number: {
-      maxLength: 750,
-      label: 'number',
-      required: true,
-      size: 'mini',
-      autoComplete: 'nope',
-    },
-    complement: {
-      maxLength: 750,
-      label: 'complement',
-      size: 'large',
-    },
-    neighborhood: {
-      maxLength: 100,
-      label: 'neighborhood',
-      required: true,
-      size: 'large',
-    },
-    reference: {
-      hidden: true,
-      maxLength: 750,
-      label: 'reference',
-      size: 'xlarge',
-    },
-    city: {
-      maxLength: 100,
-      label: 'city',
-      required: true,
-      size: 'large',
-    },
     state: {
+      label: 'stateAbbreviation',
       maxLength: 100,
-      label: 'state',
       required: true,
       size: 'mini',
       optionsCaption: 'UF',
@@ -79,10 +44,45 @@ const rules: CountryRules = {
         'TO',
       ],
     },
+    city: {
+      label: 'city',
+      maxLength: 100,
+      required: true,
+      size: 'large',
+    },
+    neighborhood: {
+      label: 'neighborhood',
+      maxLength: 100,
+      required: true,
+      size: 'large',
+    },
+    street: {
+      label: 'street-road-avenue',
+      required: true,
+      size: 'xlarge',
+    },
+    number: {
+      label: 'number+w/o',
+      maxLength: 750,
+      required: true,
+      size: 'mini',
+      autoComplete: 'nope',
+    },
+    complement: {
+      label: 'complement',
+      maxLength: 750,
+      size: 'large',
+    },
+    reference: {
+      label: 'reference',
+      hidden: true,
+      maxLength: 750,
+      size: 'xlarge',
+    },
     receiverName: {
+      label: 'receiverName',
       elementName: 'receiver',
       maxLength: 750,
-      label: 'receiverName',
       size: 'xlarge',
       required: true,
     },
@@ -96,8 +96,7 @@ const rules: CountryRules = {
         { name: 'city' },
         {
           delimiter: ' - ',
-          name:
-            'state' /* According to Davi's designs, it should be stateAbbreviation  */,
+          name: 'state',
         },
       ],
       [{ name: 'postalCode' }],
@@ -111,8 +110,7 @@ const rules: CountryRules = {
         { name: 'city' },
         {
           delimiter: ' - ',
-          name:
-            'state' /* According to Davi's designs, it should be stateAbbreviation  */,
+          name: 'state',
         },
       ],
       [{ name: 'postalCode' }],

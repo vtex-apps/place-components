@@ -46,17 +46,17 @@ export const countryDescriptions: CountryDescription[] = [
 ]
 
 export const sampleAddress: Address = {
-  street: 'Av. Belgrano',
-  number: '2248',
+  street: 'Rua Afonso Camargo',
+  number: '805',
   complement: '',
-  postalCode: '2000',
-  city: 'Rosario',
-  state: 'Santa Fe',
+  postalCode: '85070-200',
+  city: 'Guarapuava',
+  state: 'PR',
   addressId: '',
   addressType: null,
-  country: 'ARG',
+  country: 'BRA',
   geoCoordinates: [],
-  neighborhood: 'Las Delicias',
+  neighborhood: 'Santana',
   receiverName: null,
   reference: null,
 }
