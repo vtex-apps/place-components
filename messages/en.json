@@ -3,7 +3,7 @@
   "place-components.label.state": "State",
   "place-components.label.city": "City",
   "place-components.label.neighborhood": "Neighborhood",
-  "place-components.label.street/road/avenue": "Street, Road, Avenue...",
+  "place-components.label.street-road-avenue": "Street, Road, Avenue...",
   "place-components.label.number-option": "Number",
   "place-components.label.complement": "Complement",
   "place-components.label.stateAbbreviation": "State",

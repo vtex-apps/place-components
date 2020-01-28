@@ -7,9 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.0.4] - 2020-01-23
+### Added
 
-## [0.0.3] - 2020-01-17
+- `LocaleSwitcher` dependency to handle locale query strings
+- Internationalization
+- Max length, and required validations
+- Added mock for `AddressContext`
+- Added JSON in new format for `ARG`, `BRA` and `USA`, and its TS interface definitions
+
+### Changed
+
+- `AddressForm` now contains an instance of `PlaceDetails`, and an edit button
+- `PlaceDetails` and `AddressForm` now consume `address` information directly from `AddressContext` orchestrator
+
+## [0.0.4] - 2020-01-17
 
 ### Added
 
