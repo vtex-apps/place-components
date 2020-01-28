@@ -20,12 +20,10 @@ export const AddressContextProvider = ({
   address,
   countries,
 }: AddressContextProps) => {
-  const [localAddress, setLocalAddress] = useState(address)
-
   const state = {
     countries: countries,
-    address: localAddress,
-    setAddress: setLocalAddress as (_: Event) => void,
+    address: address,
+    setAddress: () => {},
   }
 
   return (
@@ -35,15 +33,6 @@ export const AddressContextProvider = ({
   )
 }
 
-export const useAddressContext = () => {
-  const context = useContext(AddressContextContext)
-  if (context == undefined) {
-    throw new Error(
-      'useAddressContext must be used within an AddressContextProvider'
-    )
-  }
-
-  return context
-}
+export const useAddressContext = () => useContext(AddressContextContext)
 
 export default { AddressContextProvider, useAddressContext }
