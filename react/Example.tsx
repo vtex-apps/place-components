@@ -5,6 +5,7 @@ import AddressForm from './AddressForm'
 import { sampleAddress as address } from './mocks/CountryDescriptions'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 //import { Display } from './typings/countryRulesTypes.d'
+import { LocaleSwitcher } from 'vtex.locale-switcher'
 
 const Example: StorefrontFunctionComponent<{}> = () => {
   /*const [display, setDisplay] = useState<keyof Display>('extended')
@@ -37,6 +38,7 @@ const Example: StorefrontFunctionComponent<{}> = () => {
 
 const ExampleWrapper = () => (
   <AddressContextProvider address={address} countries={['BRA', 'KOR']}>
+    <LocaleSwitcher />
     <Example />
   </AddressContextProvider>
 )

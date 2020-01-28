@@ -5,6 +5,7 @@ import { LineFragment, Fields, Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { ButtonPlain } from 'vtex.styleguide'
+import { FormattedMessage } from 'react-intl'
 
 const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
@@ -32,11 +33,16 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     const maxLength = field?.maxLength
     const autoComplete = field?.autoComplete
     const required = field?.required
-    const label = field?.label
+    //const label = field?.label
 
     return {
       placeholder: fragment.name,
-      label: label || fragment.name,
+      //label: label || fragment.name,
+      label: (<FormattedMessage id="place-components.field">
+      {message => (
+        <span>{message}</span>
+      )}
+    </FormattedMessage>),
       value: address[fragment.name],
       onChange: (event: any) => {
         const newAddress = {
