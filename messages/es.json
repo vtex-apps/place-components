@@ -6,5 +6,6 @@
   "place-components.label.street-road-avenue": "Calle, Avenida...",
   "place-components.label.number-option": "Número",
   "place-components.label.complement": "Complemento",
-  "place-components.label.stateAbbreviation": "Estado"
+  "place-components.label.stateAbbreviation": "Estado",
+  "place-components.error.field-required": "Este campo es obligatorio"
 }

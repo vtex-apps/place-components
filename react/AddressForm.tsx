@@ -90,7 +90,9 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
       ...(autoComplete && { autoComplete }),
       ...(required &&
         address[fragment.name].length == 0 && {
-          errorMessage: 'This field is required',
+          errorMessage: (
+            <FormattedMessage id={`place-components.error.field-required`} />
+          ),
         }),
     }
   }
