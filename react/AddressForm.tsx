@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Checkbox, Dropdown } from 'vtex.styleguide'
+import { Input, Dropdown } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import {
   LineFragment,
@@ -11,6 +11,7 @@ import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages } from 'react-intl'
+import NumberOption from './components/NumberOption'
 
 defineMessages({
   country: {
@@ -151,18 +152,16 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     const fragmentName = fragment.name
     return address[fragmentName] != null && !ignoredFields.has(fragmentName) ? (
       <span>
-        <span key={fragmentName} className="w-25 dib mh3">
-          {hasOptions(field as OptionsField) ? (
-            <Dropdown {...getDropdownProps(fragment)} />
-          ) : (
-            <Input {...getInputProps(fragment)} />
-          )}
-        </span>
-        {numberHasWithoutOption(labelName) && (
-          <span className="w-25 dib mh3">
-            <Checkbox checked={false} label="Without number" />
+        {fragment.name != 'number' && (
+          <span key={fragmentName} className="w-25 dib mh3">
+            {hasOptions(field as OptionsField) ? (
+              <Dropdown {...getDropdownProps(fragment)} />
+            ) : (
+              <Input {...getInputProps(fragment)} />
+            )}
           </span>
         )}
+        {numberHasWithoutOption(labelName) && <NumberOption showCheckbox />}
       </span>
     ) : null
   }
