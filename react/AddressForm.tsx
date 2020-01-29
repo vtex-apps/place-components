@@ -64,9 +64,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   )
 
   const getInputProps = (fragment: LineFragment) => {
-    const field = fields.hasOwnProperty(fragment.name)
-      ? fields[fragment.name as keyof Fields]
-      : null
+    const field = fields[fragment.name as keyof Fields]
     const maxLength = field && field.maxLength ? field.maxLength : null
     const autoComplete = field && field.autoComplete ? field.autoComplete : null
     const required = field && field.required ? field.required : null
@@ -76,15 +74,16 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     )
 
     return {
-      placeholder: fragment.name,
       label: label,
       value: address[fragment.name],
-      onChange: (event: any) => {
-        const newAddress = {
-          ...address,
-          [fragment.name]: event.target.value,
+      onChange: (event: React.ChangeEvent) => {
+        if (event.target instanceof HTMLInputElement) {
+          const newAddress = {
+            ...address,
+            [fragment.name]: event.target.value,
+          }
+          setAddress(newAddress)
         }
-        setAddress(newAddress)
       },
       ...(maxLength && { maxLength }),
       ...(autoComplete && { autoComplete }),
@@ -116,11 +115,11 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     setEditing(true)
   }
 
+  const displayMode: keyof Display = editing ? 'minimal' : 'compact'
+
   return (
     <div>
-      <PlaceDetails
-        display={(editing ? 'minimal' : 'compact') as keyof Display}
-      />
+      <PlaceDetails display={displayMode} />
       {!editing && <ButtonPlain onClick={onEditButtonClick}>Edit</ButtonPlain>}
       <div>{summary.map(parseLine)}</div>
     </div>

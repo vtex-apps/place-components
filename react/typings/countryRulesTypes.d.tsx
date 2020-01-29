@@ -41,7 +41,7 @@ export interface Fields {
   reference?: Field
   neighborhood?: Field
   state?: OptionsField
-  city?: Field
+  city?: Field | OptionsField
   receiverName?: ReceiverField
 }
 
