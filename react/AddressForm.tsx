@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input } from 'vtex.styleguide'
+import { Input, Checkbox } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { LineFragment, Fields, Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
@@ -96,11 +96,26 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     }
   }
 
+  const numberHasWithoutOption = (label: string | null) => {
+    return (
+      label && label.length >= 7 && label.substr(label.length - 7) == '-option'
+    )
+  }
+
   const parseLineFragment = (fragment: LineFragment) => {
-    return address[fragment.name] != null &&
-      !ignoredFields.has(fragment.name) ? (
-      <span key={fragment.name} className="w-25 dib mh3">
-        <Input {...getInputProps(fragment)} />
+    const field = fields[fragment.name as keyof Fields]
+    const labelName = field && field.label ? field.label : null
+    const fragmentName = fragment.name
+    return address[fragmentName] != null && !ignoredFields.has(fragmentName) ? (
+      <span>
+        <span key={fragmentName} className="w-25 dib mh3">
+          <Input {...getInputProps(fragment)} />
+        </span>
+        {numberHasWithoutOption(labelName) && (
+          <span className="w-25 dib mh3">
+            <Checkbox checked={false} label="Without number" />
+          </span>
+        )}
       </span>
     ) : null
   }
