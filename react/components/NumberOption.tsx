@@ -2,13 +2,29 @@ import React, { useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
 import rules from '../countries/rules'
-import { FormattedMessage } from 'react-intl'
+import {
+  FormattedMessage,
+  injectIntl,
+  InjectedIntl,
+  defineMessages,
+} from 'react-intl'
+
+const messages = defineMessages({
+  wn: {
+    defaultMessage: 'W/N',
+    id: 'place-component.label.w/n',
+  },
+})
 
 interface Props {
   showCheckbox: boolean
+  intl: InjectedIntl
 }
 
-const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
+const NumberOption: StorefrontFunctionComponent<Props> = ({
+  showCheckbox,
+  intl,
+}) => {
   const { address, setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
 
@@ -49,18 +65,17 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
     return {
       id: 'number-checkbox',
       name: 'number-checkbox',
-      label: 'Without number - add internationalization',
+      label: <FormattedMessage id="place-components.label.without-number" />,
       onChange: (event: React.ChangeEvent) => {
-        console.log('aconteceu')
         if (event.target instanceof HTMLInputElement) {
-          console.log('aconteceu x2')
           setAddress({
             ...address,
-            number: disabled ? '-' : 'S/N - add internationalization',
+            number: disabled ? '-' : intl.formatMessage(messages.wn),
           })
           setDisabled(!disabled)
         }
       },
+      checked: disabled,
     }
   }
 
@@ -78,4 +93,4 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   )
 }
 
-export default NumberOption
+export default injectIntl(NumberOption)

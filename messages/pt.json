@@ -7,5 +7,7 @@
   "place-components.label.number-option": "Número",
   "place-components.label.complement": "Complemento",
   "place-components.label.stateAbbreviation": "Estado",
-  "place-components.error.field-required": "Este campo é obrigatório"
+  "place-components.error.field-required": "Este campo é obrigatório",
+  "place-components.label.without-number": "Sem número",
+  "place-components.label.w/n": "S/N"
 }

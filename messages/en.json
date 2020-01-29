@@ -7,5 +7,7 @@
   "place-components.label.number-option": "Number",
   "place-components.label.complement": "Complement",
   "place-components.label.stateAbbreviation": "State",
-  "place-components.error.field-required": "This field is required"
+  "place-components.error.field-required": "This field is required",
+  "place-components.label.without-number": "Without number",
+  "place-components.label.w/n": "W/N"
 }
