@@ -12,11 +12,15 @@ Country data is sorted according to [Figma designs](https://www.figma.com/file/u
 
 ## Place Details
 
-The Place Details component displays a summary of a place according to the address and structure it receives as props from the wrapper orchestrator.
+The Place Details component displays a summary of a place according to the address it receives from the wrapper orchestrator, and the description of the structure that receives as prop, that can be:
+
+- Minimal
+- Compact
+- Extended
 
 ## Address Form
 
-The Address Form component displays inputs and selects to add/edit information contained in the `Address` object it receives as prop from the wrapper orchestrator, and it also displays autocompleted data using the `PlaceDetails` component.
+The Address Form component displays inputs and selects to add/edit information contained in the `Address` object it receives as prop from the wrapper orchestrator, and it also displays already filled data using the `PlaceDetails` component.
 
 At first, the `AddressForm` renders a `PlaceDetails` with compact display mode, and edit button, and the rest of the fields as inputs/selects to complete the information. When the user clicks the edit button, it changes to render a `PlaceDetails` component in minimal display mode, and the rest of the fields as inputs/selects.
 
