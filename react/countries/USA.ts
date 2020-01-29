@@ -13,7 +13,7 @@ const rules: CountryRules = {
       maxLength: 100,
       required: true,
       size: 'large',
-      optionsPairs: [
+      options: [
         { label: 'Alabama', value: 'AL' },
         { label: 'Alaska', value: 'AK' },
         { label: 'Arizona', value: 'AZ' },

@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
-import { Input, Checkbox } from 'vtex.styleguide'
+import { Input, Checkbox, Dropdown } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { LineFragment, Fields, Display } from './typings/countryRulesTypes.d'
+import {
+  LineFragment,
+  Fields,
+  OptionsField,
+  Display,
+} from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { ButtonPlain } from 'vtex.styleguide'
@@ -96,10 +101,48 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     }
   }
 
+  const getDropdownProps = (fragment: LineFragment) => {
+    const field = fields[fragment.name as keyof Fields]
+    const required = field && field.required ? field.required : null
+    const labelName = field && field.label ? field.label : null
+    const options =
+      field && (field as OptionsField).options
+        ? (field as OptionsField).options
+        : null
+    const label = (
+      <FormattedMessage id={`place-components.label.${labelName}`} />
+    )
+
+    return {
+      label: label,
+      value: address[fragment.name],
+      onChange: (event: React.ChangeEvent) => {
+        if (event.target instanceof HTMLSelectElement) {
+          const newAddress = {
+            ...address,
+            [fragment.name]: event.target.value,
+          }
+          setAddress(newAddress)
+        }
+      },
+      ...(required &&
+        address[fragment.name].length == 0 && {
+          errorMessage: (
+            <FormattedMessage id={`place-components.error.field-required`} />
+          ),
+        }),
+      options: options,
+    }
+  }
+
   const numberHasWithoutOption = (label: string | null) => {
     return (
       label && label.length >= 7 && label.substr(label.length - 7) == '-option'
     )
+  }
+
+  const hasOptions = (field: OptionsField) => {
+    return field && field.options
   }
 
   const parseLineFragment = (fragment: LineFragment) => {
@@ -109,7 +152,11 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     return address[fragmentName] != null && !ignoredFields.has(fragmentName) ? (
       <span>
         <span key={fragmentName} className="w-25 dib mh3">
-          <Input {...getInputProps(fragment)} />
+          {hasOptions(field as OptionsField) ? (
+            <Dropdown {...getDropdownProps(fragment)} />
+          ) : (
+            <Input {...getInputProps(fragment)} />
+          )}
         </span>
         {numberHasWithoutOption(labelName) && (
           <span className="w-25 dib mh3">

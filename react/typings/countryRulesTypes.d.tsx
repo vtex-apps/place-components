@@ -16,11 +16,8 @@ export interface Field {
 }
 
 export interface OptionsField extends Field {
-  /* I would like to clean the fields with options  */
   optionsCaption?: string
-  optionsPairs?: { label: string; value: string }[]
-  optionsMap?: string[]
-  options?: string[]
+  options?: ({ label: string; value: string })[]
 }
 
 export interface ReceiverField extends Field {
@@ -41,7 +38,7 @@ export interface Fields {
   reference?: Field
   neighborhood?: Field
   state?: OptionsField
-  city?: Field | OptionsField
+  city?: Field
   receiverName?: ReceiverField
 }
 
