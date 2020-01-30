@@ -51,9 +51,8 @@ defineMessages({
 const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState<boolean>(false)
-  const fields = rules[address.country].fields
-  const summaries = rules[address.country].display
-  const summary = summaries['extended'] as LineFragment[][]
+  const { fields, display } = rules[address.country]
+  const summary = display['extended'] as LineFragment[][]
 
   const getSummaryFields = (summary: LineFragment[][]) => {
     let summaryFields = new Set()
@@ -66,75 +65,8 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   }
 
   const [ignoredFields, setIgnoredFields] = useState(
-    getSummaryFields(summaries['compact'])
+    getSummaryFields(display['compact'])
   )
-
-  const getInputProps = (fragment: LineFragment) => {
-    const field = fields[fragment.name as keyof Fields]
-    const maxLength = field && field.maxLength ? field.maxLength : null
-    const autoComplete = field && field.autoComplete ? field.autoComplete : null
-    const required = field && field.required ? field.required : null
-    const labelName = field && field.label ? field.label : null
-    const label = (
-      <FormattedMessage id={`place-components.label.${labelName}`} />
-    )
-
-    return {
-      label: label,
-      value: address[fragment.name],
-      onChange: (event: React.ChangeEvent) => {
-        if (event.target instanceof HTMLInputElement) {
-          const newAddress = {
-            ...address,
-            [fragment.name]: event.target.value,
-          }
-          setAddress(newAddress)
-        }
-      },
-      ...(maxLength && { maxLength }),
-      ...(autoComplete && { autoComplete }),
-      ...(required &&
-        address[fragment.name].length == 0 && {
-          errorMessage: (
-            <FormattedMessage id={`place-components.error.field-required`} />
-          ),
-        }),
-    }
-  }
-
-  const getDropdownProps = (fragment: LineFragment) => {
-    const field = fields[fragment.name as keyof Fields]
-    const required = field && field.required ? field.required : null
-    const labelName = field && field.label ? field.label : null
-    const options =
-      field && (field as OptionsField).options
-        ? (field as OptionsField).options
-        : null
-    const label = (
-      <FormattedMessage id={`place-components.label.${labelName}`} />
-    )
-
-    return {
-      label: label,
-      value: address[fragment.name],
-      onChange: (event: React.ChangeEvent) => {
-        if (event.target instanceof HTMLSelectElement) {
-          const newAddress = {
-            ...address,
-            [fragment.name]: event.target.value,
-          }
-          setAddress(newAddress)
-        }
-      },
-      ...(required &&
-        address[fragment.name].length == 0 && {
-          errorMessage: (
-            <FormattedMessage id={`place-components.error.field-required`} />
-          ),
-        }),
-      options: options,
-    }
-  }
 
   const numberHasWithoutOption = (label: string | null) => {
     return (
@@ -149,21 +81,61 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const parseLineFragment = (fragment: LineFragment) => {
     const field = fields[fragment.name as keyof Fields]
     const labelName = field && field.label ? field.label : null
-    const fragmentName = fragment.name
-    return address[fragmentName] != null && !ignoredFields.has(fragmentName) ? (
-      <span>
-        {fragment.name != 'number' && (
-          <span key={fragmentName} className="w-25 dib mh3">
-            {hasOptions(field as OptionsField) ? (
-              <Dropdown {...getDropdownProps(fragment)} />
-            ) : (
-              <Input {...getInputProps(fragment)} />
-            )}
-          </span>
+
+    if (ignoredFields.has(fragment.name)) return null
+    if (address[fragment.name] == null) return null
+    if (numberHasWithoutOption(labelName)) return <NumberOption showCheckbox />
+
+    const getFieldProps = (fragment: LineFragment) => {
+      const maxLength = field && field.maxLength ? field.maxLength : null
+      const autoComplete =
+        field && field.autoComplete ? field.autoComplete : null
+      const required = field && field.required ? field.required : null
+      const label = (
+        <FormattedMessage id={`place-components.label.${labelName}`} />
+      )
+      const onChange = (event: React.ChangeEvent) => {
+        if (
+          event.target instanceof HTMLInputElement ||
+          event.target instanceof HTMLSelectElement
+        ) {
+          setAddress({
+            ...address,
+            [fragment.name]: event.target.value,
+          })
+        }
+      }
+      const fieldRequired = {
+        errorMessage: (
+          <FormattedMessage id={`place-components.error.field-required`} />
+        ),
+      }
+      const options =
+        field && (field as OptionsField).options
+          ? (field as OptionsField).options
+          : null
+      const value = address[fragment.name]
+
+      return {
+        label,
+        value,
+        onChange,
+        options,
+        ...(maxLength && { maxLength }),
+        ...(autoComplete && { autoComplete }),
+        ...(required && address[fragment.name].length == 0 && fieldRequired),
+      }
+    }
+
+    return (
+      <span key={fragment.name} className="w-25 dib mh3">
+        {hasOptions(field as OptionsField) ? (
+          <Dropdown {...getFieldProps(fragment)} />
+        ) : (
+          <Input {...getFieldProps(fragment)} />
         )}
-        {numberHasWithoutOption(labelName) && <NumberOption showCheckbox />}
       </span>
-    ) : null
+    )
   }
 
   const parseLine = (line: LineFragment[], index: number) => [
@@ -172,7 +144,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   ]
 
   const onEditButtonClick = () => {
-    setIgnoredFields(getSummaryFields(summaries['minimal']))
+    setIgnoredFields(getSummaryFields(display['minimal']))
     setEditing(true)
   }
 
