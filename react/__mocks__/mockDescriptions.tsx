@@ -38,3 +38,19 @@ export const incompleteAddress: Address = {
   receiverName: null,
   reference: null,
 }
+
+export const sampleAddress: Address = {
+  street: 'Rua Afonso Camargo',
+  number: '805',
+  complement: '',
+  postalCode: '85070-200',
+  city: 'Guarapuava',
+  state: 'PR',
+  addressId: '',
+  addressType: null,
+  country: 'BRA',
+  geoCoordinates: [],
+  neighborhood: 'Santana',
+  receiverName: null,
+  reference: null,
+}

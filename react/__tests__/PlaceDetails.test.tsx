@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@vtex/test-tools/react'
-import { completeAddress, incompleteAddress } from '../__mocks__/mockSummaries'
+import {
+  completeAddress,
+  incompleteAddress,
+} from '../__mocks__/mockDescriptions'
 import PlaceDetails from '../PlaceDetails'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'

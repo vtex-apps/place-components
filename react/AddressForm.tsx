@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Dropdown } from 'vtex.styleguide'
+import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import {
   LineFragment,
@@ -9,7 +9,6 @@ import {
 } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
-import { ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
 
