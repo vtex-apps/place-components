@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `AddressForm` now contains an instance of `PlaceDetails`, and an edit button
 - `PlaceDetails` and `AddressForm` now consume `address` information directly from `AddressContext` orchestrator
+- Simplified `PlaceDetails` tests
 
 ## [0.0.4] - 2020-01-17
 

@@ -36,44 +36,48 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
     const label = (
       <FormattedMessage id={`place-components.label.${labelName}`} />
     )
+    const value = address['number']
+    const onChange = (event: React.ChangeEvent) => {
+      if (event.target instanceof HTMLInputElement) {
+        setAddress({
+          ...address,
+          number: event.target.value,
+        })
+      }
+    }
+    const fieldRequired = {
+      errorMessage: (
+        <FormattedMessage id={`place-components.error.field-required`} />
+      ),
+    }
 
     return {
-      label: label,
-      value: address['number'],
-      onChange: (event: React.ChangeEvent) => {
-        if (event.target instanceof HTMLInputElement) {
-          setAddress({
-            ...address,
-            number: event.target.value,
-          })
-        }
-      },
+      label,
+      value,
+      onChange,
+      disabled,
       ...(maxLength && { maxLength }),
       ...(autoComplete && { autoComplete }),
-      ...(required &&
-        address['number'].length == 0 && {
-          errorMessage: (
-            <FormattedMessage id={`place-components.error.field-required`} />
-          ),
-        }),
-      disabled: disabled,
+      ...(required && address['number'].length == 0 && fieldRequired),
     }
   }
 
   const getCheckboxProps = () => {
+    const onChange = (event: React.ChangeEvent) => {
+      if (event.target instanceof HTMLInputElement) {
+        setAddress({
+          ...address,
+          number: disabled ? '-' : intl.formatMessage(messages.wn),
+        })
+        setDisabled(!disabled)
+      }
+    }
+
     return {
       id: 'number-checkbox',
       name: 'number-checkbox',
       label: <FormattedMessage id="place-components.label.without-number" />,
-      onChange: (event: React.ChangeEvent) => {
-        if (event.target instanceof HTMLInputElement) {
-          setAddress({
-            ...address,
-            number: disabled ? '-' : intl.formatMessage(messages.wn),
-          })
-          setDisabled(!disabled)
-        }
-      },
+      onChange,
       checked: disabled,
     }
   }
