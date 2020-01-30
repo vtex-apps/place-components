@@ -5,23 +5,22 @@ import rules from '../countries/rules'
 import {
   FormattedMessage,
   injectIntl,
-  InjectedIntl,
+  InjectedIntlProps,
   defineMessages,
 } from 'react-intl'
 
 const messages = defineMessages({
   wn: {
-    defaultMessage: 'W/N',
-    id: 'place-component.label.w/n',
+    defaultMessage: '',
+    id: 'place-components.label.wn',
   },
 })
 
 interface Props {
   showCheckbox: boolean
-  intl: InjectedIntl
 }
 
-const NumberOption: StorefrontFunctionComponent<Props> = ({
+const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   showCheckbox,
   intl,
 }) => {

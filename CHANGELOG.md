@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Internationalization
 - Max length, and required validations
 - Added mock for `AddressContext`
-- Added JSON in new format for `ARG`, `BRA` and `USA`, and its TS interface definitions
+- Added JSON in new format for `ARG`, `BRA` and `USA`, and their TS interface definitions
 
 ### Changed
 

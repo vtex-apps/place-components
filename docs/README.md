@@ -2,21 +2,21 @@
 
 The Place Components are three components (`PlaceDetails`, `AddressForm`, and `LocationForm`) that are meant to replace the [AddressForm](https://github.com/vtex/address-form) repository.
 
-The Place Components should always be rendered inside their wrapper orchestrator, called [AddressContext](https://github.com/vtex-apps/address-context).
+The Place Components should always be rendered inside their wrapper orchestrator, called [AddressContext](https://github.com/vtex-apps/address-context). This orchestrator provides the address information and an API to alter it.
 
 For all the following components, you can run tests with `vtex test` from the root repository.
 
-To test internationalization, you can switch the locale information by adding the query string `?cultureInfo={locale}`, like `?cultureInfo=en`. More information in the [Locale Switcher repository](https://github.com/vtex-apps/locale-switcher).
+To manually test internationalization, you can switch the locale information by adding the query string `?cultureInfo={locale}`, like `?cultureInfo=en`. More information in the [Locale Switcher repository](https://github.com/vtex-apps/locale-switcher).
 
-Country data is sorted according to [Figma designs](https://www.figma.com/file/umwHrHA8nifvQIPEN3DHpX/Onda-Store---Place-Components?node-id=0%3A1) for this project, more specifically, to the [spreadsheet](https://docs.google.com/spreadsheets/d/1_sbwzLlgzFPsddPRTq6kcpbMyoxgOBfb1T8YRQs3k7k/edit#gid=0) defining details about the fields. Also, the label of each field, which corresponds to the "fantasy name", is placed first.
+Country data is sorted according to [Figma designs](https://www.figma.com/file/umwHrHA8nifvQIPEN3DHpX/Onda-Store---Place-Components?node-id=0%3A1) for this project, more specifically, to the [spreadsheet](https://docs.google.com/spreadsheets/d/1_sbwzLlgzFPsddPRTq6kcpbMyoxgOBfb1T8YRQs3k7k/edit#gid=0) defining the mapping between the API names and the "fantasy" names. This fantasy name is explicitly set in the "label" property, and that one is always placed first. The fantasy name of the field determines the styling it receives.
 
 ## Place Details
 
-The Place Details component displays a summary of a place according to the address it receives from the wrapper orchestrator, and the description of the structure that receives as prop, that can be:
+The Place Details component displays a summary of a place according to the address it receives from the wrapper orchestrator, and the description of the structure that receives as prop. There are three variations of PlaceDetails according to the amount of information that needs to be shown in a particular scenario. Below you can see a description of them.
 
-- Minimal
-- Compact
-- Extended
+- **Extended**: complete address, with all information that's necessary for carriers and users to identify it.
+- **Compact**: displays details gathered through LocationForm or from its info.
+- **Minimal**: only the information that the user inputed in LocationInput or LocationSelect.
 
 ## Address Form
 
