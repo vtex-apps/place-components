@@ -153,7 +153,11 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   return (
     <div>
       <PlaceDetails display={displayMode} />
-      {!editing && <ButtonPlain onClick={onEditButtonClick}>Edit</ButtonPlain>}
+      {!editing && (
+        <ButtonPlain onClick={onEditButtonClick}>
+          <FormattedMessage id="place-components.label.edit" />
+        </ButtonPlain>
+      )}
       <div>{summary.map(parseLine)}</div>
     </div>
   )
