@@ -14,35 +14,35 @@ import NumberOption from './components/NumberOption'
 
 defineMessages({
   country: {
-    defaultMessage: 'Country',
+    defaultMessage: '',
     id: 'place-components.label.country',
   },
   state: {
-    defaultMessage: 'State',
+    defaultMessage: '',
     id: 'place-components.label.state',
   },
   city: {
-    defaultMessage: 'City',
+    defaultMessage: '',
     id: 'place-components.label.city',
   },
   neighborhood: {
-    defaultMessage: 'Neighborhood',
+    defaultMessage: '',
     id: 'place-components.label.neighborhood',
   },
   ['street-road-avenue']: {
-    defaultMessage: 'Street/Road/Avenue',
+    defaultMessage: '',
     id: 'place-components.label.street-road-avenue',
   },
   ['number-option']: {
-    defaultMessage: 'Number',
+    defaultMessage: '',
     id: 'place-components.label.number-option',
   },
   complement: {
-    defaultMessage: 'Complement',
+    defaultMessage: '',
     id: 'place-components.label.complement',
   },
   stateAbbreviation: {
-    defaultMessage: 'State',
+    defaultMessage: '',
     id: 'place-components.label.stateAbbreviation',
   },
 })
@@ -153,7 +153,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     <div>
       <PlaceDetails display={displayMode} />
       {!editing && (
-        <ButtonPlain onClick={onEditButtonClick}>
+        <ButtonPlain onClick={onEditButtonClick} title="edit">
           <FormattedMessage id="place-components.label.edit" />
         </ButtonPlain>
       )}
