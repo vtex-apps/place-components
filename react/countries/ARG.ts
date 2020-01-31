@@ -21172,20 +21172,18 @@ const rules: CountryRules = {
       [{ name: 'postalCode' }, { delimiter: ' ', name: 'city' }],
     ],
   },
-  locationSearch: {
+  locationSelect: {
     countryData,
-    fields: {
-      state: {
+    fields: [
+      {
+        name: 'state',
         label: 'province',
-        required: true,
-        level: 1,
       },
-      city: {
+      {
+        name: 'city',
         label: 'city',
-        required: true,
-        level: 2,
       },
-    },
+    ],
   },
 }
 
