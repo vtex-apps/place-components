@@ -1,5 +1,10 @@
 import React from 'react'
-import { render, fireEvent } from '@vtex/test-tools/react'
+import {
+  render,
+  fireEvent,
+  queryByLabelText,
+  queryByDisplayValue,
+} from '@vtex/test-tools/react'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
 import AddressForm from '../AddressForm'
@@ -65,14 +70,20 @@ describe('Address Form', () => {
   })
 
   it('should disable number input when clicking the without number checkbox', () => {
-    const { queryByText, queryAllByRole, debug } = renderComponent(address)
+    const {
+      queryByText,
+      queryByLabelText,
+      queryByDisplayValue,
+      debug,
+    } = renderComponent(address)
     fireEvent.click(queryByText('Edit'))
-    fireEvent.click(queryByText('Without number'))
-    console.log(queryAllByRole('input'))
+    fireEvent.click(queryByLabelText('Without number'))
+    console.log(queryByLabelText('Without number'))
+    console.log(queryByLabelText('Without number').click())
 
     debug()
 
-    expect(queryByText('W/N')).toBeTruthy()
+    expect(queryByDisplayValue('W/N')).toBeTruthy()
     expect(queryByText(address.number as string)).toBeFalsy()
   })
 })
