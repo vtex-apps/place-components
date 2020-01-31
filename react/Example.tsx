@@ -1,5 +1,6 @@
 import React from 'react'
 import AddressForm from './AddressForm'
+import LocationSelect from './LocationSelect'
 import { sampleAddress as address } from './mocks/CountryDescriptions'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { LocaleSwitcher } from 'vtex.locale-switcher'
@@ -9,6 +10,7 @@ const Example: StorefrontFunctionComponent<{}> = () => {
     <div>
       <h2>AddressForm:</h2>
       <AddressForm />
+      <LocationSelect />
     </div>
   )
 }
