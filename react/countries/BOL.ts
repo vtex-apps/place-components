@@ -1,3 +1,5 @@
+import { CountryRules } from './../typings/countryRulesTypes.d'
+
 const countryData = {
   Beni: {
     Cercado: {
@@ -389,7 +391,7 @@ const countryData = {
   },
 }
 
-export default {
+const rules: CountryRules = {
   fields: {
     country: {
       hidden: true,
@@ -453,3 +455,5 @@ export default {
     ],
   },
 }
+
+export default rules

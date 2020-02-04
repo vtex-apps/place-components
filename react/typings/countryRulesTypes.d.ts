@@ -36,7 +36,13 @@ export interface Fields {
   receiverName?: Field
 }
 
+export interface LocationSelect {
+  countryData: object
+  fields: ({ name: string; label: string })[]
+}
+
 export interface CountryRules {
   fields: Fields
   display: Display
+  locationSelect?: LocationSelect
 }

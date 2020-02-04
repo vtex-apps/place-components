@@ -45,7 +45,7 @@ export const countryDescriptions: CountryDescription[] = [
   },
 ]
 
-export const sampleAddress: Address = {
+export const sampleAddress1: Address = {
   street: 'Rua Afonso Camargo',
   number: '805',
   complement: '',
@@ -55,6 +55,22 @@ export const sampleAddress: Address = {
   addressId: '',
   addressType: null,
   country: 'BRA',
+  geoCoordinates: [],
+  neighborhood: 'Santana',
+  receiverName: null,
+  reference: null,
+}
+
+export const sampleAddress2: Address = {
+  street: 'Avenida Arijon',
+  number: '4317',
+  complement: 'B',
+  postalCode: 'S2000',
+  city: 'Rosario',
+  state: 'Santa Fe',
+  addressId: '',
+  addressType: null,
+  country: 'ARG',
   geoCoordinates: [],
   neighborhood: 'Santana',
   receiverName: null,
