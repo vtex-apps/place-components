@@ -7,7 +7,7 @@ import {
   Field,
   Display,
 } from './typings/countryRulesTypes.d'
-import rules from './countries/rules'
+import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
@@ -108,6 +108,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
 
   const parseLineFragment = (fragment: LineFragment) => {
     const field = fields[fragment.name as keyof Fields]
+
     if (
       !field ||
       ignoredFields.has(fragment.name) ||
@@ -115,23 +116,33 @@ const AddressForm: StorefrontFunctionComponent = () => {
     )
       return null
 
-    if (hasWithoutNumberOption(field.label))
-      return <NumberOption showCheckbox />
+    const labelName: LabelType = field.label as LabelType
+    const style = styleRules[labelName]
+
+    if (hasWithoutNumberOption(labelName))
+      return (
+        <div className="flex-auto mh3" style={style as React.CSSProperties}>
+          <NumberOption showCheckbox />
+        </div>
+      )
 
     return (
-      <span key={fragment.name} className="w-25 dib mh3">
-        {field.options ? (
+      <div
+        key={fragment.name}
+        className="flex-auto mh3"
+        style={style as React.CSSProperties}
+      >
+        {fields.options ? (
           <Dropdown {...getFieldProps(field, fragment)} />
         ) : (
           <Input {...getFieldProps(field, fragment)} />
         )}
-      </span>
+      </div>
     )
   }
 
-  const parseLine = (line: LineFragment[], index: number) => [
-    ...line.map(parseLineFragment),
-    <br key={index} />,
+  const parseLine = (line: LineFragment[]) => [
+    <div className="flex">{line.map(parseLineFragment)}</div>,
   ]
 
   const onEditButtonClick = () => {

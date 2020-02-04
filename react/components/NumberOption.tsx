@@ -73,16 +73,16 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   }
 
   return (
-    <span>
-      <span className="w-25 dib mh3">
+    <div className="flex">
+      <div className="flex-auto">
         <Input {...inputProps} />
-      </span>
+      </div>
       {showCheckbox && (
-        <span className="w-25 dib mh3">
+        <div className="flex-auto">
           <Checkbox {...checkboxProps} />
-        </span>
+        </div>
       )}
-    </span>
+    </div>
   )
 }
 
