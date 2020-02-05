@@ -22,7 +22,7 @@ const rules: CountryRules = {
         { label: 'Bahia', value: 'BA' },
         { label: 'Ceará', value: 'CE' },
         { label: 'Distrito Federal', value: 'DF' },
-        { label: 'Espírito Santo	', value: 'ES' },
+        { label: 'Espírito Santo', value: 'ES' },
         { label: 'Goiás', value: 'GO' },
         { label: 'Maranhão', value: 'MA' },
         { label: 'Mato Grosso', value: 'MT' },
@@ -41,7 +41,7 @@ const rules: CountryRules = {
         { label: 'Santa Catarina', value: 'SC' },
         { label: 'São Paulo', value: 'SP' },
         { label: 'Sergipe', value: 'SE' },
-        { label: 'Tocantins	', value: 'TO' },
+        { label: 'Tocantins', value: 'TO' },
       ],
     },
     city: {

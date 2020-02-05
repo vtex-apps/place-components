@@ -89,7 +89,6 @@ const rules: CountryRules = {
       label: 'number',
       maxLength: 750,
       hidden: true,
-      // defaultValue: 'N/A',
       autoComplete: 'nope',
     },
     complement: {
