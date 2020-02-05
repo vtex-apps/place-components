@@ -69,7 +69,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     getSummaryFields(display.compact)
   )
 
-  const numberHasWithoutOption = (label: string) => {
+  const hasWithoutNumberOption = (label: string) => {
     return label.length >= 6 && label.substr(label.length - 6) == 'Option'
   }
 
@@ -80,12 +80,11 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const parseLineFragment = (fragment: LineFragment) => {
     const field = fields[fragment.name as keyof Fields]
     if (!field) return null
-
     const labelName: LabelType = field.label as LabelType
 
     if (ignoredFields.has(fragment.name)) return null
     if (address[fragment.name] == null) return null
-    if (numberHasWithoutOption(labelName)) return <NumberOption showCheckbox />
+    if (hasWithoutNumberOption(labelName)) return <NumberOption showCheckbox />
 
     const getFieldProps = (fragment: LineFragment) => {
       const { maxLength, autoComplete, required } = field

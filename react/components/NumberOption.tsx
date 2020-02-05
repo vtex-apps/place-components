@@ -14,7 +14,13 @@ const messages = defineMessages({
     defaultMessage: '',
     id: 'place-components.label.wn',
   },
+  numberOption: {
+    defaultMessage: '',
+    id: 'place-components.label.numberOption',
+  },
 })
+
+type LabelType = keyof (typeof messages)
 
 interface Props {
   showCheckbox: boolean
@@ -28,15 +34,12 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   const [disabled, setDisabled] = useState(false)
 
   const getInputProps = () => {
-    const field = rules[address.country].fields['number']
-    const maxLength = field && field.maxLength ? field.maxLength : null
-    const autoComplete = field && field.autoComplete ? field.autoComplete : null
-    const required = field && field.required ? field.required : null
-    const labelName = field && field.label ? field.label : null
-    const label = (
-      <FormattedMessage id={`place-components.label.${labelName}`} />
-    )
-    const value = address['number']
+    const field = rules[address.country].fields.number
+    if (!field) return null
+    const { maxLength, autoComplete, required } = field
+    const label = <FormattedMessage {...messages[field.label as LabelType]} />
+
+    const value = address.number
     const onChange = (event: React.ChangeEvent) => {
       if (event.target instanceof HTMLInputElement) {
         setAddress({
@@ -58,7 +61,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
       disabled,
       ...(maxLength && { maxLength }),
       ...(autoComplete && { autoComplete }),
-      ...(required && address['number'].length == 0 && fieldRequired),
+      ...(required && address.number.length == 0 && fieldRequired),
     }
   }
 
