@@ -62,7 +62,7 @@ const rules: CountryRules = {
       size: 'xlarge',
     },
     number: {
-      label: 'number-option',
+      label: 'numberOption',
       maxLength: 750,
       required: true,
       size: 'mini',

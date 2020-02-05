@@ -33,9 +33,9 @@ const messages = defineMessages({
     defaultMessage: '',
     id: 'place-components.label.streetRoadAvenue',
   },
-  ['number-option']: {
+  numberOption: {
     defaultMessage: '',
-    id: 'place-components.label.number-option',
+    id: 'place-components.label.numberOption',
   },
   complement: {
     defaultMessage: '',
@@ -71,7 +71,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
 
   const numberHasWithoutOption = (label: string | null) => {
     return (
-      label && label.length >= 7 && label.substr(label.length - 7) == '-option'
+      label && label.length >= 6 && label.substr(label.length - 6) == 'Option'
     )
   }
 
@@ -106,7 +106,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
       }
       const fieldRequired = {
         errorMessage: (
-          <FormattedMessage id={`place-components.error.field-required`} />
+          <FormattedMessage id={`place-components.error.fieldRequired`} />
         ),
       }
       const options = (field as OptionsField).options

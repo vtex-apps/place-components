@@ -4,11 +4,11 @@
   "place-components.label.city": "City",
   "place-components.label.neighborhood": "Neighborhood",
   "place-components.label.streetRoadAvenue": "Street, Road, Avenue...",
-  "place-components.label.number-option": "Number",
+  "place-components.label.numberOption": "Number",
   "place-components.label.complement": "Complement",
   "place-components.label.stateAbbreviation": "State",
-  "place-components.error.field-required": "This field is required",
-  "place-components.label.without-number": "Without number",
+  "place-components.error.fieldRequired": "This field is required",
+  "place-components.label.withoutNumber": "Without number",
   "place-components.label.wn": "W/N",
   "place-components.label.edit": "Edit"
 }

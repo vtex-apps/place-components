@@ -47,7 +47,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
     }
     const fieldRequired = {
       errorMessage: (
-        <FormattedMessage id={`place-components.error.field-required`} />
+        <FormattedMessage id={`place-components.error.fieldRequired`} />
       ),
     }
 
@@ -76,7 +76,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
     return {
       id: 'number-checkbox',
       name: 'number-checkbox',
-      label: <FormattedMessage id="place-components.label.without-number" />,
+      label: <FormattedMessage id="place-components.label.withoutNumber" />,
       onChange,
       checked: disabled,
     }
