@@ -49,34 +49,32 @@ const messages = defineMessages({
 
 type LabelType = keyof (typeof messages)
 
+const getSummaryFields = (summary: LineFragment[][]) => {
+  let summaryFields = new Set()
+  summary.forEach((line: LineFragment[]) => {
+    line.forEach((fragment: LineFragment) => {
+      summaryFields.add(fragment.name)
+    })
+  })
+  return summaryFields
+}
+
 const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
-  const [editing, setEditing] = useState<boolean>(false)
+  const [editing, setEditing] = useState(false)
   const { fields, display } = rules[address.country]
   const summary = display.extended as LineFragment[][]
-
-  const getSummaryFields = (summary: LineFragment[][]) => {
-    let summaryFields = new Set()
-    summary.forEach((line: LineFragment[]) => {
-      line.forEach((fragment: LineFragment) => {
-        summaryFields.add(fragment.name)
-      })
-    })
-    return summaryFields
-  }
 
   const [ignoredFields, setIgnoredFields] = useState(
     getSummaryFields(display.compact)
   )
 
-  const numberHasWithoutOption = (label: string | null) => {
-    return (
-      label && label.length >= 6 && label.substr(label.length - 6) == 'Option'
-    )
+  const numberHasWithoutOption = (label: string) => {
+    return label.length >= 6 && label.substr(label.length - 6) == 'Option'
   }
 
   const hasOptions = (field: OptionsField) => {
-    return field && field.options
+    return field.options
   }
 
   const parseLineFragment = (fragment: LineFragment) => {
