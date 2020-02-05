@@ -24,7 +24,7 @@ const rules: CountryRules = {
       required: 'true',
     },
     street: {
-      label: 'street-road-avenue',
+      label: 'streetRoadAvenue',
       required: true,
       size: 'xlarge',
     },

@@ -12,7 +12,7 @@ import PlaceDetails from './PlaceDetails'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
 
-defineMessages({
+const messages = defineMessages({
   country: {
     defaultMessage: '',
     id: 'place-components.label.country',
@@ -29,9 +29,9 @@ defineMessages({
     defaultMessage: '',
     id: 'place-components.label.neighborhood',
   },
-  ['street-road-avenue']: {
+  streetRoadAvenue: {
     defaultMessage: '',
-    id: 'place-components.label.street-road-avenue',
+    id: 'place-components.label.streetRoadAvenue',
   },
   ['number-option']: {
     defaultMessage: '',
@@ -47,11 +47,13 @@ defineMessages({
   },
 })
 
+type LabelType = keyof (typeof messages)
+
 const AddressForm: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState<boolean>(false)
   const { fields, display } = rules[address.country]
-  const summary = display['extended'] as LineFragment[][]
+  const summary = display.extended as LineFragment[][]
 
   const getSummaryFields = (summary: LineFragment[][]) => {
     let summaryFields = new Set()
@@ -64,7 +66,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   }
 
   const [ignoredFields, setIgnoredFields] = useState(
-    getSummaryFields(display['compact'])
+    getSummaryFields(display.compact)
   )
 
   const numberHasWithoutOption = (label: string | null) => {
@@ -79,20 +81,18 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
 
   const parseLineFragment = (fragment: LineFragment) => {
     const field = fields[fragment.name as keyof Fields]
-    const labelName = field && field.label ? field.label : null
+    if (!field) return null
+
+    const labelName: LabelType = field.label as LabelType
 
     if (ignoredFields.has(fragment.name)) return null
     if (address[fragment.name] == null) return null
     if (numberHasWithoutOption(labelName)) return <NumberOption showCheckbox />
 
     const getFieldProps = (fragment: LineFragment) => {
-      const maxLength = field && field.maxLength ? field.maxLength : null
-      const autoComplete =
-        field && field.autoComplete ? field.autoComplete : null
-      const required = field && field.required ? field.required : null
-      const label = (
-        <FormattedMessage id={`place-components.label.${labelName}`} />
-      )
+      const { maxLength, autoComplete, required } = field
+      const label = <FormattedMessage {...messages[labelName]} />
+
       const onChange = (event: React.ChangeEvent) => {
         if (
           event.target instanceof HTMLInputElement ||
@@ -109,10 +109,9 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
           <FormattedMessage id={`place-components.error.field-required`} />
         ),
       }
-      const options =
-        field && (field as OptionsField).options
-          ? (field as OptionsField).options
-          : null
+      const options = (field as OptionsField).options
+        ? (field as OptionsField).options
+        : null
       const value = address[fragment.name]
 
       return {
@@ -122,7 +121,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
         options,
         ...(maxLength && { maxLength }),
         ...(autoComplete && { autoComplete }),
-        ...(required && address[fragment.name].length == 0 && fieldRequired),
+        ...(required && address[fragment.name].length === 0 && fieldRequired),
       }
     }
 
@@ -143,7 +142,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   ]
 
   const onEditButtonClick = () => {
-    setIgnoredFields(getSummaryFields(display['minimal']))
+    setIgnoredFields(getSummaryFields(display.minimal))
     setEditing(true)
   }
 

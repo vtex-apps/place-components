@@ -3,7 +3,7 @@
   "place-components.label.state": "Estado",
   "place-components.label.city": "Ciudad",
   "place-components.label.neighborhood": "Barrio",
-  "place-components.label.street-road-avenue": "Calle, Avenida...",
+  "place-components.label.streetRoadAvenue": "Calle, Avenida...",
   "place-components.label.number-option": "Número",
   "place-components.label.complement": "Complemento",
   "place-components.label.stateAbbreviation": "Estado",
