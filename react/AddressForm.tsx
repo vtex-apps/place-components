@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { LineFragment, Fields, Display } from './typings/countryRulesTypes.d'
+import {
+  LineFragment,
+  Fields,
+  Field,
+  Display,
+} from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { FormattedMessage, defineMessages } from 'react-intl'
@@ -39,6 +44,14 @@ const messages = defineMessages({
   stateAbbreviation: {
     defaultMessage: '',
     id: 'place-components.label.stateAbbreviation',
+  },
+  fieldRequired: {
+    defaultMessage: '',
+    id: 'place-components.error.fieldRequired',
+  },
+  edit: {
+    defaultMessage: '',
+    id: 'place-components.label.edit',
   },
 })
 
@@ -80,9 +93,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
       })
     }
     const fieldRequired = {
-      errorMessage: (
-        <FormattedMessage id={`place-components.error.fieldRequired`} />
-      ),
+      errorMessage: <FormattedMessage {...messages.fieldRequired} />,
     }
     const value = address[fragment.name]
 
@@ -99,12 +110,15 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
 
   const parseLineFragment = (fragment: LineFragment) => {
     const field = fields[fragment.name as keyof Fields]
-    if (!field) return null
-    const labelName: LabelType = field.label as LabelType
+    if (
+      !field ||
+      ignoredFields.has(fragment.name) ||
+      address[fragment.name] == null
+    )
+      return null
 
-    if (ignoredFields.has(fragment.name)) return null
-    if (address[fragment.name] == null) return null
-    if (hasWithoutNumberOption(labelName)) return <NumberOption showCheckbox />
+    if (hasWithoutNumberOption(field.label as LabelType))
+      return <NumberOption showCheckbox />
 
     return (
       <span key={fragment.name} className="w-25 dib mh3">
@@ -134,7 +148,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
       <PlaceDetails display={displayMode} />
       {!editing && (
         <ButtonPlain onClick={onEditButtonClick} title="edit">
-          <FormattedMessage id="place-components.label.edit" />
+          <FormattedMessage {...messages.edit} />
         </ButtonPlain>
       )}
       <div>{summary.map(parseLine)}</div>

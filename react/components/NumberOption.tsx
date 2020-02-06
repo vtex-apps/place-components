@@ -18,6 +18,14 @@ const messages = defineMessages({
     defaultMessage: '',
     id: 'place-components.label.numberOption',
   },
+  fieldRequired: {
+    defaultMessage: '',
+    id: 'place-components.error.fieldRequired',
+  },
+  withoutNumber: {
+    defaultMessage: '',
+    id: 'place-components.label.withoutNumber',
+  },
 })
 
 type LabelType = keyof (typeof messages)
@@ -44,9 +52,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   }
 
   const fieldRequired = {
-    errorMessage: (
-      <FormattedMessage id={`place-components.error.fieldRequired`} />
-    ),
+    errorMessage: <FormattedMessage {...messages.fieldRequired} />,
   }
 
   const inputProps = {
@@ -70,7 +76,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   const checkboxProps = {
     id: 'number-checkbox',
     name: 'number-checkbox',
-    label: <FormattedMessage id="place-components.label.withoutNumber" />,
+    label: <FormattedMessage {...messages.withoutNumber} />,
     onChange: onCheckboxChange,
     checked: disabled,
   }
