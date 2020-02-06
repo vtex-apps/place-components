@@ -9,7 +9,12 @@ import {
 } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
-import { FormattedMessage, defineMessages } from 'react-intl'
+import {
+  FormattedMessage,
+  injectIntl,
+  InjectedIntlProps,
+  defineMessages,
+} from 'react-intl'
 import NumberOption from './components/NumberOption'
 
 const messages = defineMessages({
@@ -65,12 +70,13 @@ const getSummaryFields = (summary: LineFragment[][]) => {
   return summaryFields
 }
 
-const AddressForm: StorefrontFunctionComponent<{}> = () => {
+const AddressForm: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
+  intl,
+}) => {
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
   const { fields, display } = rules[address.country]
   const summary = display.extended as LineFragment[][]
-
   const [ignoredFields, setIgnoredFields] = useState(
     getSummaryFields(display.compact)
   )
@@ -91,7 +97,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
       })
     }
     const fieldRequired = {
-      errorMessage: <FormattedMessage {...messages.fieldRequired} />,
+      errorMessage: intl.formatMessage(messages.fieldRequired),
     }
     const value = address[fragment.name]
 
@@ -156,4 +162,4 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
   )
 }
 
-export default AddressForm
+export default injectIntl(AddressForm)

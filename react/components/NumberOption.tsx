@@ -52,7 +52,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   }
 
   const fieldRequired = {
-    errorMessage: <FormattedMessage {...messages.fieldRequired} />,
+    errorMessage: intl.formatMessage(messages.fieldRequired),
   }
 
   const inputProps = {
