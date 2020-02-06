@@ -58,8 +58,7 @@ describe('Address Form', () => {
 
   it('should display without number checkbox', () => {
     const { getByText } = renderComponent(address)
-    const editButton = getByText('Edit')
-    fireEvent.click(editButton)
+    fireEvent.click(getByText('Edit'))
 
     expect(getByText('Without number')).toBeTruthy()
   })
@@ -68,17 +67,13 @@ describe('Address Form', () => {
     const {
       getByText,
       getByLabelText,
+      getByDisplayValue,
       queryByDisplayValue,
-      debug,
     } = renderComponent(address)
-    const editButton = getByText('Edit')
-    fireEvent.click(editButton)
-    await new Promise(resolve => setTimeout(() => resolve(), 1000))
+    fireEvent.click(getByText('Edit'))
     fireEvent.click(getByLabelText('Without number'))
 
-    debug()
-
-    expect(queryByDisplayValue('W/N')).toBeTruthy()
-    expect(getByText(address.number as string)).toBeFalsy()
+    expect(getByDisplayValue('W/N')).toBeTruthy()
+    expect(queryByDisplayValue(address.number as string)).toBeFalsy()
   })
 })

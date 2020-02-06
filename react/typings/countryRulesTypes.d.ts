@@ -13,14 +13,8 @@ export interface Field {
   size?: string
   required?: boolean
   autoComplete?: string
-}
-
-export interface OptionsField extends Field {
   optionsCaption?: string
   options?: ({ label: string; value: string })[]
-}
-
-export interface ReceiverField extends Field {
   elementName?: string
 }
 
@@ -37,9 +31,9 @@ export interface Fields {
   complement?: Field
   reference?: Field
   neighborhood?: Field
-  state?: OptionsField
+  state?: Field
   city?: Field
-  receiverName?: ReceiverField
+  receiverName?: Field
 }
 
 export interface CountryRules {

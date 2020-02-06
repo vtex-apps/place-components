@@ -4,7 +4,7 @@ import { Address } from 'vtex.checkout-graphql'
 interface Context {
   countries: string[]
   address: Address
-  setAddress: (_: Event) => void
+  setAddress: (_: Address) => void
 }
 
 interface AddressContextProps {
@@ -20,10 +20,12 @@ export const AddressContextProvider = ({
   address,
   countries,
 }: AddressContextProps) => {
+  const [localAddress, setLocalAddress] = useState(address)
+
   const state = {
     countries: countries,
-    address: address,
-    setAddress: () => {},
+    address: localAddress,
+    setAddress: setLocalAddress,
   }
 
   return (

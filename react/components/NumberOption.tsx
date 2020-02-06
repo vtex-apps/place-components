@@ -32,67 +32,57 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
 }) => {
   const { address, setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
+  const field = rules[address.country].fields.number
+  if (!field) return null
+  const { maxLength, autoComplete, required, label } = field
 
-  const getInputProps = () => {
-    const field = rules[address.country].fields.number
-    if (!field) return null
-    const { maxLength, autoComplete, required } = field
-    const label = <FormattedMessage {...messages[field.label as LabelType]} />
-
-    const value = address.number
-    const onChange = (event: React.ChangeEvent) => {
-      if (event.target instanceof HTMLInputElement) {
-        setAddress({
-          ...address,
-          number: event.target.value,
-        })
-      }
-    }
-    const fieldRequired = {
-      errorMessage: (
-        <FormattedMessage id={`place-components.error.fieldRequired`} />
-      ),
-    }
-
-    return {
-      label,
-      value,
-      onChange,
-      disabled,
-      ...(maxLength && { maxLength }),
-      ...(autoComplete && { autoComplete }),
-      ...(required && address.number.length == 0 && fieldRequired),
-    }
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress({
+      ...address,
+      number: event.target.value,
+    })
   }
 
-  const getCheckboxProps = () => {
-    const onChange = (event: React.ChangeEvent) => {
-      if (event.target instanceof HTMLInputElement) {
-        setAddress({
-          ...address,
-          number: disabled ? '-' : intl.formatMessage(messages.wn),
-        })
-        setDisabled(!disabled)
-      }
-    }
+  const fieldRequired = {
+    errorMessage: (
+      <FormattedMessage id={`place-components.error.fieldRequired`} />
+    ),
+  }
 
-    return {
-      id: 'number-checkbox',
-      name: 'number-checkbox',
-      label: <FormattedMessage id="place-components.label.withoutNumber" />,
-      onChange,
-      checked: disabled,
-    }
+  const inputProps = {
+    label: <FormattedMessage {...messages[label as LabelType]} />,
+    value: address.number,
+    onChange: onInputChange,
+    disabled,
+    ...(maxLength && { maxLength }),
+    ...(autoComplete && { autoComplete }),
+    ...(required && address.number.length == 0 && fieldRequired),
+  }
+
+  const onCheckboxChange = () => {
+    setAddress({
+      ...address,
+      number: disabled ? '-' : intl.formatMessage(messages.wn),
+    })
+    setDisabled(!disabled)
+  }
+
+  const checkboxProps = {
+    id: 'number-checkbox',
+    name: 'number-checkbox',
+    label: <FormattedMessage id="place-components.label.withoutNumber" />,
+    onChange: onCheckboxChange,
+    checked: disabled,
   }
 
   return (
     <span>
       <span className="w-25 dib mh3">
-        <Input {...getInputProps()} />
+        <Input {...inputProps} />
       </span>
       {showCheckbox && (
         <span className="w-25 dib mh3">
-          <Checkbox {...getCheckboxProps()} />
+          <Checkbox {...checkboxProps} />
         </span>
       )}
     </span>

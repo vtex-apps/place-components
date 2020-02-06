@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import {
-  LineFragment,
-  Fields,
-  OptionsField,
-  Display,
-} from './typings/countryRulesTypes.d'
+import { LineFragment, Fields, Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { FormattedMessage, defineMessages } from 'react-intl'
@@ -73,8 +68,33 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     return label.length >= 6 && label.substr(label.length - 6) == 'Option'
   }
 
-  const hasOptions = (field: OptionsField) => {
-    return field.options
+  const getFieldProps = (field: Field, fragment: LineFragment) => {
+    const { maxLength, autoComplete, required, label, options } = field
+
+    const onChange = (
+      event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+      setAddress({
+        ...address,
+        [fragment.name]: event.target.value,
+      })
+    }
+    const fieldRequired = {
+      errorMessage: (
+        <FormattedMessage id={`place-components.error.fieldRequired`} />
+      ),
+    }
+    const value = address[fragment.name]
+
+    return {
+      label: <FormattedMessage {...messages[label as LabelType]} />,
+      value,
+      onChange,
+      ...(options && { options }),
+      ...(maxLength && { maxLength }),
+      ...(autoComplete && { autoComplete }),
+      ...(required && address[fragment.name].length === 0 && fieldRequired),
+    }
   }
 
   const parseLineFragment = (fragment: LineFragment) => {
@@ -86,48 +106,12 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     if (address[fragment.name] == null) return null
     if (hasWithoutNumberOption(labelName)) return <NumberOption showCheckbox />
 
-    const getFieldProps = (fragment: LineFragment) => {
-      const { maxLength, autoComplete, required } = field
-      const label = <FormattedMessage {...messages[labelName]} />
-
-      const onChange = (event: React.ChangeEvent) => {
-        if (
-          event.target instanceof HTMLInputElement ||
-          event.target instanceof HTMLSelectElement
-        ) {
-          setAddress({
-            ...address,
-            [fragment.name]: event.target.value,
-          })
-        }
-      }
-      const fieldRequired = {
-        errorMessage: (
-          <FormattedMessage id={`place-components.error.fieldRequired`} />
-        ),
-      }
-      const options = (field as OptionsField).options
-        ? (field as OptionsField).options
-        : null
-      const value = address[fragment.name]
-
-      return {
-        label,
-        value,
-        onChange,
-        options,
-        ...(maxLength && { maxLength }),
-        ...(autoComplete && { autoComplete }),
-        ...(required && address[fragment.name].length === 0 && fieldRequired),
-      }
-    }
-
     return (
       <span key={fragment.name} className="w-25 dib mh3">
-        {hasOptions(field as OptionsField) ? (
-          <Dropdown {...getFieldProps(fragment)} />
+        {field.options ? (
+          <Dropdown {...getFieldProps(field, fragment)} />
         ) : (
-          <Input {...getFieldProps(fragment)} />
+          <Input {...getFieldProps(field, fragment)} />
         )}
       </span>
     )
