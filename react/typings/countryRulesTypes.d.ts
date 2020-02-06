@@ -8,6 +8,7 @@ export interface LineFragment {
 
 export interface Field {
   label: string
+  name?: string
   hidden?: boolean
   maxLength?: number
   size?: string
@@ -38,7 +39,7 @@ export interface Fields {
 
 export interface LocationSelect {
   countryData: object
-  fields: ({ name: string; label: string })[]
+  fields: Field[]
 }
 
 export interface CountryRules {

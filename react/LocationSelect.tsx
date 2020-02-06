@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import rules from './countries/rules'
 import { Dropdown } from 'vtex.styleguide'
@@ -44,8 +44,9 @@ const messages = defineMessages({
 })
 
 const LocationSelect: StorefrontFunctionComponent<{}> = () => {
-  const { address } = useAddressContext()
+  const { address, setAddress } = useAddressContext()
   const countryRules = rules[address.country]
+
   if (!countryRules.locationSelect) {
     return (
       <div>
@@ -53,38 +54,70 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
       </div>
     )
   }
+
   const { countryData, fields } = countryRules.locationSelect
-  const [completed, setCompleted] = useState([])
 
-  console.log(countryData)
-  console.log(fields)
-  console.log(setCompleted)
+  const getCompletedFieldsArray = () => {
+    let completedFields = []
+    for (let field of fields) {
+      if (address[field.name]) {
+        completedFields.push(address[field.name])
+      } else {
+        break
+      }
+    }
+    return completedFields
+  }
 
-  return (
-    <div>
-      {fields.map((field: any, index: number) => {
-        const getDropdownOptions = () => {
-          return Object.keys(countryData).map(name => {
-            return { value: name, label: name }
-          })
-        }
+  const completed = getCompletedFieldsArray()
 
-        const getDropdownProps = () => {
-          return {
+  const getLocationSelects = () => {
+    let locationSelects = []
+    let currentOptions = countryData
+
+    for (let i = 0; i < fields.length; ++i) {
+      const field = fields[i]
+      const value = address[field.name]
+
+      locationSelects.push(
+        <Dropdown
+          {...{
             label: (
               <FormattedMessage
                 {...messages[field.label as keyof (typeof messages)]}
               />
             ),
-            disabled: index > completed.length,
-            options: index == completed.length ? getDropdownOptions() : [],
-          }
-        }
+            disabled: i > completed.length,
+            options: Object.keys(currentOptions).map(name => {
+              return { label: name, value: name }
+            }),
+            onChange: ({ target }: React.ChangeEvent) => {
+              if (target instanceof HTMLSelectElement) {
+                let newFields: { [key: string]: string | null } = {
+                  [field.name as string]: target.value,
+                }
+                for (let j = i + 1; j < fields.length; ++j) {
+                  newFields = { ...newFields, [fields[j].name as string]: null }
+                }
+                setAddress({
+                  ...address,
+                  ...newFields,
+                })
+              }
+            },
+            placeholder: 'Select...',
+            value,
+          }}
+        />
+      )
 
-        return <Dropdown {...getDropdownProps()} key={index} />
-      })}
-    </div>
-  )
+      currentOptions = value ? currentOptions[value as keyof {}] : {}
+    }
+
+    return locationSelects
+  }
+
+  return <div>{getLocationSelects()}</div>
 }
 
 export default LocationSelect
