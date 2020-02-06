@@ -55,8 +55,6 @@ const messages = defineMessages({
   },
 })
 
-type LabelType = keyof (typeof messages)
-
 const getSummaryFields = (summary: LineFragment[][]) => {
   let summaryFields = new Set()
   summary.forEach((line: LineFragment[]) => {
@@ -98,7 +96,9 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     const value = address[fragment.name]
 
     return {
-      label: <FormattedMessage {...messages[label as LabelType]} />,
+      label: (
+        <FormattedMessage {...messages[label as keyof (typeof messages)]} />
+      ),
       value,
       onChange,
       ...(options && { options }),
@@ -117,7 +117,7 @@ const AddressForm: StorefrontFunctionComponent<{}> = () => {
     )
       return null
 
-    if (hasWithoutNumberOption(field.label as LabelType))
+    if (hasWithoutNumberOption(field.label))
       return <NumberOption showCheckbox />
 
     return (
