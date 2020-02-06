@@ -28,8 +28,6 @@ const messages = defineMessages({
   },
 })
 
-type LabelType = keyof (typeof messages)
-
 interface Props {
   showCheckbox: boolean
 }
@@ -56,7 +54,7 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   }
 
   const inputProps = {
-    label: <FormattedMessage {...messages[label as LabelType]} />,
+    label: <FormattedMessage {...messages[label as keyof (typeof messages)]} />,
     value: address.number,
     onChange: onInputChange,
     disabled,
