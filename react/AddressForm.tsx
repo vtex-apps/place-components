@@ -141,8 +141,10 @@ const AddressForm: StorefrontFunctionComponent = () => {
     )
   }
 
-  const parseLine = (line: LineFragment[]) => [
-    <div className="flex flex-wrap">{line.map(parseLineFragment)}</div>,
+  const parseLine = (line: LineFragment[], index: number) => [
+    <div className="flex flex-wrap" key={index}>
+      {line.map(parseLineFragment)}
+    </div>,
   ]
 
   const onEditButtonClick = () => {

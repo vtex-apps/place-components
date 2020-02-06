@@ -62,15 +62,15 @@ export const sampleAddress1: Address = {
 }
 
 export const sampleAddress2: Address = {
-  street: 'Avenida Arijon',
-  number: '4317',
-  complement: 'B',
-  postalCode: 'S2000',
-  city: 'Rosario',
+  street: 'Calle Azurduy 158',
+  number: '158',
+  complement: 'La ultima casa en Coimata al lado de las Pozas',
+  postalCode: '',
+  city: 'Sucre',
   state: 'Santa Fe',
   addressId: '',
   addressType: null,
-  country: 'ARG',
+  country: 'BOL',
   geoCoordinates: [],
   neighborhood: 'Santana',
   receiverName: null,

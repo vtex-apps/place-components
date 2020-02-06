@@ -2,35 +2,46 @@ import React, { useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import rules from './countries/rules'
 import { Dropdown } from 'vtex.styleguide'
+import { FormattedMessage, defineMessages } from 'react-intl'
 
-/*
-const LocationSelect: StorefrontFunctionComponent<{}> = () => {
-  const { address } = useAddressContext()
-  const countryRules = rules[address.country]
-  const countryData = countryRules?.locationSelect?.countryData
-  const fields = countryRules?.locationSelect?.fields
-  const [completed , setCompleted] = useState([])
-
-  return fields.map((
-    { name, label } _: any,
-    index: number , fields
-  ) => {
-    const getDropdownOptions = () => {
-      return Object.keys(
-        completed.reduce((obj, curr) => obj[curr], countryData)
-      )
-    }
-
-    const getDropdownProps = () => {
-      return {
-        disabled: index > completed.length,
-        options: index == completed.length ? getDropdownOptions() : [],
-      }
-    }
-
-    return <Dropdown {...getDropdownProps()} key={index} />
-  })
-}*/
+const messages = defineMessages({
+  province: {
+    defaultMessage: '',
+    id: 'place-components.label.province',
+  },
+  city: {
+    defaultMessage: '',
+    id: 'place-components.label.city',
+  },
+  department: {
+    defaultMessage: '',
+    id: 'place-components.label.department',
+  },
+  region: {
+    defaultMessage: '',
+    id: 'place-components.label.region',
+  },
+  community: {
+    defaultMessage: '',
+    id: 'place-components.label.community',
+  },
+  municipality: {
+    defaultMessage: '',
+    id: 'place-components.label.municipality',
+  },
+  district: {
+    defaultMessage: '',
+    id: 'place-components.label.district',
+  },
+  state: {
+    defaultMessage: '',
+    id: 'place-components.label.state',
+  },
+  locality: {
+    defaultMessage: '',
+    id: 'place-components.label.locality',
+  },
+})
 
 const LocationSelect: StorefrontFunctionComponent<{}> = () => {
   const { address } = useAddressContext()
@@ -38,7 +49,7 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
   if (!countryRules.locationSelect) {
     return (
       <div>
-        The LocationSelect component is not applicable to this country :'(
+        The LocationSelect component is not applicable to this country :(
       </div>
     )
   }
@@ -51,13 +62,20 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
 
   return (
     <div>
-      {fields.map((_: any, index: number) => {
+      {fields.map((field: any, index: number) => {
         const getDropdownOptions = () => {
-          return Object.keys(countryData)
+          return Object.keys(countryData).map(name => {
+            return { value: name, label: name }
+          })
         }
 
         const getDropdownProps = () => {
           return {
+            label: (
+              <FormattedMessage
+                {...messages[field.label as keyof (typeof messages)]}
+              />
+            ),
             disabled: index > completed.length,
             options: index == completed.length ? getDropdownOptions() : [],
           }
