@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  render,
-  fireEvent,
-  queryByLabelText,
-  queryByDisplayValue,
-} from '@vtex/test-tools/react'
+import { render, fireEvent } from '@vtex/test-tools/react'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
 import AddressForm from '../AddressForm'
@@ -20,14 +15,14 @@ describe('Address Form', () => {
   }
 
   it('should render already filled information as read-only', () => {
-    const { queryByDisplayValue, queryByText } = renderComponent(address)
+    const { queryByDisplayValue, getByText } = renderComponent(address)
 
-    expect(queryByText(address.street as string)).toBeTruthy()
-    expect(queryByText(address.number as string)).toBeTruthy()
-    expect(queryByText(address.neighborhood as string)).toBeTruthy()
-    expect(queryByText(address.city as string)).toBeTruthy()
-    expect(queryByText(address.state as string)).toBeTruthy()
-    expect(queryByText(address.postalCode as string)).toBeTruthy()
+    expect(getByText(address.street as string)).toBeTruthy()
+    expect(getByText(address.number as string)).toBeTruthy()
+    expect(getByText(address.neighborhood as string)).toBeTruthy()
+    expect(getByText(address.city as string)).toBeTruthy()
+    expect(getByText(address.state as string)).toBeTruthy()
+    expect(getByText(address.postalCode as string)).toBeTruthy()
 
     expect(queryByDisplayValue(address.street as string)).toBeFalsy()
     expect(queryByDisplayValue(address.number as string)).toBeFalsy()
@@ -38,22 +33,21 @@ describe('Address Form', () => {
   })
 
   it('should have an edit button', () => {
-    const { queryByText } = renderComponent(address)
-
-    expect(queryByText('Edit')).toBeTruthy()
+    const { getByText } = renderComponent(address)
+    expect(getByText('Edit')).toBeTruthy()
   })
 
   it('should render editable elements when clicking on edit', () => {
-    const { queryByText, queryByDisplayValue } = renderComponent(address)
-    fireEvent.click(queryByText('Edit'))
+    const { getByText, queryByDisplayValue } = renderComponent(address)
+    fireEvent.click(getByText('Edit'))
 
-    expect(queryByText(address.postalCode as string)).toBeTruthy()
-    expect(queryByText('Street, Road, Avenue...')).toBeTruthy()
-    expect(queryByText('Number')).toBeTruthy()
-    expect(queryByText('Complement')).toBeTruthy()
-    expect(queryByText('Neighborhood')).toBeTruthy()
-    expect(queryByText('City')).toBeTruthy()
-    expect(queryByText('State')).toBeTruthy()
+    expect(getByText(address.postalCode as string)).toBeTruthy()
+    expect(getByText('Street, Road, Avenue...')).toBeTruthy()
+    expect(getByText('Number')).toBeTruthy()
+    expect(getByText('Complement')).toBeTruthy()
+    expect(getByText('Neighborhood')).toBeTruthy()
+    expect(getByText('City')).toBeTruthy()
+    expect(getByText('State')).toBeTruthy()
 
     expect(queryByDisplayValue(address.street as string)).toBeTruthy()
     expect(queryByDisplayValue(address.number as string)).toBeTruthy()
@@ -63,27 +57,28 @@ describe('Address Form', () => {
   })
 
   it('should display without number checkbox', () => {
-    const { queryByText } = renderComponent(address)
-    fireEvent.click(queryByText('Edit'))
+    const { getByText } = renderComponent(address)
+    const editButton = getByText('Edit')
+    fireEvent.click(editButton)
 
-    expect(queryByText('Without number'))
+    expect(getByText('Without number')).toBeTruthy()
   })
 
-  it('should disable number input when clicking the without number checkbox', () => {
+  it('should disable number input when clicking the without number checkbox', async () => {
     const {
-      queryByText,
-      queryByLabelText,
+      getByText,
+      getByLabelText,
       queryByDisplayValue,
       debug,
     } = renderComponent(address)
-    fireEvent.click(queryByText('Edit'))
-    fireEvent.click(queryByLabelText('Without number'))
-    console.log(queryByLabelText('Without number'))
-    console.log(queryByLabelText('Without number').click())
+    const editButton = getByText('Edit')
+    fireEvent.click(editButton)
+    await new Promise(resolve => setTimeout(() => resolve(), 1000))
+    fireEvent.click(getByLabelText('Without number'))
 
     debug()
 
     expect(queryByDisplayValue('W/N')).toBeTruthy()
-    expect(queryByText(address.number as string)).toBeFalsy()
+    expect(getByText(address.number as string)).toBeFalsy()
   })
 })
