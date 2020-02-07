@@ -8,14 +8,6 @@ const rules: CountryRules = {
       maxLength: 100,
       size: 'medium',
     },
-    state: {
-      label: 'state',
-      // Not for now...
-    },
-    city: {
-      label: 'city',
-      // Not for now...
-    },
     neighborhood: {
       label: 'neighborhood',
       hidden: true,
