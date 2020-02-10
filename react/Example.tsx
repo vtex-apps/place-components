@@ -1,12 +1,15 @@
 import React from 'react'
 import AddressForm from './AddressForm'
 import LocationSelect from './LocationSelect'
+import LocationCountry from './LocationCountry'
 import {
   sampleAddress1 as address1,
   sampleAddress2 as address2,
 } from './mocks/CountryDescriptions'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { LocaleSwitcher } from 'vtex.locale-switcher'
+
+const countryList = ['BRA', 'KOR', 'ARG', 'BOL']
 
 const Example1: StorefrontFunctionComponent<{}> = () => {
   return (
@@ -26,21 +29,28 @@ const Example2: StorefrontFunctionComponent<{}> = () => {
   )
 }
 
+const Example3: StorefrontFunctionComponent<{}> = () => {
+  return (
+    <div>
+      <h2>LocationCountry</h2>
+      <LocationCountry />
+    </div>
+  )
+}
+
 const ExampleWrapper = () => (
   <div>
-    <AddressContextProvider
-      address={address1}
-      countries={['BRA', 'KOR', 'ARG']}
-    >
+    <AddressContextProvider address={address1} countries={countryList}>
       <LocaleSwitcher />
       <Example1 />
     </AddressContextProvider>
-    <AddressContextProvider
-      address={address2}
-      countries={['BRA', 'KOR', 'ARG']}
-    >
+    <AddressContextProvider address={address2} countries={countryList}>
       <LocaleSwitcher />
       <Example2 />
+    </AddressContextProvider>
+    <AddressContextProvider address={address2} countries={countryList}>
+      <LocaleSwitcher />
+      <Example3 />
     </AddressContextProvider>
   </div>
 )

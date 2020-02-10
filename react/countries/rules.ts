@@ -23,11 +23,11 @@ export const styleRules: {
     minWidth: '71px',
     maxWidth: '128px',
   },
-  'number-option': {
+  numberOption: {
     minWidth: '256px',
     maxWidth: '256px',
   },
-  'street-road-avenue': {
+  streetRoadAvenue: {
     minWidth: '256px',
     maxWidth: '512px',
   },
@@ -71,7 +71,7 @@ export const styleRules: {
     minWidth: '256px',
     maxWidth: '256px',
   },
-  'exteriorNo-option': {
+  exteriorNoOption: {
     minWidth: '256px',
     maxWidth: '256px',
   },
@@ -79,7 +79,7 @@ export const styleRules: {
     minWidth: '256px',
     maxWidth: '256px',
   },
-  'municipality-delegation': {
+  municipalityDelegation: {
     minWidth: '256px',
     maxWidth: '256px',
   },
