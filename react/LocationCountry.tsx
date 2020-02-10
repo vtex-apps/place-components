@@ -27,26 +27,36 @@ const messages = defineMessages({
   },
 })
 
+interface Option {
+  label: string
+  value: string
+}
+
+const sortOptionsByLabel = (options: Option[]) => {
+  return options
+    .slice()
+    .sort((a: Option, b: Option) => a.label.localeCompare(b.label))
+}
+
 const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
   intl,
 }) => {
   const { address, setAddress, countries } = useAddressContext()
   const { country } = address
-  console.log(country)
-  console.log(address)
-  console.log(countries)
-  console.log(setAddress)
+
+  const options = sortOptionsByLabel(
+    countries.map((name: string) => {
+      return {
+        label: intl.formatMessage(messages[name as keyof (typeof messages)]),
+        value: name,
+      }
+    })
+  )
 
   const dropdownProps = {
     label: <FormattedMessage id="place-components.label.country" />,
     value: country,
     placeholder: 'Select...',
-    options: countries.map((name: string) => {
-      return {
-        label: intl.formatMessage(messages[name as keyof (typeof messages)]),
-        value: name,
-      }
-    }),
     onChange: ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
       setAddress({
         ...address,
@@ -61,6 +71,7 @@ const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
         street: null,
       })
     },
+    options,
   }
 
   return <Dropdown {...dropdownProps}></Dropdown>
