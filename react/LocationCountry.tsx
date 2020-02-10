@@ -1,9 +1,35 @@
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Dropdown } from 'vtex.styleguide'
-import { FormattedMessage } from 'react-intl'
+import {
+  FormattedMessage,
+  defineMessages,
+  injectIntl,
+  InjectedIntlProps,
+} from 'react-intl'
 
-const LocationCountry: StorefrontFunctionComponent<{}> = () => {
+const messages = defineMessages({
+  ARG: {
+    defaultMessage: '',
+    id: 'place-components.label.ARG',
+  },
+  BRA: {
+    defaultMessage: '',
+    id: 'place-components.label.BRA',
+  },
+  BOL: {
+    defaultMessage: '',
+    id: 'place-components.label.BOL',
+  },
+  KOR: {
+    defaultMessage: '',
+    id: 'place-components.label.KOR',
+  },
+})
+
+const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
+  intl,
+}) => {
   const { address, setAddress, countries } = useAddressContext()
   const { country } = address
   console.log(country)
@@ -16,7 +42,10 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
     value: country,
     placeholder: 'Select...',
     options: countries.map((name: string) => {
-      return { label: name, value: name }
+      return {
+        label: intl.formatMessage(messages[name as keyof (typeof messages)]),
+        value: name,
+      }
     }),
     onChange: ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
       setAddress({
@@ -37,4 +66,4 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
   return <Dropdown {...dropdownProps}></Dropdown>
 }
 
-export default LocationCountry
+export default injectIntl(LocationCountry)

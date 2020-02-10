@@ -17,5 +17,9 @@
   "place-components.label.community": "Comunidad",
   "place-components.label.municipality": "Municipalidad",
   "place-components.label.district": "Distrito",
-  "place-components.label.locality": "Localidad"
+  "place-components.label.locality": "Localidad",
+  "place-components.label.ARG": "Argentina",
+  "place-components.label.BRA": "Brasil",
+  "place-components.label.BOL": "Bolivia",
+  "place-components.label.KOR": "Corea del Sur"
 }
