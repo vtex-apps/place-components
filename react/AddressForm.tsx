@@ -116,10 +116,9 @@ const AddressForm: StorefrontFunctionComponent = () => {
     )
       return null
 
-    const labelName: LabelType = field.label as LabelType
-    const style = styleRules[labelName]
+    const style = styleRules[field.label]
 
-    if (hasWithoutNumberOption(labelName))
+    if (hasWithoutNumberOption(field.label))
       return (
         <div className="flex-auto mh3" style={style as React.CSSProperties}>
           <NumberOption showCheckbox />
@@ -132,7 +131,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
         className="flex-auto mh3"
         style={style as React.CSSProperties}
       >
-        {fields.options ? (
+        {field.options ? (
           <Dropdown {...getFieldProps(field, fragment)} />
         ) : (
           <Input {...getFieldProps(field, fragment)} />
