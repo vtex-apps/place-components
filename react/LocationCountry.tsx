@@ -1,12 +1,7 @@
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Dropdown } from 'vtex.styleguide'
-import {
-  FormattedMessage,
-  defineMessages,
-  injectIntl,
-  InjectedIntlProps,
-} from 'react-intl'
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
 
 const messages = defineMessages({
@@ -39,9 +34,8 @@ const sortOptionsByLabel = (options: Option[]) => {
     .sort((a: Option, b: Option) => a.label.localeCompare(b.label))
 }
 
-const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
-  intl,
-}) => {
+const LocationCountry: StorefrontFunctionComponent<{}> = () => {
+  const intl = useIntl()
   const { address, setAddress, countries } = useAddressContext()
   const {
     culture: { country: storeCountry },
@@ -63,7 +57,7 @@ const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
   const options = sortOptionsByLabel(
     countries.map((name: string) => {
       return {
-        label: intl.formatMessage(messages[name as keyof (typeof messages)]),
+        label: intl.formatMessage(messages[name as keyof typeof messages]),
         value: name,
       }
     })
@@ -93,4 +87,4 @@ const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
   return <Dropdown {...dropdownProps}></Dropdown>
 }
 
-export default injectIntl(LocationCountry)
+export default LocationCountry
