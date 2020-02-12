@@ -2,12 +2,7 @@ import React, { useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
 import rules from '../countries/rules'
-import {
-  FormattedMessage,
-  injectIntl,
-  InjectedIntlProps,
-  defineMessages,
-} from 'react-intl'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 
 const messages = defineMessages({
   wn: {
@@ -32,10 +27,8 @@ interface Props {
   showCheckbox: boolean
 }
 
-const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
-  showCheckbox,
-  intl,
-}) => {
+const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
+  const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
   const field = rules[address.country].fields.number
@@ -93,4 +86,4 @@ const NumberOption: StorefrontFunctionComponent<Props & InjectedIntlProps> = ({
   )
 }
 
-export default injectIntl(NumberOption)
+export default NumberOption

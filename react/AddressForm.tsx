@@ -9,12 +9,7 @@ import {
 } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 import PlaceDetails from './PlaceDetails'
-import {
-  FormattedMessage,
-  injectIntl,
-  InjectedIntlProps,
-  defineMessages,
-} from 'react-intl'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
 
 const messages = defineMessages({
@@ -70,9 +65,8 @@ const getSummaryFields = (summary: LineFragment[][]) => {
   return summaryFields
 }
 
-const AddressForm: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
-  intl,
-}) => {
+const AddressForm: StorefrontFunctionComponent = () => {
+  const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
   const { fields, display } = rules[address.country]
@@ -162,4 +156,4 @@ const AddressForm: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
   )
 }
 
-export default injectIntl(AddressForm)
+export default AddressForm
