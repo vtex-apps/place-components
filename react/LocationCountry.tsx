@@ -7,6 +7,7 @@ import {
   injectIntl,
   InjectedIntlProps,
 } from 'react-intl'
+import { useRuntime } from 'vtex.render-runtime'
 
 const messages = defineMessages({
   ARG: {
@@ -42,7 +43,22 @@ const LocationCountry: StorefrontFunctionComponent<{} & InjectedIntlProps> = ({
   intl,
 }) => {
   const { address, setAddress, countries } = useAddressContext()
-  const { country } = address
+  const {
+    culture: { country: storeCountry },
+  } = useRuntime()
+  let { country } = address
+
+  console.log(storeCountry)
+
+  if (!country) {
+    /* Try to get by saved addresses in account */
+
+    /* Try to get by IP */
+
+    /* Try to get by store config */
+
+    country = storeCountry
+  }
 
   const options = sortOptionsByLabel(
     countries.map((name: string) => {
