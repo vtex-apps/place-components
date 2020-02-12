@@ -21,43 +21,63 @@ describe('Place Details', () => {
   it('should render only fields specified in extended format', () => {
     const { queryByText } = renderComponent(completeAddress, 'extended')
 
-    expect(queryByText(completeAddress.street as string)).toBeTruthy()
-    expect(queryByText(completeAddress.number as string)).toBeTruthy()
-    expect(queryByText(completeAddress.complement as string)).toBeTruthy()
-    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
-    expect(queryByText(completeAddress.city as string)).toBeTruthy()
+    expect(queryByText(completeAddress.street as string)).toBeInTheDocument()
+    expect(queryByText(completeAddress.number as string)).toBeInTheDocument()
+    expect(
+      queryByText(completeAddress.complement as string)
+    ).toBeInTheDocument()
+    expect(
+      queryByText(completeAddress.postalCode as string)
+    ).toBeInTheDocument()
+    expect(queryByText(completeAddress.city as string)).toBeInTheDocument()
   })
 
   it('should render only fields specified in compact format', () => {
     const { queryByText } = renderComponent(completeAddress, 'compact')
 
-    expect(queryByText(completeAddress.street as string)).toBeTruthy()
-    expect(queryByText(completeAddress.number as string)).toBeTruthy()
-    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
-    expect(queryByText(completeAddress.city as string)).toBeTruthy()
+    expect(queryByText(completeAddress.street as string)).toBeInTheDocument()
+    expect(queryByText(completeAddress.number as string)).toBeInTheDocument()
+    expect(
+      queryByText(completeAddress.postalCode as string)
+    ).toBeInTheDocument()
+    expect(queryByText(completeAddress.city as string)).toBeInTheDocument()
 
-    expect(queryByText(completeAddress.complement as string)).toBeFalsy()
+    expect(
+      queryByText(completeAddress.complement as string)
+    ).not.toBeInTheDocument()
   })
 
   it('should render only fields specified in minimal format', () => {
     const { queryByText } = renderComponent(completeAddress, 'minimal')
 
-    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
+    expect(
+      queryByText(completeAddress.postalCode as string)
+    ).toBeInTheDocument()
 
-    expect(queryByText(completeAddress.street as string)).toBeFalsy()
-    expect(queryByText(completeAddress.number as string)).toBeFalsy()
-    expect(queryByText(completeAddress.city as string)).toBeFalsy()
-    expect(queryByText(completeAddress.complement as string)).toBeFalsy()
+    expect(
+      queryByText(completeAddress.street as string)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByText(completeAddress.number as string)
+    ).not.toBeInTheDocument()
+    expect(queryByText(completeAddress.city as string)).not.toBeInTheDocument()
+    expect(
+      queryByText(completeAddress.complement as string)
+    ).not.toBeInTheDocument()
   })
 
   it('should not render elements not present in the address', () => {
     const { queryByText } = renderComponent(incompleteAddress, 'extended')
 
-    expect(queryByText(completeAddress.street as string)).toBeTruthy()
-    expect(queryByText(completeAddress.number as string)).toBeTruthy()
-    expect(queryByText(completeAddress.postalCode as string)).toBeTruthy()
-    expect(queryByText(completeAddress.city as string)).toBeTruthy()
+    expect(queryByText(completeAddress.street as string)).toBeInTheDocument()
+    expect(queryByText(completeAddress.number as string)).toBeInTheDocument()
+    expect(
+      queryByText(completeAddress.postalCode as string)
+    ).toBeInTheDocument()
+    expect(queryByText(completeAddress.city as string)).toBeInTheDocument()
 
-    expect(queryByText(completeAddress.complement as string)).toBeFalsy()
+    expect(
+      queryByText(completeAddress.complement as string)
+    ).not.toBeInTheDocument()
   })
 })
