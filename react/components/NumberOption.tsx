@@ -47,13 +47,13 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   }
 
   const inputProps = {
-    label: <FormattedMessage {...messages[label as keyof (typeof messages)]} />,
+    label: <FormattedMessage {...messages[label as keyof typeof messages]} />,
     value: address.number,
     onChange: onInputChange,
     disabled,
     ...(maxLength && { maxLength }),
     ...(autoComplete && { autoComplete }),
-    ...(required && address.number.length == 0 && fieldRequired),
+    ...(required && address.number.length === 0 && fieldRequired),
   }
 
   const onCheckboxChange = () => {

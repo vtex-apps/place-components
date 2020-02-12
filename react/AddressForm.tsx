@@ -96,9 +96,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
     const value = address[fragment.name]
 
     return {
-      label: (
-        <FormattedMessage {...messages[label as keyof (typeof messages)]} />
-      ),
+      label: <FormattedMessage {...messages[label as keyof typeof messages]} />,
       value,
       onChange,
       ...(options && { options }),
