@@ -20,7 +20,7 @@ const colors = {
 
 const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress, countries } = useAddressContext()
-  const [state, setState] = useState<State>(State.DENIED)
+  const [state, setState] = useState<State>(State.OFF)
 
   console.log(address, setAddress, countries, setState)
 
@@ -45,8 +45,30 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
     return icon
   }
 
+  const onGetCurrentPositionSuccess = ({ coords }: Position) => {
+    console.log(coords.latitude)
+    console.log(coords.longitude)
+
+    setAddress({
+      ...address,
+      geoCoordinates: [coords.latitude, coords.longitude],
+    })
+    setState(State.ON)
+  }
+
+  const onGetCurrentPositionError = (err: PositionError) => {
+    setState(State.DENIED)
+    console.warn(`ERROR(${err.code}): ${err.message}`)
+  }
+
   const onButtonClick = () => {
-    alert('hey')
+    navigator.geolocation.getCurrentPosition(
+      onGetCurrentPositionSuccess,
+      onGetCurrentPositionError,
+      {
+        enableHighAccuracy: true,
+      }
+    )
   }
 
   const buttonProps = {
