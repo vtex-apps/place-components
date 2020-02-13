@@ -21,5 +21,6 @@
   "place-components.label.ARG": "Argentina",
   "place-components.label.BRA": "Brasil",
   "place-components.label.BOL": "Bolivia",
-  "place-components.label.KOR": "Coreia do Sul"
+  "place-components.label.KOR": "Coreia do Sul",
+  "place-components.label.useCurrentLocation": "Usar localização atual"
 }
