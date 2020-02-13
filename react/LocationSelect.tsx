@@ -47,13 +47,8 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
   const countryRules = rules[address.country]
 
-  if (!countryRules.locationSelect) {
-    return (
-      <div>
-        The LocationSelect component is not applicable to this country :(
-      </div>
-    )
-  }
+  if (!countryRules.locationSelect)
+    throw 'The LocationSelect component is not applicable to this country :('
 
   const { countryData, fields } = countryRules.locationSelect
 
@@ -84,7 +79,7 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
           {...{
             label: (
               <FormattedMessage
-                {...messages[field.label as keyof (typeof messages)]}
+                {...messages[field.label as keyof typeof messages]}
               />
             ),
             disabled: i > completed.length,

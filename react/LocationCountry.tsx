@@ -42,7 +42,8 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
   } = useRuntime()
   let { country } = address
 
-  console.log(storeCountry)
+  if (country && countries && !countries.includes(country))
+    throw "The country from that address doesn't belong to the country list, can't render LocationCountry"
 
   if (!country) {
     /* Try to get by saved addresses in account */
