@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { LocationRequestIcon } from './images/LocationRequestIcon'
 import { LocationConceivedIcon } from './images/LocationConceivedIcon'
+import { Address } from 'vtex.checkout-graphql'
 
 enum State {
   PROMPT,
@@ -18,38 +19,30 @@ const colors = {
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
-  const { address, setAddress } = useAddressContext()
+  const { setAddress } = useAddressContext()
   const [state, setState] = useState<State>(State.PROMPT)
 
-  useEffect(() => {
-    navigator.permissions
-      .query({ name: 'geolocation' })
-      .then((result: { state: string }) => {
-        if (result.state === 'granted') {
-          setState(State.GRANTED)
-        } else if (result.state === 'denied') {
-          setState(State.DENIED)
-        }
-      })
-  }, [])
+  const onGetCurrentPositionSuccess = useCallback(
+    ({ coords }: Position) => {
+      console.log(coords.latitude)
+      console.log(coords.longitude)
 
-  const onGetCurrentPositionSuccess = ({ coords }: Position) => {
-    console.log(coords.latitude)
-    console.log(coords.longitude)
+      setAddress((prevAddress: Address) => ({
+        ...prevAddress,
+        geoCoordinates: [coords.latitude, coords.longitude],
+      }))
+      setState(State.GRANTED)
+    },
+    [setAddress]
+  )
 
-    setAddress({
-      ...address,
-      geoCoordinates: [coords.latitude, coords.longitude],
-    })
-    setState(State.GRANTED)
-  }
-
-  const onGetCurrentPositionError = (err: PositionError) => {
+  const onGetCurrentPositionError = useCallback((err: PositionError) => {
     setState(State.DENIED)
     console.warn(`ERROR(${err.code}): ${err.message}`)
-  }
+  }, [])
 
-  const onButtonClick = () => {
+  const onButtonClick = useCallback(() => {
+    setState(State.LOADING)
     navigator.geolocation.getCurrentPosition(
       onGetCurrentPositionSuccess,
       onGetCurrentPositionError,
@@ -57,10 +50,19 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
         enableHighAccuracy: true,
       }
     )
-    setState(
-      State.LOADING
-    ) /* No guarantee that this will run before onGetCurrentPositionSuccess setState! */
-  }
+  }, [onGetCurrentPositionSuccess, onGetCurrentPositionError])
+
+  useEffect(() => {
+    navigator.permissions
+      .query({ name: 'geolocation' })
+      .then((result: { state: string }) => {
+        if (result.state === 'granted') {
+          onButtonClick()
+        } else if (result.state === 'denied') {
+          setState(State.DENIED)
+        }
+      })
+  }, [onButtonClick])
 
   const renderIcon = () => {
     let icon = null
