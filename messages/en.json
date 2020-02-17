@@ -1,9 +1,14 @@
 {
-  "editor.base-store-component.title": "IO Base App",
-  "editor.base-store-component.description": "A demo component for IO apps",
-  "editor.base-store-component.title.title": "Title",
-  "editor.base-store-component.title.description": "Specify a custom title",
-  "base.title": "Hello, World!!",
-  "base.change-value": "Change your value: {value}",
-  "example": "This is an example"
+  "place-components.label.country": "Country",
+  "place-components.label.state": "State",
+  "place-components.label.city": "City",
+  "place-components.label.neighborhood": "Neighborhood",
+  "place-components.label.streetRoadAvenue": "Street, Road, Avenue...",
+  "place-components.label.numberOption": "Number",
+  "place-components.label.complement": "Complement",
+  "place-components.label.stateAbbreviation": "State",
+  "place-components.error.fieldRequired": "This field is required",
+  "place-components.label.withoutNumber": "Without number",
+  "place-components.label.wn": "W/N",
+  "place-components.label.edit": "Edit"
 }

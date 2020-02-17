@@ -1,16 +1,16 @@
 import React from 'react'
-import { Address } from 'vtex.checkout-graphql'
-import { LineFragment } from './typings/countryRulesTypes'
+import { LineFragment, Display } from './typings/countryRulesTypes.d'
+import rules from './countries/rules'
+import { useAddressContext } from 'vtex.address-context/AddressContext'
 
 interface Props {
-  address: Address
-  summary: LineFragment[][]
+  display: keyof Display
 }
 
-const PlaceDetails: StorefrontFunctionComponent<Props> = ({
-  address,
-  summary,
-}) => {
+const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
+  const { address } = useAddressContext()
+  const summary = rules[address.country].display[display]
+
   const parseLineFragment = (
     fragment: LineFragment,
     index: number,
@@ -25,15 +25,11 @@ const PlaceDetails: StorefrontFunctionComponent<Props> = ({
     return address[fragment.name] ? (
       <span key={fragment.name}>
         {fragment.delimiter && hasPreviousFragment && (
-          <span className={fragment.name + '-delimiter'}>
-            {fragment.delimiter}
-          </span>
+          <span>{fragment.delimiter}</span>
         )}
         <span className={fragment.name}>{address[fragment.name]}</span>
         {fragment.delimiterAfter && shouldShowDelimiter && (
-          <span className={fragment.name + '-delimiter-after'}>
-            {fragment.delimiterAfter}
-          </span>
+          <span>{fragment.delimiterAfter}</span>
         )}
       </span>
     ) : null
@@ -41,7 +37,7 @@ const PlaceDetails: StorefrontFunctionComponent<Props> = ({
 
   const parseLine = (line: LineFragment[], index: number) => [
     ...line.map(parseLineFragment),
-    <br className={'line' + (index + 1) + '-delimiter'} key={index} />,
+    <br key={index} />,
   ]
 
   return <div>{summary.map(parseLine)}</div>
