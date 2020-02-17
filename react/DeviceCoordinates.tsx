@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { ButtonPlain, Spinner, Tooltip } from 'vtex.styleguide'
+import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
-import { LocationRequestIcon } from './images/LocationRequestIcon'
-import { LocationConceivedIcon } from './images/LocationConceivedIcon'
 import { Address } from 'vtex.checkout-graphql'
 
 enum State {
@@ -11,11 +9,6 @@ enum State {
   GRANTED,
   LOADING,
   DENIED,
-}
-
-const colors = {
-  blue: '#134cd8',
-  gray: '#979899',
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
@@ -69,45 +62,36 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
 
     switch (state) {
       case State.PROMPT:
-        icon = <LocationRequestIcon color={colors.blue} />
+        icon = <IconLocation />
         break
       case State.GRANTED:
-        icon = <LocationConceivedIcon color={colors.blue} />
+        icon = <IconLocation solid />
         break
       case State.LOADING:
         icon = <Spinner size={16} />
         break
       case State.DENIED:
-        icon = <LocationRequestIcon color={colors.gray} />
+        icon = <IconLocation />
         break
     }
 
     return icon
   }
 
-  const renderButton = () => {
-    const buttonProps = {
-      disabled: state === State.DENIED,
-      onClick: onButtonClick,
-    }
+  let buttonElement = (
+    <ButtonPlain disabled={state === State.DENIED} onClick={onButtonClick}>
+      {renderIcon()}
+      <FormattedMessage id="place-components.label.useCurrentLocation" />
+    </ButtonPlain>
+  )
 
-    return (
-      <ButtonPlain {...buttonProps}>
-        {renderIcon()}
-        <FormattedMessage id="place-components.label.useCurrentLocation" />
-      </ButtonPlain>
+  if (state === State.DENIED) {
+    buttonElement = (
+      <Tooltip label="Permission not granted">{buttonElement}</Tooltip>
     )
   }
 
-  return (
-    <div>
-      {state === State.DENIED ? (
-        <Tooltip label="Permission not granted">{renderButton()}</Tooltip>
-      ) : (
-        renderButton()
-      )}
-    </div>
-  )
+  return buttonElement
 }
 
 export default DeviceCoordinates
