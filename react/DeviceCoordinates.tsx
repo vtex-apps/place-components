@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
@@ -6,8 +6,8 @@ import { LocationRequestIcon } from './images/LocationRequestIcon'
 import { LocationConceivedIcon } from './images/LocationConceivedIcon'
 
 enum State {
-  OFF,
-  ON,
+  PROMPT,
+  GRANTED,
   LOADING,
   DENIED,
 }
@@ -18,10 +18,20 @@ const colors = {
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
-  const { address, setAddress, countries } = useAddressContext()
-  const [state, setState] = useState<State>(State.OFF)
+  const { address, setAddress } = useAddressContext()
+  const [state, setState] = useState<State>(State.PROMPT)
 
-  console.log(address, setAddress, countries, setState)
+  useEffect(() => {
+    navigator.permissions
+      .query({ name: 'geolocation' })
+      .then((result: { state: string }) => {
+        if (result.state === 'granted') {
+          setState(State.GRANTED)
+        } else if (result.state === 'denied') {
+          setState(State.DENIED)
+        }
+      })
+  }, [])
 
   const onGetCurrentPositionSuccess = ({ coords }: Position) => {
     console.log(coords.latitude)
@@ -31,7 +41,7 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
       ...address,
       geoCoordinates: [coords.latitude, coords.longitude],
     })
-    setState(State.ON)
+    setState(State.GRANTED)
   }
 
   const onGetCurrentPositionError = (err: PositionError) => {
@@ -56,10 +66,10 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
     let icon = null
 
     switch (state) {
-      case State.OFF:
+      case State.PROMPT:
         icon = <LocationRequestIcon color={colors.blue} />
         break
-      case State.ON:
+      case State.GRANTED:
         icon = <LocationConceivedIcon color={colors.blue} />
         break
       case State.LOADING:
