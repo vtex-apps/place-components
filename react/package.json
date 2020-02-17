@@ -31,5 +31,5 @@
     "vtex.render-runtime": "http://vtex.vteximg.com.br/_v/public/typings/v1/vtex.render-runtime@8.88.0/public/@types/vtex.render-runtime",
     "vtex.styleguide": "http://vtex.vteximg.com.br/_v/public/typings/v1/vtex.styleguide@9.103.5/public/@types/vtex.styleguide"
   },
-  "version": "0.0.4"
+  "version": "0.3.0"
 }
