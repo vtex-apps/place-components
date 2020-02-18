@@ -78,7 +78,10 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
               />
             ),
             disabled: i > completedFields.length,
-            options: Object.keys(currentOptions).map(name => {
+            options: (Array.isArray(currentOptions)
+              ? currentOptions
+              : Object.keys(currentOptions)
+            ).map(name => {
               return { label: name, value: name }
             }),
             onChange: ({
