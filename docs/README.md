@@ -28,4 +28,28 @@ In the previous [AddressForm](https://github.com/vtex/address-form) repository, 
 
 ## Location Form
 
+The Location Form is a component that is used when the user wants to **inserts** address information to a system, it's built up of many components.
+
+### LocationCountry
+
+The Location Country component is meant to replace the current `CountrySelector` component from Checkout V6. It's main task is to let the user select a country, and it has the added functionality of trying to guess a suitable country so that the user is not bothered in selecting such a (nowadays) obvious-to-get information.
+
+### LocationForm
+
+The Location Form component gathers the most basic details about a particular address, and it is formed by three inner components.
+
+#### LocationField (Search)
+
+To be done.
+
+#### LocationField (Input)
+
+To be done.
+
+#### LocationField (Select)
+
+The LocationField Select renders a set of select components (called `Dropdown` in our styleguide) such that one depends on the other. This is used, for example, to first display a list of states, and based on that selection of states then display a list of cities, and based on the selected cities, to display a list of neighborhoods, etc.
+
+### DeviceCoordinates
+
 To be done.
