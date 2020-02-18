@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- LocationCountry
+  - Guesses country from store settings
+- LocationSelect
+- Bolivia country JSON
+- Initial styling to `AddressForm` (max/min width depending on fantasy name)
+
+### Removed
+
+- `size` property from country JSON objects
+
 ## [0.3.0] - 2020-02-17
 
 ### Added
