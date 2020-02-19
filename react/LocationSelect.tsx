@@ -78,7 +78,7 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
               />
             ),
             disabled: i > completedFields.length,
-            options: (Array.isArray(currentOptions)
+            options: (Array.isArray(currentOptions) // Workaround, fix JSON country data
               ? currentOptions
               : Object.keys(currentOptions)
             ).map(name => {
