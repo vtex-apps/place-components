@@ -80,7 +80,7 @@ const TestExample: StorefrontFunctionComponent = () => {
 }
 
 const ExampleWrapper = () => (
-  <div className="w-30-ns pa4">
+  <div className="w-70-ns pa4">
     <AddressContextProvider address={address1} countries={countryList}>
       <LocaleSwitcher />
       <Example1 />
