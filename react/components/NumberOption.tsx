@@ -82,7 +82,7 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
         <Input {...inputProps} />
       </div>
       {showCheckbox && (
-        <div className="flex-auto">
+        <div className="flex-none ml5" style={{ marginTop: 35 }}>
           <Checkbox {...checkboxProps} />
         </div>
       )}
