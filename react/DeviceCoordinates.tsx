@@ -76,26 +76,34 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
 
     switch (state) {
       case State.PROMPT:
-        icon = <IconLocation />
+        icon = <IconLocation block />
         break
       case State.GRANTED:
-        icon = <IconLocation solid />
+        icon = <IconLocation solid block />
         break
       case State.LOADING:
-        icon = <Spinner size={16} />
+        icon = <Spinner size={16} block />
         break
       case State.DENIED:
-        icon = <IconLocation />
+        icon = <IconLocation block />
         break
     }
 
-    return loading ? <Spinner size={16} /> : icon
+    if (loading) {
+      icon = <Spinner size={16} />
+    }
+
+    return <div className="mr3">{icon}</div>
   }
 
   let buttonElement = (
     <ButtonPlain disabled={state === State.DENIED} onClick={onButtonClick}>
-      {renderIcon()}
-      <FormattedMessage id="place-components.label.useCurrentLocation" />
+      <div className="flex items-center">
+        <div className="flex-none">{renderIcon()}</div>
+        <div className="flex-auto">
+          <FormattedMessage id="place-components.label.useCurrentLocation" />
+        </div>
+      </div>
     </ButtonPlain>
   )
 
