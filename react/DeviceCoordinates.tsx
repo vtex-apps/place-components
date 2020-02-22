@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import GET_ADDRESS_FROM_GEOCOORDINATES from './graphql/queries.graphql'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
-import { Address } from 'vtex.checkout-graphql'
+import { useLazyQuery } from 'react-apollo'
 
 enum State {
   PROMPT,
@@ -12,21 +13,43 @@ enum State {
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
-  const { setAddress } = useAddressContext()
+  const { address, setAddress } = useAddressContext()
   const [state, setState] = useState<State>(State.PROMPT)
+  const [getAddressFromGeocoordinates, { error, loading, data }] = useLazyQuery(
+    GET_ADDRESS_FROM_GEOCOORDINATES
+  )
+
+  console.log('NEW ADDRESS')
+  console.log(address)
+  console.log('END OF NEW ADDRESS')
+
+  if (data) {
+    setAddress(data.reverseGeocode)
+  }
+
+  if (error) {
+    console.warn(`error ${error.message}`)
+  }
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
-      console.log(coords.latitude)
-      console.log(coords.longitude)
+      // setAddress((prevAddress: Address) => ({
+      //   ...prevAddress,
+      //   geoCoordinates: [coords.latitude, coords.longitude],
+      // }))
 
-      setAddress((prevAddress: Address) => ({
-        ...prevAddress,
-        geoCoordinates: [coords.latitude, coords.longitude],
-      }))
+      console.log('FUNCTION CALLED')
+      getAddressFromGeocoordinates({
+        variables: {
+          lat: coords.latitude.toString(),
+          lng: coords.longitude.toString(),
+          apiKey: 'PUT API KEY HERE',
+        },
+      })
+
       setState(State.GRANTED)
     },
-    [setAddress]
+    [getAddressFromGeocoordinates]
   )
 
   const onGetCurrentPositionError = useCallback((err: PositionError) => {
@@ -75,7 +98,7 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
         break
     }
 
-    return icon
+    return loading ? <Spinner size={16} /> : icon
   }
 
   let buttonElement = (
