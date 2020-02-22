@@ -16,100 +16,100 @@ export const styleRules: {
   [key: string]: React.CSSProperties
 } = {
   complement: {
-    minWidth: '199px',
-    maxWidth: '512px',
+    minWidth: 199,
+    maxWidth: 512,
   },
   number: {
-    minWidth: '71px',
-    maxWidth: '128px',
+    minWidth: 71,
+    maxWidth: 128,
   },
   numberOption: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   streetRoadAvenue: {
-    minWidth: '256px',
-    maxWidth: '512px',
+    minWidth: 256,
+    maxWidth: 512,
   },
   neighborhood: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   addressLine1: {
-    minWidth: '256px',
-    maxWidth: '512px',
+    minWidth: 256,
+    maxWidth: 512,
   },
   addressLine2: {
-    minWidth: '256px',
-    maxWidth: '512px',
+    minWidth: 256,
+    maxWidth: 512,
   },
   city: {
-    minWidth: '199px',
-    maxWidth: '256px',
+    minWidth: 199,
+    maxWidth: 256,
   },
   canton: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   province: {
-    minWidth: '128px',
-    maxWidth: '256px',
+    minWidth: 128,
+    maxWidth: 256,
   },
   address: {
-    minWidth: '256px',
-    maxWidth: '512px',
+    minWidth: 256,
+    maxWidth: 512,
   },
   town: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   county: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   interiorNo: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   exteriorNoOption: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   colony: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   municipalityDelegation: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   stateAbbreviation: {
-    minWidth: '128px',
-    maxWidth: '128px',
+    minWidth: 128,
+    maxWidth: 128,
   },
   state: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   locality: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   deliveryInstructions: {
-    minWidth: '256px',
-    maxWidth: '512px',
+    minWidth: 256,
+    maxWidth: 512,
   },
   department: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
   addressLine3: {
-    minWidth: '256px',
-    maxWidth: '512px',
+    minWidth: 256,
+    maxWidth: 512,
   },
   parish: {
-    minWidth: '256px',
-    maxWidth: '256px',
+    minWidth: 256,
+    maxWidth: 256,
   },
 }
 
