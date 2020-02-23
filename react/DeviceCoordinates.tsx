@@ -13,15 +13,11 @@ enum State {
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
-  const { address, setAddress } = useAddressContext()
+  const { setAddress } = useAddressContext()
   const [state, setState] = useState<State>(State.PROMPT)
   const [getAddressFromGeocoordinates, { error, loading, data }] = useLazyQuery(
     GET_ADDRESS_FROM_GEOCOORDINATES
   )
-
-  console.log('NEW ADDRESS')
-  console.log(address)
-  console.log('END OF NEW ADDRESS')
 
   if (data) {
     setAddress(data.reverseGeocode)
@@ -33,12 +29,7 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
-      // setAddress((prevAddress: Address) => ({
-      //   ...prevAddress,
-      //   geoCoordinates: [coords.latitude, coords.longitude],
-      // }))
-
-      console.log('FUNCTION CALLED')
+      console.log('Success!')
       getAddressFromGeocoordinates({
         variables: {
           lat: coords.latitude.toString(),
