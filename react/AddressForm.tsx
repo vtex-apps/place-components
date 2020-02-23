@@ -131,7 +131,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
     }
 
     return (
-      <div className="flex-auto mb5" style={style as React.CSSProperties}>
+      <div className="flex-auto mb5 mr5" style={style as React.CSSProperties}>
         {fragmentElement}
       </div>
     )
