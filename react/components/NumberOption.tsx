@@ -3,6 +3,7 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
 import rules from '../countries/rules'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   wn: {
@@ -36,10 +37,10 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   const { maxLength, autoComplete, required, label } = field
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress({
-      ...address,
+    setAddress((prevAddress: Address) => ({
+      ...prevAddress,
       number: event.target.value,
-    })
+    }))
   }
 
   const fieldRequired = {
@@ -57,10 +58,10 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   }
 
   const onCheckboxChange = () => {
-    setAddress({
-      ...address,
+    setAddress((prevAddress: Address) => ({
+      ...prevAddress,
       number: disabled ? '-' : intl.formatMessage(messages.wn),
-    })
+    }))
     setDisabled(!disabled)
   }
 

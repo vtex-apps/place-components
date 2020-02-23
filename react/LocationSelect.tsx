@@ -3,6 +3,7 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import rules from './countries/rules'
 import { Dropdown } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages } from 'react-intl'
+import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   province: {
@@ -91,10 +92,10 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
               for (let j = i + 1; j < fields.length; ++j) {
                 newFields = { ...newFields, [fields[j].name as string]: null }
               }
-              setAddress({
-                ...address,
+              setAddress((prevAddress: Address) => ({
+                ...prevAddress,
                 ...newFields,
-              })
+              }))
             },
             placeholder: 'Select...',
             value,

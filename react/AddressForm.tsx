@@ -11,6 +11,7 @@ import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
+import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   country: {
@@ -85,10 +86,10 @@ const AddressForm: StorefrontFunctionComponent = () => {
     const onChange = (
       event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-      setAddress({
-        ...address,
+      setAddress((prevAddress: Address) => ({
+        ...prevAddress,
         [fragment.name]: event.target.value,
-      })
+      }))
     }
     const fieldRequired = {
       errorMessage: intl.formatMessage(messages.fieldRequired),

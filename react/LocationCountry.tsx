@@ -3,6 +3,7 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Dropdown } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
+import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   ARG: {
@@ -70,8 +71,8 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
     value: country,
     placeholder: 'Select...',
     onChange: ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
-      setAddress({
-        ...address,
+      setAddress((prevAddress: Address) => ({
+        ...prevAddress,
         city: null,
         complement: null,
         country: target.value,
@@ -81,7 +82,7 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
         postalCode: null,
         state: null,
         street: null,
-      })
+      }))
     },
     options,
   }
