@@ -47,21 +47,19 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
   const countryRules = rules[address.country]
 
-  if (!countryRules.locationSelect)
-    throw 'The LocationSelect component is not applicable to this country :('
+  if (!countryRules.locationSelect) {
+    throw `The LocationSelect component is not applicable to this country: ${address.country}`
+  }
 
   const { countryData, fields } = countryRules.locationSelect
 
   const getCompletedFieldsArray = () => {
-    let completedFields = []
-    for (let field of fields) {
-      if (address[field.name]) {
-        completedFields.push(address[field.name])
-      } else {
-        break
-      }
+    const takeWhile = (array: any[], f: (arg0: any) => boolean) => {
+      const first = array.findIndex(f)
+      return first === -1 ? array : array.slice(0, first)
     }
-    return completedFields
+    const addressFields = fields.map(field => address[field.name])
+    return takeWhile(addressFields, x => !x)
   }
 
   const completed = getCompletedFieldsArray()

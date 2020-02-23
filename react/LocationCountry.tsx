@@ -42,8 +42,9 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
   } = useRuntime()
   let { country } = address
 
-  if (country && countries && !countries.includes(country))
-    throw "The country from that address doesn't belong to the country list, can't render LocationCountry"
+  if (country && countries && !countries.includes(country)) {
+    throw `The country ${country} doesn't belong to the country list, can't render LocationCountry`
+  }
 
   if (!country) {
     /* Try to get by saved addresses in account */
@@ -85,7 +86,7 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
     options,
   }
 
-  return <Dropdown {...dropdownProps}></Dropdown>
+  return <Dropdown {...dropdownProps} />
 }
 
 export default LocationCountry

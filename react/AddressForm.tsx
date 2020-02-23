@@ -113,17 +113,19 @@ const AddressForm: StorefrontFunctionComponent = () => {
       !field ||
       ignoredFields.has(fragment.name) ||
       address[fragment.name] == null
-    )
+    ) {
       return null
+    }
 
     const style = styleRules[field.label]
 
-    if (hasWithoutNumberOption(field.label))
+    if (hasWithoutNumberOption(field.label)) {
       return (
         <div className="flex-auto mh3" style={style as React.CSSProperties}>
           <NumberOption showCheckbox />
         </div>
       )
+    }
 
     return (
       <div
