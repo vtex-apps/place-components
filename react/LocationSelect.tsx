@@ -84,19 +84,17 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
             options: Object.keys(currentOptions).map(name => {
               return { label: name, value: name }
             }),
-            onChange: ({ target }: React.ChangeEvent) => {
-              if (target instanceof HTMLSelectElement) {
-                let newFields: { [key: string]: string | null } = {
-                  [field.name as string]: target.value,
-                }
-                for (let j = i + 1; j < fields.length; ++j) {
-                  newFields = { ...newFields, [fields[j].name as string]: null }
-                }
-                setAddress({
-                  ...address,
-                  ...newFields,
-                })
+            onChange: ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
+              let newFields: { [key: string]: string | null } = {
+                [field.name as string]: target.value,
               }
+              for (let j = i + 1; j < fields.length; ++j) {
+                newFields = { ...newFields, [fields[j].name as string]: null }
+              }
+              setAddress({
+                ...address,
+                ...newFields,
+              })
             },
             placeholder: 'Select...',
             value,
