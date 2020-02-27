@@ -6,6 +6,7 @@ import { Address } from 'vtex.checkout-graphql'
 import AddressForm from './AddressForm'
 import LocationSelect from './LocationSelect'
 import LocationCountry from './LocationCountry'
+import LocationInput from './LocationInput'
 import DeviceCoordinates from './DeviceCoordinates'
 import {
   sampleAddress1 as address1,
@@ -47,6 +48,15 @@ const Example4: StorefrontFunctionComponent = () => {
       <h2>DeviceCoordinates</h2>
       <AddressForm />
       <DeviceCoordinates />
+    </div>
+  )
+}
+
+const Example5: StorefrontFunctionComponent = () => {
+  return (
+    <div>
+      <h2>LocationInput</h2>
+      <LocationInput />
     </div>
   )
 }
@@ -96,6 +106,10 @@ const ExampleWrapper = () => (
     <AddressContextProvider address={address1} countries={countryList}>
       <LocaleSwitcher />
       <Example4 />
+    </AddressContextProvider>
+    <AddressContextProvider address={address1} countries={countryList}>
+      <LocaleSwitcher />
+      <Example5 />
     </AddressContextProvider>
     <TestExample />
   </div>
