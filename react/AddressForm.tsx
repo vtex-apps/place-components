@@ -83,12 +83,12 @@ const AddressForm: StorefrontFunctionComponent = () => {
   const getFieldProps = (field: Field, fragment: LineFragment) => {
     const { maxLength, autoComplete, required, label, options } = field
 
-    const onChange = (
-      event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
+    const onChange = ({
+      target: { value },
+    }: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setAddress((prevAddress: Address) => ({
         ...prevAddress,
-        [fragment.name]: event.target.value,
+        [fragment.name]: value,
       }))
     }
     const fieldRequired = {

@@ -71,12 +71,14 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
       label={<FormattedMessage id="place-components.label.country" />}
       value={country}
       placeholder="Select..."
-      onChange={({ target }: React.ChangeEvent<HTMLSelectElement>) => {
+      onChange={({
+        target: { value },
+      }: React.ChangeEvent<HTMLSelectElement>) => {
         setAddress((prevAddress: Address) => ({
           ...prevAddress,
           city: null,
           complement: null,
-          country: target.value,
+          country: value,
           geoCoordinates: null,
           neighborhood: null,
           number: null,

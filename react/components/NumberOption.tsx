@@ -36,10 +36,12 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   if (!field) return null
   const { maxLength, autoComplete, required, label } = field
 
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
     setAddress((prevAddress: Address) => ({
       ...prevAddress,
-      number: event.target.value,
+      number: value,
     }))
   }
 
