@@ -54,16 +54,12 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
 
   const { countryData, fields } = countryRules.locationSelect
 
-  const getCompletedFieldsArray = () => {
-    const takeWhile = (array: any[], f: (arg0: any) => boolean) => {
-      const first = array.findIndex(f)
-      return first === -1 ? array : array.slice(0, first)
-    }
-    const addressFields = fields.map(field => address[field.name])
-    return takeWhile(addressFields, x => !x)
-  }
-
-  const completed = getCompletedFieldsArray()
+  const addressFields = fields.map(field => address[field.name])
+  const firstMissingIdx = addressFields.findIndex(field => !field)
+  const completedFields =
+    firstMissingIdx === -1
+      ? addressFields
+      : addressFields.slice(0, firstMissingIdx)
 
   const getLocationSelects = () => {
     let locationSelects = []
@@ -81,7 +77,7 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
                 {...messages[field.label as keyof typeof messages]}
               />
             ),
-            disabled: i > completed.length,
+            disabled: i > completedFields.length,
             options: Object.keys(currentOptions).map(name => {
               return { label: name, value: name }
             }),
