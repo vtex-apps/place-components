@@ -107,10 +107,12 @@ const ExampleWrapper = () => (
       <LocaleSwitcher />
       <Example4 />
     </AddressContextProvider>
-    <AddressContextProvider address={address1} countries={countryList}>
-      <LocaleSwitcher />
-      <Example5 />
-    </AddressContextProvider>
+    <div className="w5-ns">
+      <AddressContextProvider address={address1} countries={countryList}>
+        <LocaleSwitcher />
+        <Example5 />
+      </AddressContextProvider>
+    </div>
     <TestExample />
   </div>
 )
