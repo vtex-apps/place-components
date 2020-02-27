@@ -26,7 +26,12 @@ describe('Location Select', () => {
   console.log(completeAddress)
 
   it('should fail to render if the country does have a specification for location select', () => {
+    const oldConsoleError = console.error
+    console.error = () => {}
+
     expect(() => renderComponent(addressWithoutLocationSelect)).toThrow()
+
+    console.error = oldConsoleError
   })
 
   it('should render with proper fantasy names according to the address', () => {

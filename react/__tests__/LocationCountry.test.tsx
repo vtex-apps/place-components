@@ -26,7 +26,12 @@ describe('Location Country', () => {
   })
 
   it('should throw error if country is not in countryList', () => {
+    const oldConsoleError = console.error
+    console.error = () => {}
+
     expect(() => renderComponent(address, countryListWithoutBrazil)).toThrow()
+
+    console.errror = oldConsoleError
   })
 
   it('should change country when clicking on another option', () => {
@@ -39,20 +44,6 @@ describe('Location Country', () => {
 
     expect(queryAllByText('Argentina')).toHaveLength(2)
     expect(queryAllByText('Brazil')).toHaveLength(1)
-    expect(queryAllByText('Korea')).toHaveLength(1)
-  })
-
-  it('should be able to go back to first country after a change', () => {
-    const { getByLabelText, queryAllByText } = renderComponent(
-      address,
-      countryListWithBrazil
-    )
-
-    fireEvent.change(getByLabelText(/Country/i), { target: { value: 'ARG' } })
-    fireEvent.change(getByLabelText(/Country/i), { target: { value: 'BRA' } })
-
-    expect(queryAllByText('Argentina')).toHaveLength(1)
-    expect(queryAllByText('Brazil')).toHaveLength(2)
     expect(queryAllByText('Korea')).toHaveLength(1)
   })
 })

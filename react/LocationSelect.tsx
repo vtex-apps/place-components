@@ -73,7 +73,7 @@ const LocationSelect: StorefrontFunctionComponent = () => {
       const fieldValue = address[field.name!]
 
       locationSelects.push(
-        <div className="mb5">
+        <div className="mb5" key={i}>
           <Dropdown
             {...{
               label: (
