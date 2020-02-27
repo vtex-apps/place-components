@@ -120,19 +120,19 @@ const AddressForm: StorefrontFunctionComponent = () => {
 
     const style = styleRules[field.label]
 
-    let fragmentComponent = undefined
+    let fragmentElement
 
     if (hasWithoutNumberOption(field.label)) {
-      fragmentComponent = <NumberOption showCheckbox />
+      fragmentElement = <NumberOption showCheckbox />
     } else if (field.options) {
-      fragmentComponent = <Dropdown {...getFieldProps(field, fragment)} />
+      fragmentElement = <Dropdown {...getFieldProps(field, fragment)} />
     } else {
-      fragmentComponent = <Input {...getFieldProps(field, fragment)} />
+      fragmentElement = <Input {...getFieldProps(field, fragment)} />
     }
 
     return (
       <div className="flex-auto mh3" style={style as React.CSSProperties}>
-        {fragmentComponent}
+        {fragmentElement}
       </div>
     )
   }

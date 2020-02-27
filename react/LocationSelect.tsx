@@ -49,7 +49,7 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
   const countryRules = rules[address.country]
 
   if (!countryRules.locationSelect) {
-    throw `The LocationSelect component is not applicable to this country: ${address.country}`
+    throw `The country "${address.country}" is not applicable to the LocationSelect component`
   }
 
   const { countryData, fields } = countryRules.locationSelect

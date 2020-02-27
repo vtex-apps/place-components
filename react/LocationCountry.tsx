@@ -44,7 +44,7 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
   let { country } = address
 
   if (country && countries && !countries.includes(country)) {
-    throw `The country ${country} doesn't belong to the country list, can't render LocationCountry`
+    throw `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
   }
 
   if (!country) {
@@ -66,28 +66,28 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
     })
   )
 
-  const dropdownProps = {
-    label: <FormattedMessage id="place-components.label.country" />,
-    value: country,
-    placeholder: 'Select...',
-    onChange: ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
-      setAddress((prevAddress: Address) => ({
-        ...prevAddress,
-        city: null,
-        complement: null,
-        country: target.value,
-        geoCoordinates: null,
-        neighborhood: null,
-        number: null,
-        postalCode: null,
-        state: null,
-        street: null,
-      }))
-    },
-    options,
-  }
-
-  return <Dropdown {...dropdownProps} />
+  return (
+    <Dropdown
+      label={<FormattedMessage id="place-components.label.country" />}
+      value={country}
+      placeholder="Select..."
+      onChange={({ target }: React.ChangeEvent<HTMLSelectElement>) => {
+        setAddress((prevAddress: Address) => ({
+          ...prevAddress,
+          city: null,
+          complement: null,
+          country: target.value,
+          geoCoordinates: null,
+          neighborhood: null,
+          number: null,
+          postalCode: null,
+          state: null,
+          street: null,
+        }))
+      }}
+      options={options}
+    />
+  )
 }
 
 export default LocationCountry
