@@ -10,5 +10,16 @@
   "place-components.error.fieldRequired": "This field is required",
   "place-components.label.withoutNumber": "Without number",
   "place-components.label.wn": "W/N",
-  "place-components.label.edit": "Edit"
+  "place-components.label.edit": "Edit",
+  "place-components.label.province": "Province",
+  "place-components.label.department": "Department",
+  "place-components.label.region": "Region",
+  "place-components.label.community": "Community",
+  "place-components.label.municipality": "Municipality",
+  "place-components.label.district": "District",
+  "place-components.label.locality": "Locality",
+  "place-components.label.ARG": "Argentina",
+  "place-components.label.BRA": "Brazil",
+  "place-components.label.BOL": "Bolivia",
+  "place-components.label.KOR": "Korea"
 }

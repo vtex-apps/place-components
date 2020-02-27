@@ -6,13 +6,11 @@ const rules: CountryRules = {
       label: 'country',
       hidden: true,
       maxLength: 100,
-      size: 'medium',
     },
     state: {
       label: 'stateAbbreviation',
       maxLength: 100,
       required: true,
-      size: 'large',
       options: [
         { label: 'Alabama', value: 'AL' },
         { label: 'Alaska', value: 'AK' },
@@ -72,18 +70,15 @@ const rules: CountryRules = {
       label: 'city',
       maxLength: 100,
       required: true,
-      size: 'large',
     },
     neighborhood: {
       label: 'neighborhood',
       hidden: true,
       maxLength: 100,
-      size: 'large',
     },
     street: {
       label: 'addressLine1',
       required: true,
-      size: 'xlarge',
     },
     number: {
       label: 'number',
@@ -94,19 +89,16 @@ const rules: CountryRules = {
     complement: {
       label: 'addressLine2',
       maxLength: 750,
-      size: 'xlarge',
     },
     reference: {
       label: 'reference',
       hidden: true,
       maxLength: 750,
-      size: 'xlarge',
     },
     receiverName: {
       label: 'receiverName',
       elementName: 'receiver',
       maxLength: 750,
-      size: 'xlarge',
       required: true,
     },
   },

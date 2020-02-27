@@ -7,10 +7,11 @@ import {
   Field,
   Display,
 } from './typings/countryRulesTypes.d'
-import rules from './countries/rules'
+import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
+import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   country: {
@@ -82,13 +83,13 @@ const AddressForm: StorefrontFunctionComponent = () => {
   const getFieldProps = (field: Field, fragment: LineFragment) => {
     const { maxLength, autoComplete, required, label, options } = field
 
-    const onChange = (
-      event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
-      setAddress({
-        ...address,
-        [fragment.name]: event.target.value,
-      })
+    const onChange = ({
+      target: { value },
+    }: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      setAddress((prevAddress: Address) => ({
+        ...prevAddress,
+        [fragment.name]: value,
+      }))
     }
     const fieldRequired = {
       errorMessage: intl.formatMessage(messages.fieldRequired),
@@ -108,30 +109,38 @@ const AddressForm: StorefrontFunctionComponent = () => {
 
   const parseLineFragment = (fragment: LineFragment) => {
     const field = fields[fragment.name as keyof Fields]
+
     if (
       !field ||
       ignoredFields.has(fragment.name) ||
       address[fragment.name] == null
-    )
+    ) {
       return null
+    }
 
-    if (hasWithoutNumberOption(field.label))
-      return <NumberOption showCheckbox />
+    const style = styleRules[field.label]
+
+    let fragmentElement
+
+    if (hasWithoutNumberOption(field.label)) {
+      fragmentElement = <NumberOption showCheckbox />
+    } else if (field.options) {
+      fragmentElement = <Dropdown {...getFieldProps(field, fragment)} />
+    } else {
+      fragmentElement = <Input {...getFieldProps(field, fragment)} />
+    }
 
     return (
-      <span key={fragment.name} className="w-25 dib mh3">
-        {field.options ? (
-          <Dropdown {...getFieldProps(field, fragment)} />
-        ) : (
-          <Input {...getFieldProps(field, fragment)} />
-        )}
-      </span>
+      <div className="flex-auto mh3" style={style as React.CSSProperties}>
+        {fragmentElement}
+      </div>
     )
   }
 
   const parseLine = (line: LineFragment[], index: number) => [
-    ...line.map(parseLineFragment),
-    <br key={index} />,
+    <div className="flex flex-wrap" key={index}>
+      {line.map(parseLineFragment)}
+    </div>,
   ]
 
   const onEditButtonClick = () => {

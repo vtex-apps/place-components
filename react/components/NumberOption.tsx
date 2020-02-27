@@ -3,6 +3,7 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
 import rules from '../countries/rules'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   wn: {
@@ -35,11 +36,13 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   if (!field) return null
   const { maxLength, autoComplete, required, label } = field
 
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress({
-      ...address,
-      number: event.target.value,
-    })
+  const onInputChange = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress((prevAddress: Address) => ({
+      ...prevAddress,
+      number: value,
+    }))
   }
 
   const fieldRequired = {
@@ -57,10 +60,10 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   }
 
   const onCheckboxChange = () => {
-    setAddress({
-      ...address,
+    setAddress((prevAddress: Address) => ({
+      ...prevAddress,
       number: disabled ? '-' : intl.formatMessage(messages.wn),
-    })
+    }))
     setDisabled(!disabled)
   }
 
@@ -73,16 +76,16 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   }
 
   return (
-    <span>
-      <span className="w-25 dib mh3">
+    <div className="flex">
+      <div className="flex-auto">
         <Input {...inputProps} />
-      </span>
+      </div>
       {showCheckbox && (
-        <span className="w-25 dib mh3">
+        <div className="flex-auto">
           <Checkbox {...checkboxProps} />
-        </span>
+        </div>
       )}
-    </span>
+    </div>
   )
 }
 
