@@ -9,7 +9,6 @@ import {
 } from './mocks/CountryDescriptions'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { LocaleSwitcher } from 'vtex.locale-switcher'
-import PlaceDetails from './PlaceDetails'
 
 const countryList = ['BRA', 'KOR', 'ARG', 'BOL']
 
