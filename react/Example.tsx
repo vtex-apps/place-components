@@ -56,6 +56,7 @@ const Example5: StorefrontFunctionComponent = () => {
   return (
     <div>
       <h2>LocationInput</h2>
+      <AddressForm />
       <LocationInput />
     </div>
   )

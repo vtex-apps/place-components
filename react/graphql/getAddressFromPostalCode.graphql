@@ -1,0 +1,16 @@
+query getAddressFromPostalCode($postalCode: String, $countryCode: String) {
+  getAddressFromPostalCode(postalCode: $postalCode, countryCode: $countryCode) {
+    addressId
+    addressType
+    city
+    complement
+    country
+    geoCoordinates
+    neighborhood
+    number
+    postalCode
+    reference
+    state
+    street
+  }
+}
