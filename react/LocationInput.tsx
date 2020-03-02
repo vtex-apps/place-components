@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { IconSearch, InputButton, ButtonPlain } from 'vtex.styleguide'
+import { IconSearch, Input, ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import { useLazyQuery } from 'react-apollo'
 
 const LocationInput: StorefrontFunctionComponent<{}> = () => {
   const { address, setAddress } = useAddressContext()
+  const [inputValue, setInputValue] = useState('')
   const [getAddressFromPostalCode, { error, data }] = useLazyQuery(
     GET_ADDRESS_FROM_POSTAL_CODE
   )
+
+  if (!address.country) {
+    throw 'The LocationField (Input) should be used when the country field is already filled'
+  }
 
   if (data) {
     setAddress(data.getAddressFromPostalCode)
@@ -19,14 +24,13 @@ const LocationInput: StorefrontFunctionComponent<{}> = () => {
     console.warn(`error ${error.message}`)
   }
 
-  console.log(setAddress)
-  console.log(address)
-
   const onButtonClick = () => {
+    console.log(inputValue)
+    console.log(address.country)
     getAddressFromPostalCode({
       variables: {
-        postalCode: '22061-020',
-        countryCode: 'BRA',
+        postalCode: inputValue,
+        countryCode: address.country,
       },
     })
   }
@@ -36,10 +40,16 @@ const LocationInput: StorefrontFunctionComponent<{}> = () => {
   return (
     <div>
       <div className="mb4">
-        <InputButton
+        <Input
           label={<FormattedMessage id="place-components.label.postalCode" />}
           button={button}
           buttonProps={{ onClick: onButtonClick }}
+          value={inputValue}
+          onChange={({
+            target: { value },
+          }: React.ChangeEvent<HTMLInputElement>) => {
+            setInputValue(value)
+          }}
         />
       </div>
       <ButtonPlain size="small">
