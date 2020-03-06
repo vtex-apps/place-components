@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { IconSearch, Input, ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import { useLazyQuery } from 'react-apollo'
 
-const LocationInput: StorefrontFunctionComponent<{}> = () => {
+const LocationInput: StorefrontFunctionComponent<{ onSuccess: any }> = ({
+  onSuccess,
+}) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
   const [getAddressFromPostalCode, { error, data }] = useLazyQuery(
@@ -16,13 +18,16 @@ const LocationInput: StorefrontFunctionComponent<{}> = () => {
     throw 'The LocationField (Input) should be used when the country field is already filled'
   }
 
-  if (data) {
-    setAddress(data.getAddressFromPostalCode)
-  }
+  useEffect(() => {
+    if (data) {
+      setAddress(data.getAddressFromPostalCode)
+      onSuccess()
+    }
 
-  if (error) {
-    console.warn(`error ${error.message}`)
-  }
+    if (error) {
+      console.warn(`error ${error.message}`)
+    }
+  }, [data, error, onSuccess, setAddress])
 
   const onButtonClick = () => {
     console.log(inputValue)
