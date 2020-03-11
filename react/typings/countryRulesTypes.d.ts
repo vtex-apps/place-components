@@ -15,7 +15,7 @@ export interface Field {
   required?: boolean
   autoComplete?: string
   optionsCaption?: string
-  options?: { label: string; value: string }[]
+  options?: Array<{ label: string; value: string }>
   elementName?: string
 }
 

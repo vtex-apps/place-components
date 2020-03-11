@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
-import rules from '../countries/rules'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
+
+import rules from '../countries/rules'
 
 const messages = defineMessages({
   wn: {

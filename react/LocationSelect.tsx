@@ -1,9 +1,10 @@
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import rules from './countries/rules'
 import { Dropdown } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
+
+import rules from './countries/rules'
 
 const messages = defineMessages({
   province: {
@@ -44,7 +45,7 @@ const messages = defineMessages({
   },
 })
 
-const LocationSelect: StorefrontFunctionComponent<{}> = () => {
+const LocationSelect: StorefrontFunctionComponent = () => {
   const { address, setAddress } = useAddressContext()
   const countryRules = rules[address.country]
 
@@ -62,12 +63,12 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
       : addressFields.slice(0, firstMissingIdx)
 
   const getLocationSelects = () => {
-    let locationSelects = []
+    const locationSelects = []
     let currentOptions = countryData
 
     for (let i = 0; i < fields.length; ++i) {
       const field = fields[i]
-      const value = address[field.name]
+      const fieldValue = address[field.name]
 
       locationSelects.push(
         <Dropdown
@@ -96,12 +97,12 @@ const LocationSelect: StorefrontFunctionComponent<{}> = () => {
               }))
             },
             placeholder: 'Select...',
-            value,
+            value: fieldValue,
           }}
         />
       )
 
-      currentOptions = value ? currentOptions[value as keyof {}] : {}
+      currentOptions = fieldValue ? currentOptions[fieldValue as keyof {}] : {}
     }
 
     return locationSelects

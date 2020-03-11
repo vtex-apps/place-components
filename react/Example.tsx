@@ -1,4 +1,7 @@
 import React from 'react'
+import { AddressContextProvider } from 'vtex.address-context/AddressContext'
+import { LocaleSwitcher } from 'vtex.locale-switcher'
+
 import AddressForm from './AddressForm'
 import LocationSelect from './LocationSelect'
 import LocationCountry from './LocationCountry'
@@ -7,12 +10,10 @@ import {
   sampleAddress1 as address1,
   sampleAddress2 as address2,
 } from './mocks/CountryDescriptions'
-import { AddressContextProvider } from 'vtex.address-context/AddressContext'
-import { LocaleSwitcher } from 'vtex.locale-switcher'
 
 const countryList = ['BRA', 'KOR', 'ARG', 'BOL']
 
-const Example1: StorefrontFunctionComponent<{}> = () => {
+const Example1: StorefrontFunctionComponent = () => {
   return (
     <div>
       <h2>AddressForm:</h2>
@@ -21,7 +22,7 @@ const Example1: StorefrontFunctionComponent<{}> = () => {
   )
 }
 
-const Example2: StorefrontFunctionComponent<{}> = () => {
+const Example2: StorefrontFunctionComponent = () => {
   return (
     <div>
       <h2>LocationSelect</h2>
@@ -30,7 +31,7 @@ const Example2: StorefrontFunctionComponent<{}> = () => {
   )
 }
 
-const Example3: StorefrontFunctionComponent<{}> = () => {
+const Example3: StorefrontFunctionComponent = () => {
   return (
     <div>
       <h2>LocationCountry</h2>
@@ -39,7 +40,7 @@ const Example3: StorefrontFunctionComponent<{}> = () => {
   )
 }
 
-const Example4: StorefrontFunctionComponent<{}> = () => {
+const Example4: StorefrontFunctionComponent = () => {
   return (
     <div>
       <h2>DeviceCoordinates</h2>

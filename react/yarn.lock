@@ -5946,6 +5946,10 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.0.tgz#81cf3491fea110e50ca91c318c02c714b6d0ae62"
   integrity sha512-RUK2HX/Z2+GTrFHcA3+gfl1Tib33WL49i6pnUZhE6/imHmiUBMfWQL7qQbYDhI9Pws57KFgdF+qSnla3Jjg6Fw==
 
+"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.2/public/@types/vtex.address-context":
+  version "0.0.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.2/public/@types/vtex.address-context#9bd0a5ddbe37d3460d32449557c24b405c2e4295"
+
 "vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.25.1/public/@types/vtex.checkout-graphql":
   version "0.25.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.25.1/public/@types/vtex.checkout-graphql#c9f6ff21f6e16cf7c070e3b10439e0650e050c6d"

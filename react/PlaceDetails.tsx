@@ -1,7 +1,8 @@
 import React from 'react'
+import { useAddressContext } from 'vtex.address-context/AddressContext'
+
 import { LineFragment, Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
-import { useAddressContext } from 'vtex.address-context/AddressContext'
 
 interface Props {
   display: keyof Display
@@ -20,7 +21,7 @@ const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
     const hasNextFragment =
       index + 1 < line.length && address[line[index + 1].name]
     const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
-    const shouldShowDelimiter = hasNextFragment || hasDifferentDelimiter
+    const shouldShowDelimiter = hasNextFragment ?? hasDifferentDelimiter
 
     return address[fragment.name] ? (
       <span key={fragment.name}>

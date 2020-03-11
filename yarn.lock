@@ -584,28 +584,15 @@ eslint-config-prettier@^6.9.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-config-vtex-react@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/eslint-config-vtex-react/-/eslint-config-vtex-react-6.0.4.tgz#6b689df1a6f15923f18cfbd044ca28a0bf97953c"
-  integrity sha512-oHKou+55NHZAVkhJ2w+j3RL1WCacTwvIKJKLvUUiZ6Q1dKRVUlrlztiA7wVynFxh/r20+QwI+89LoyPIoTGWtQ==
+eslint-config-vtex-react@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-vtex-react/-/eslint-config-vtex-react-6.2.1.tgz#adb4b513a136381831edb64ae8f64af170670af6"
+  integrity sha512-/pprgWmK6EkKjgQ2zMKVKGsHB9dKr7nlj4WufD1YreuSg+y78xHNTp7WmsL8Vf1OQfyeG8Tvn1UZqV2KGX8XYQ==
   dependencies:
-    eslint-config-vtex "^12.0.4"
+    eslint-config-vtex "^12.2.1"
     eslint-plugin-jsx-a11y "^6.2.3"
     eslint-plugin-react "^7.18.0"
     eslint-plugin-react-hooks "^2.3.0"
-
-eslint-config-vtex@^12.0.4:
-  version "12.0.4"
-  resolved "https://registry.yarnpkg.com/eslint-config-vtex/-/eslint-config-vtex-12.0.4.tgz#01b32de7706ac7c33dcc17a943860fcb8ffb42f8"
-  integrity sha512-nmas0K0/xf16Vfi7nD5x/0qZ88PvXYf+W15kYG0RGkTWpKewO3yxkLZp4h0bf6U3T/vvvQKaBxstT+uWZ9IjXg==
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^2.17.0"
-    "@typescript-eslint/parser" "^2.17.0"
-    confusing-browser-globals "^1.0.9"
-    eslint-config-prettier "^6.9.0"
-    eslint-plugin-import "^2.20.0"
-    eslint-plugin-prettier "^3.1.2"
-    eslint-plugin-vtex "^1.0.3"
 
 eslint-config-vtex@^12.2.1:
   version "12.2.1"

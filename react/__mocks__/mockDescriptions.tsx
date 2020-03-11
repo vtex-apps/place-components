@@ -1,4 +1,3 @@
-import { Address } from 'vtex.checkout-graphql'
 import { countryDescriptions } from '../mocks/CountryDescriptions'
 
 export const mockDescriptions = {
@@ -7,7 +6,7 @@ export const mockDescriptions = {
   KOR: countryDescriptions[2],
 }
 
-export const completeAddress: Address = {
+export const completeAddress = {
   street: 'Av. Belgrano',
   number: '2248',
   complement: 'B',
@@ -23,7 +22,7 @@ export const completeAddress: Address = {
   reference: null,
 }
 
-export const incompleteAddress: Address = {
+export const incompleteAddress = {
   street: 'Av. Belgrano',
   number: '2248',
   complement: '',
@@ -39,7 +38,7 @@ export const incompleteAddress: Address = {
   reference: null,
 }
 
-export const sampleAddress: Address = {
+export const sampleAddress = {
   street: 'Rua Afonso Camargo',
   number: '805',
   complement: '',

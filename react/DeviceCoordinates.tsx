@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import GET_ADDRESS_FROM_GEOCOORDINATES from './graphql/queries.graphql'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
+
+import GET_ADDRESS_FROM_GEOCOORDINATES from './graphql/queries.graphql'
 
 enum State {
   PROMPT,
@@ -12,7 +13,7 @@ enum State {
   DENIED,
 }
 
-const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
+const DeviceCoordinates: StorefrontFunctionComponent = () => {
   const { setAddress } = useAddressContext()
   const [state, setState] = useState<State>(State.PROMPT)
   const [getAddressFromGeocoordinates, { error, loading, data }] = useLazyQuery(
@@ -29,7 +30,6 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
-      console.log('Success!')
       getAddressFromGeocoordinates({
         variables: {
           lat: coords.latitude.toString(),
@@ -87,6 +87,7 @@ const DeviceCoordinates: StorefrontFunctionComponent<{}> = () => {
       case State.DENIED:
         icon = <IconLocation />
         break
+      default:
     }
 
     return loading ? <Spinner size={16} /> : icon

@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import { Address } from 'vtex.checkout-graphql'
+
 import {
   LineFragment,
   Fields,
@@ -9,9 +12,7 @@ import {
 } from './typings/countryRulesTypes.d'
 import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
-import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
-import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   country: {
@@ -57,7 +58,7 @@ const messages = defineMessages({
 })
 
 const getSummaryFields = (summary: LineFragment[][]) => {
-  let summaryFields = new Set()
+  const summaryFields = new Set()
   summary.forEach((line: LineFragment[]) => {
     line.forEach((fragment: LineFragment) => {
       summaryFields.add(fragment.name)
@@ -77,7 +78,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
   )
 
   const hasWithoutNumberOption = (label: string) => {
-    return label.length >= 6 && label.substr(label.length - 6) == 'Option'
+    return label.length >= 6 && label.substr(label.length - 6) === 'Option'
   }
 
   const getFieldProps = (field: Field, fragment: LineFragment) => {
