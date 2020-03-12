@@ -4,7 +4,7 @@ import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
 
-import GET_ADDRESS_FROM_GEOCOORDINATES from './graphql/queries.graphql'
+import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
 enum State {
   PROMPT,
@@ -16,31 +16,32 @@ enum State {
 const DeviceCoordinates: StorefrontFunctionComponent = () => {
   const { setAddress } = useAddressContext()
   const [state, setState] = useState<State>(State.PROMPT)
-  const [getAddressFromGeocoordinates, { error, loading, data }] = useLazyQuery(
-    GET_ADDRESS_FROM_GEOCOORDINATES
+  const [executeReverseGeocode, { error, loading, data }] = useLazyQuery(
+    REVERSE_GEOCODE_QUERY
   )
 
-  if (data) {
-    setAddress(data.reverseGeocode)
-  }
+  useEffect(() => {
+    if (data) {
+      setAddress(data.reverseGeocode)
+    }
 
-  if (error) {
-    console.warn(`error ${error.message}`)
-  }
+    if (error) {
+      console.warn(`error ${error.message}`)
+    }
+  }, [data, error, setAddress])
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
-      getAddressFromGeocoordinates({
+      executeReverseGeocode({
         variables: {
           lat: coords.latitude.toString(),
           lng: coords.longitude.toString(),
-          apiKey: 'PUT API KEY HERE',
         },
       })
 
       setState(State.GRANTED)
     },
-    [getAddressFromGeocoordinates]
+    [executeReverseGeocode]
   )
 
   const onGetCurrentPositionError = useCallback((err: PositionError) => {

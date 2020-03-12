@@ -52,4 +52,4 @@ The LocationField Select renders a set of select components (called `Dropdown` i
 
 ### DeviceCoordinates
 
-The `DeviceCoordinates` component renders a simple button that will ask for your permission to get the location from your device. In case the user allows this, the component will modify the address object from the `address-context` automatically filling data based on the lat/lng information gained through the browser. To do this autocompletion, this component communicates with the `address-graphql` project.
+The `DeviceCoordinates` component renders a simple button that will ask for your permission to get the location from your device. In case the user allows this, the component will modify the address object from the `address-context` automatically filling data based on the lat/lng information gained through the browser. To do this autocompletion, this component communicates with the `places-graphql` project.

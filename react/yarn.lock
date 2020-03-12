@@ -5946,25 +5946,29 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.0.tgz#81cf3491fea110e50ca91c318c02c714b6d0ae62"
   integrity sha512-RUK2HX/Z2+GTrFHcA3+gfl1Tib33WL49i6pnUZhE6/imHmiUBMfWQL7qQbYDhI9Pws57KFgdF+qSnla3Jjg6Fw==
 
-"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.2/public/@types/vtex.address-context":
-  version "0.0.2"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.2/public/@types/vtex.address-context#9bd0a5ddbe37d3460d32449557c24b405c2e4295"
+"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.3/public/@types/vtex.address-context":
+  version "0.0.3"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.3/public/@types/vtex.address-context#1c331fe0464a87943e78a2f20c04ca185415c574"
 
 "vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.25.1/public/@types/vtex.checkout-graphql":
   version "0.25.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.25.1/public/@types/vtex.checkout-graphql#c9f6ff21f6e16cf7c070e3b10439e0650e050c6d"
 
-"vtex.locale-switcher@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.4/public/@types/vtex.locale-switcher":
-  version "0.5.4"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.4/public/@types/vtex.locale-switcher#fcedc5d8f23a6097ae49e93374f26f001596bc01"
+"vtex.locale-switcher@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.5/public/@types/vtex.locale-switcher":
+  version "0.5.5"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.5/public/@types/vtex.locale-switcher#c07555ef8aef2e6b635a4c6b5f7b421930e1eda6"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime":
-  version "8.94.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.94.0/public/@types/vtex.render-runtime#e79eb9a66801476b66e7ed354a83a7ff1f1c72c7"
+"vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.1.0/public/@types/vtex.places-grahpql":
+  version "0.0.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.1.0/public/@types/vtex.places-grahpql#fa7a0347e046eab3dd768998fc9252b2c0dd5aef"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.13/public/@types/vtex.styleguide":
-  version "9.112.13"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.13/public/@types/vtex.styleguide#625c2d44fb3cb07e7207b3efb9380134b62df62c"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.1/public/@types/vtex.render-runtime":
+  version "8.95.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.1/public/@types/vtex.render-runtime#3aae291d0cd239d3059ea8ae8c3c2800ce36d22f"
+
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.15/public/@types/vtex.styleguide":
+  version "9.112.15"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.15/public/@types/vtex.styleguide#1859832d974e0b0b82dff8ed086f005907058dda"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

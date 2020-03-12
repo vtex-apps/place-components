@@ -1,9 +1,13 @@
+/* eslint-disable import/order */
+
+import * as Styleguide from 'vtex.styleguide'
+
 declare module 'vtex.styleguide' {
-  import { ComponentType } from 'react'
+  import React from 'react'
 
-  export const Input: ComponentType<InputProps>
+  export const Input: React.FC
 
-  interface InputProps {
-    [key: string]: any
-  }
+  export const Spinner: React.FC
+
+  export const IconLocation: React.FC
 }
