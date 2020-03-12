@@ -10,4 +10,8 @@ declare module 'vtex.styleguide' {
   export const Spinner: React.FC
 
   export const IconLocation: React.FC
+
+  export const Checkbox: React.FC
+
+  export const Dropdown: React.FC
 }

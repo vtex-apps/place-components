@@ -47,15 +47,17 @@ const messages = defineMessages({
 
 const LocationSelect: StorefrontFunctionComponent = () => {
   const { address, setAddress } = useAddressContext()
-  const countryRules = rules[address.country]
+  const countryRules = rules[address.country!]
 
   if (!countryRules.locationSelect) {
-    throw `The country "${address.country}" is not applicable to the LocationSelect component`
+    throw new Error(
+      `The country "${address.country}" is not applicable to the LocationSelect component`
+    )
   }
 
   const { countryData, fields } = countryRules.locationSelect
 
-  const addressFields = fields.map(field => address[field.name])
+  const addressFields = fields.map(field => address[field.name!])
   const firstMissingIdx = addressFields.findIndex(field => !field)
   const completedFields =
     firstMissingIdx === -1
@@ -68,7 +70,7 @@ const LocationSelect: StorefrontFunctionComponent = () => {
 
     for (let i = 0; i < fields.length; ++i) {
       const field = fields[i]
-      const fieldValue = address[field.name]
+      const fieldValue = address[field.name!]
 
       locationSelects.push(
         <Dropdown

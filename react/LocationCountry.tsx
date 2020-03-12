@@ -44,7 +44,9 @@ const LocationCountry: StorefrontFunctionComponent = () => {
   let { country } = address
 
   if (country && countries && !countries.includes(country)) {
-    throw `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
+    throw Error(
+      `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
+    )
   }
 
   if (!country) {

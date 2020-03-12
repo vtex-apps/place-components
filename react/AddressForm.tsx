@@ -71,7 +71,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
-  const { fields, display } = rules[address.country]
+  const { fields, display } = rules[address.country!]
   const summary = display.extended as LineFragment[][]
   const [ignoredFields, setIgnoredFields] = useState(
     getSummaryFields(display.compact)
@@ -104,7 +104,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
       ...(options && { options }),
       ...(maxLength && { maxLength }),
       ...(autoComplete && { autoComplete }),
-      ...(required && address[fragment.name].length === 0 && fieldRequired),
+      ...(required && address[fragment.name]!.length === 0 && fieldRequired),
     }
   }
 

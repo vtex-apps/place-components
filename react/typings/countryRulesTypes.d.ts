@@ -8,7 +8,7 @@ export interface LineFragment {
 
 export interface Field {
   label: string
-  name?: string
+  name?: keyof Address
   hidden?: boolean
   maxLength?: number
   size?: string

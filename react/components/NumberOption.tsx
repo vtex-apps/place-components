@@ -33,7 +33,7 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
-  const field = rules[address.country].fields.number
+  const field = rules[address.country!].fields.number
   if (!field) return null
   const { maxLength, autoComplete, required, label } = field
 
@@ -57,7 +57,7 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
     disabled,
     ...(maxLength && { maxLength }),
     ...(autoComplete && { autoComplete }),
-    ...(required && address.number.length === 0 && fieldRequired),
+    ...(required && address.number!.length === 0 && fieldRequired),
   }
 
   const onCheckboxChange = () => {

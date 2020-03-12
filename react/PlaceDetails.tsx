@@ -10,7 +10,7 @@ interface Props {
 
 const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
   const { address } = useAddressContext()
-  const summary = rules[address.country].display[display]
+  const summary = rules[address.country!].display[display]
 
   const parseLineFragment = (
     fragment: LineFragment,
