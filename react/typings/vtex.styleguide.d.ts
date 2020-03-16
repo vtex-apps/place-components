@@ -14,4 +14,6 @@ declare module 'vtex.styleguide' {
   export const Checkbox: React.FC
 
   export const Dropdown: React.FC
+
+  export const IconSearch: React.FC
 }

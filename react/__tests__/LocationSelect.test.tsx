@@ -1,29 +1,22 @@
 import React from 'react'
-import {
-  render,
-  fireEvent,
-  prettyDOM,
-  queryAllByText,
-} from '@vtex/test-tools/react'
+import { render, fireEvent } from '@vtex/test-tools/react'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
+
 import LocationSelect from '../LocationSelect'
 import {
   sampleAddress as addressWithoutLocationSelect,
   incompleteAddress,
-  completeAddress,
 } from '../__mocks__/mockDescriptions'
 
 describe('Location Select', () => {
   const renderComponent = (address: Address) => {
     return render(
-      <AddressContextProvider address={address}>
+      <AddressContextProvider address={address} countries={[]}>
         <LocationSelect />
       </AddressContextProvider>
     )
   }
-
-  console.log(completeAddress)
 
   it('should fail to render if the country does have a specification for location select', () => {
     const oldConsoleError = console.error

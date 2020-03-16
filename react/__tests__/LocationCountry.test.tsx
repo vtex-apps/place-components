@@ -2,8 +2,9 @@ import React from 'react'
 import { render, fireEvent } from '@vtex/test-tools/react'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
+
 import LocationCountry from '../LocationCountry'
-import { sampleAddress as address } from '../__mocks__/mockDescriptions'
+import { sampleAddress } from '../__mocks__/mockDescriptions'
 
 const countryListWithBrazil = ['ARG', 'BRA', 'KOR']
 const countryListWithoutBrazil = ['ARG', 'BOL', 'KOR']
@@ -18,7 +19,10 @@ describe('Location Country', () => {
   }
 
   it('should render with options and country already selected if available', () => {
-    const { queryAllByText } = renderComponent(address, countryListWithBrazil)
+    const { queryAllByText } = renderComponent(
+      sampleAddress,
+      countryListWithBrazil
+    )
 
     expect(queryAllByText('Argentina')).toHaveLength(1)
     expect(queryAllByText('Brazil')).toHaveLength(2)
@@ -29,14 +33,16 @@ describe('Location Country', () => {
     const oldConsoleError = console.error
     console.error = () => {}
 
-    expect(() => renderComponent(address, countryListWithoutBrazil)).toThrow()
+    expect(() =>
+      renderComponent(sampleAddress, countryListWithoutBrazil)
+    ).toThrow()
 
-    console.errror = oldConsoleError
+    console.error = oldConsoleError
   })
 
   it('should change country when clicking on another option', () => {
     const { getByLabelText, queryAllByText } = renderComponent(
-      address,
+      sampleAddress,
       countryListWithBrazil
     )
 
