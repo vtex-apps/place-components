@@ -13,7 +13,7 @@ interface Props {
 const LocationInput: React.FC<Props> = ({ onSuccess }) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
-  const [getAddressFromPostalCode, { error, data }] = useLazyQuery(
+  const [getAddressFromPostalCode, { error, data, loading }] = useLazyQuery(
     GET_ADDRESS_FROM_POSTAL_CODE
   )
 
@@ -34,7 +34,7 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
     }
   }, [data, error, onSuccess, setAddress])
 
-  const onButtonClick = () => {
+  const handleButtonClick = () => {
     getAddressFromPostalCode({
       variables: {
         postalCode: inputValue,
@@ -43,21 +43,23 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
     })
   }
 
-  const button = <IconSearch />
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
+    setInputValue(evt.target.value)
+  }
 
   return (
-    <div>
+    <div className="w-100">
       <div className="mb4">
         <Input
           label={<FormattedMessage id="place-components.label.postalCode" />}
-          button={button}
-          buttonProps={{ onClick: onButtonClick }}
-          value={inputValue}
-          onChange={({
-            target: { value },
-          }: React.ChangeEvent<HTMLInputElement>) => {
-            setInputValue(value)
+          button={<IconSearch />}
+          buttonProps={{
+            onClick: handleButtonClick,
           }}
+          isLoadingButton={loading}
+          size="regular"
+          value={inputValue}
+          onChange={handleInputChange}
         />
       </div>
       <ButtonPlain size="small">
