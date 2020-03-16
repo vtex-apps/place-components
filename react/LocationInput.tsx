@@ -6,9 +6,11 @@ import { useLazyQuery } from 'react-apollo'
 
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 
-const LocationInput: StorefrontFunctionComponent<{ onSuccess: any }> = ({
-  onSuccess,
-}) => {
+interface Props {
+  onSuccess?: (address: any) => void
+}
+
+const LocationInput: React.FC<Props> = ({ onSuccess }) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
   const [getAddressFromPostalCode, { error, data }] = useLazyQuery(
@@ -24,7 +26,7 @@ const LocationInput: StorefrontFunctionComponent<{ onSuccess: any }> = ({
   useEffect(() => {
     if (data) {
       setAddress(data.getAddressFromPostalCode)
-      onSuccess()
+      onSuccess?.(data.getAddressFromPostalCode)
     }
 
     if (error) {

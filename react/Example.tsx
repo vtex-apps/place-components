@@ -82,7 +82,10 @@ const TestExample: StorefrontFunctionComponent = () => {
   return (
     <div>
       <h2>Test Example</h2>
-      <AddressContextProvider address={incompleteAddress}>
+      <AddressContextProvider
+        countries={countryList}
+        address={incompleteAddress}
+      >
         <LocaleSwitcher />
         <LocationSelect />
       </AddressContextProvider>
