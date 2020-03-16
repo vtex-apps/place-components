@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
@@ -23,23 +23,23 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
   useEffect(() => {
     if (data) {
       setAddress(data.reverseGeocode)
-    }
-
-    if (error) {
+    } else if (loading) {
+      setState(State.LOADING)
+    } else if (error) {
       console.warn(`error ${error.message}`)
     }
-  }, [data, error, setAddress])
+  }, [data, error, loading, setAddress])
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
+      setState(State.GRANTED)
+
       executeReverseGeocode({
         variables: {
           lat: coords.latitude.toString(),
           lng: coords.longitude.toString(),
         },
       })
-
-      setState(State.GRANTED)
     },
     [executeReverseGeocode]
   )
@@ -49,7 +49,7 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
     console.warn(`ERROR(${err.code}): ${err.message}`)
   }, [])
 
-  const onButtonClick = useCallback(() => {
+  const requestGeolocation = useCallback(() => {
     setState(State.LOADING)
     navigator.geolocation.getCurrentPosition(
       onGetCurrentPositionSuccess,
@@ -58,50 +58,50 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
         enableHighAccuracy: true,
       }
     )
-  }, [onGetCurrentPositionSuccess, onGetCurrentPositionError])
+  }, [onGetCurrentPositionError, onGetCurrentPositionSuccess])
+
+  const handleButtonClick = () => {
+    requestGeolocation()
+  }
 
   useEffect(() => {
     navigator.permissions
       .query({ name: 'geolocation' })
       .then((result: { state: string }) => {
         if (result.state === 'granted') {
-          onButtonClick()
+          requestGeolocation()
         } else if (result.state === 'denied') {
           setState(State.DENIED)
         }
       })
-  }, [onButtonClick])
+  }, [requestGeolocation])
 
-  const renderIcon = () => {
-    let icon = null
+  const icon = useMemo(() => {
+    let iconElement = null
 
     switch (state) {
       case State.PROMPT:
-        icon = <IconLocation block />
+        iconElement = <IconLocation block />
         break
       case State.GRANTED:
-        icon = <IconLocation solid block />
+        iconElement = <IconLocation solid block />
         break
       case State.LOADING:
-        icon = <Spinner size={16} block />
+        iconElement = <Spinner size={16} block />
         break
       case State.DENIED:
-        icon = <IconLocation block />
+        iconElement = <IconLocation block />
         break
       default:
     }
 
-    if (loading) {
-      icon = <Spinner size={16} />
-    }
-
-    return <div className="mr3">{icon}</div>
-  }
+    return <div className="mr3">{iconElement}</div>
+  }, [state])
 
   let buttonElement = (
-    <ButtonPlain disabled={state === State.DENIED} onClick={onButtonClick}>
+    <ButtonPlain disabled={state === State.DENIED} onClick={handleButtonClick}>
       <div className="flex items-center">
-        <div className="flex-none">{renderIcon()}</div>
+        <div className="flex-none">{icon}</div>
         <div className="flex-auto">
           <FormattedMessage id="place-components.label.useCurrentLocation" />
         </div>
