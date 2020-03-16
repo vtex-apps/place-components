@@ -111,7 +111,7 @@ const ExampleWrapper = () => (
       <LocaleSwitcher />
       <Example4 />
     </AddressContextProvider>
-    <div className="w5-ns">
+    <div className="w-100 mw6">
       <AddressContextProvider address={address1} countries={countryList}>
         <LocaleSwitcher />
         <Example5 />
