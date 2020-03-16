@@ -23,7 +23,7 @@ export const AddressContextProvider = ({
   const [localAddress, setLocalAddress] = useState(address)
 
   const state = {
-    countries: countries,
+    countries,
     address: localAddress,
     setAddress: setLocalAddress,
   }

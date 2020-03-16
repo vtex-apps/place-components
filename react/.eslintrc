@@ -1,8 +1,12 @@
 {
-  "extends": "vtex-react",
+  "extends": "vtex-react/io",
   "env": {
     "browser": true,
     "es6": true,
     "jest": true
+  },
+  "rules": {
+    "jest/no-mocks-import": "off",
+    "@typescript-eslint/ban-ts-ignore": "off"
   }
 }

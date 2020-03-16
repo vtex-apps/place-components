@@ -1,0 +1,16 @@
+query ReverseGeocode($lat: String, $lng: String, $apiKey: String) {
+  reverseGeocode(lat: $lat, lng: $lng, apiKey: $apiKey) {
+    addressId
+    addressType
+    city
+    complement
+    country
+    geoCoordinates
+    neighborhood
+    number
+    postalCode
+    reference
+    state
+    street
+  }
+}

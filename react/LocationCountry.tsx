@@ -35,7 +35,7 @@ const sortOptionsByLabel = (options: Option[]) => {
     .sort((a: Option, b: Option) => a.label.localeCompare(b.label))
 }
 
-const LocationCountry: StorefrontFunctionComponent<{}> = () => {
+const LocationCountry: StorefrontFunctionComponent = () => {
   const intl = useIntl()
   const { address, setAddress, countries } = useAddressContext()
   const {
@@ -44,7 +44,9 @@ const LocationCountry: StorefrontFunctionComponent<{}> = () => {
   let { country } = address
 
   if (country && countries && !countries.includes(country)) {
-    throw `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
+    throw new Error(
+      `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
+    )
   }
 
   if (!country) {

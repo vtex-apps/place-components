@@ -1,4 +1,4 @@
-import { CountryRules } from './../typings/countryRulesTypes.d'
+import { CountryRules } from '../typings/countryRulesTypes.d'
 
 const countryData = {
   Beni: {

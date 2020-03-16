@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
-import rules from '../countries/rules'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
+
+import rules from '../countries/rules'
 
 const messages = defineMessages({
   wn: {
@@ -32,7 +33,7 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
-  const field = rules[address.country].fields.number
+  const field = rules[address.country!].fields.number
   if (!field) return null
   const { maxLength, autoComplete, required, label } = field
 
@@ -56,7 +57,7 @@ const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
     disabled,
     ...(maxLength && { maxLength }),
     ...(autoComplete && { autoComplete }),
-    ...(required && address.number.length === 0 && fieldRequired),
+    ...(required && address.number!.length === 0 && fieldRequired),
   }
 
   const onCheckboxChange = () => {

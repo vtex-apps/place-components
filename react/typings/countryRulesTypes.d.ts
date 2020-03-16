@@ -8,14 +8,14 @@ export interface LineFragment {
 
 export interface Field {
   label: string
-  name?: string
+  name?: keyof Address
   hidden?: boolean
   maxLength?: number
   size?: string
   required?: boolean
   autoComplete?: string
   optionsCaption?: string
-  options?: { label: string; value: string }[]
+  options?: Array<{ label: string; value: string }>
   elementName?: string
 }
 

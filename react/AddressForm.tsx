@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import { Address } from 'vtex.checkout-graphql'
+
 import {
   LineFragment,
   Fields,
@@ -9,9 +12,7 @@ import {
 } from './typings/countryRulesTypes.d'
 import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
-import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import NumberOption from './components/NumberOption'
-import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   country: {
@@ -57,7 +58,7 @@ const messages = defineMessages({
 })
 
 const getSummaryFields = (summary: LineFragment[][]) => {
-  let summaryFields = new Set()
+  const summaryFields = new Set()
   summary.forEach((line: LineFragment[]) => {
     line.forEach((fragment: LineFragment) => {
       summaryFields.add(fragment.name)
@@ -70,14 +71,14 @@ const AddressForm: StorefrontFunctionComponent = () => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
-  const { fields, display } = rules[address.country]
+  const { fields, display } = rules[address.country!]
   const summary = display.extended as LineFragment[][]
   const [ignoredFields, setIgnoredFields] = useState(
     getSummaryFields(display.compact)
   )
 
   const hasWithoutNumberOption = (label: string) => {
-    return label.length >= 6 && label.substr(label.length - 6) == 'Option'
+    return label.endsWith('Option')
   }
 
   const getFieldProps = (field: Field, fragment: LineFragment) => {
@@ -103,7 +104,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
       ...(options && { options }),
       ...(maxLength && { maxLength }),
       ...(autoComplete && { autoComplete }),
-      ...(required && address[fragment.name].length === 0 && fieldRequired),
+      ...(required && address[fragment.name]!.length === 0 && fieldRequired),
     }
   }
 
