@@ -6,34 +6,33 @@ import { useLazyQuery } from 'react-apollo'
 
 import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
-enum State {
+enum PermissionState {
   PROMPT,
+  PENDING,
   GRANTED,
-  LOADING,
   DENIED,
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent = () => {
   const { setAddress } = useAddressContext()
-  const [state, setState] = useState<State>(State.PROMPT)
+  const [geolocationPermission, setGeolocationPermission] = useState<
+    PermissionState
+  >(PermissionState.PROMPT)
   const [executeReverseGeocode, { error, loading, data }] = useLazyQuery(
     REVERSE_GEOCODE_QUERY
   )
 
   useEffect(() => {
     if (data) {
-      setState(State.GRANTED)
       setAddress(data.reverseGeocode)
-    } else if (loading) {
-      setState(State.LOADING)
     } else if (error) {
-      console.warn(`error ${error.message}`)
+      console.warn(error.message)
     }
   }, [data, error, loading, setAddress])
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
-      setState(State.GRANTED)
+      setGeolocationPermission(PermissionState.GRANTED)
 
       executeReverseGeocode({
         variables: {
@@ -46,12 +45,12 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
   )
 
   const onGetCurrentPositionError = useCallback((err: PositionError) => {
-    setState(State.DENIED)
+    setGeolocationPermission(PermissionState.DENIED)
     console.warn(`ERROR(${err.code}): ${err.message}`)
   }, [])
 
   const requestGeolocation = useCallback(() => {
-    setState(State.LOADING)
+    setGeolocationPermission(PermissionState.PENDING)
     navigator.geolocation.getCurrentPosition(
       onGetCurrentPositionSuccess,
       onGetCurrentPositionError,
@@ -68,41 +67,39 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
   useEffect(() => {
     navigator.permissions
       .query({ name: 'geolocation' })
-      .then((result: { state: string }) => {
+      .then((result: PermissionStatus) => {
         if (result.state === 'granted') {
           requestGeolocation()
         } else if (result.state === 'denied') {
-          setState(State.DENIED)
+          setGeolocationPermission(PermissionState.DENIED)
         }
       })
   }, [requestGeolocation])
 
-  const icon = useMemo(() => {
-    let iconElement = null
-
-    switch (state) {
-      case State.PROMPT:
-        iconElement = <IconLocation block />
-        break
-      case State.GRANTED:
-        iconElement = <IconLocation solid block />
-        break
-      case State.LOADING:
-        iconElement = <Spinner size={16} block />
-        break
-      case State.DENIED:
-        iconElement = <IconLocation block />
-        break
+  const locationIcon = useMemo(() => {
+    switch (geolocationPermission) {
+      case PermissionState.PROMPT:
+        return <IconLocation block />
+      case PermissionState.GRANTED:
+        return <IconLocation solid block />
+      case PermissionState.PENDING:
+        return <Spinner size={16} block />
+      case PermissionState.DENIED:
+        return <IconLocation block />
       default:
+        return null
     }
-
-    return <div className="mr3">{iconElement}</div>
-  }, [state])
+  }, [geolocationPermission])
 
   let buttonElement = (
-    <ButtonPlain disabled={state === State.DENIED} onClick={handleButtonClick}>
+    <ButtonPlain
+      disabled={geolocationPermission === PermissionState.DENIED}
+      onClick={handleButtonClick}
+    >
       <div className="flex items-center">
-        <div className="flex-none">{icon}</div>
+        <div className="flex-none mr3">
+          {loading ? <Spinner size={16} /> : locationIcon}
+        </div>
         <div className="flex-auto">
           <FormattedMessage id="place-components.label.useCurrentLocation" />
         </div>
@@ -110,7 +107,7 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
     </ButtonPlain>
   )
 
-  if (state === State.DENIED) {
+  if (geolocationPermission === PermissionState.DENIED) {
     buttonElement = (
       <Tooltip label="Permission not granted">{buttonElement}</Tooltip>
     )
