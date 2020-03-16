@@ -78,7 +78,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
   )
 
   const hasWithoutNumberOption = (label: string) => {
-    return label.length >= 6 && label.substr(label.length - 6) === 'Option'
+    return label.endsWith('Option')
   }
 
   const getFieldProps = (field: Field, fragment: LineFragment) => {
