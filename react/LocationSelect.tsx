@@ -75,36 +75,34 @@ const LocationSelect: StorefrontFunctionComponent = () => {
       locationSelects.push(
         <div className="mb5" key={i}>
           <Dropdown
-            {...{
-              label: (
-                <FormattedMessage
-                  {...messages[field.label as keyof typeof messages]}
-                />
-              ),
-              disabled: i > completedFields.length,
-              options: (Array.isArray(currentOptions) // Workaround, fix JSON country data
-                ? currentOptions
-                : Object.keys(currentOptions)
-              ).map(name => {
-                return { label: name, value: name }
-              }),
-              onChange: ({
-                target: { value },
-              }: React.ChangeEvent<HTMLSelectElement>) => {
-                let newFields: { [key: string]: string | null } = {
-                  [field.name as string]: value,
-                }
-                for (let j = i + 1; j < fields.length; ++j) {
-                  newFields = { ...newFields, [fields[j].name as string]: null }
-                }
-                setAddress((prevAddress: Address) => ({
-                  ...prevAddress,
-                  ...newFields,
-                }))
-              },
-              placeholder: 'Select...',
-              value: fieldValue,
+            label={
+              <FormattedMessage
+                {...messages[field.label as keyof typeof messages]}
+              />
+            }
+            disabled={i > completedFields.length}
+            options={(Array.isArray(currentOptions) // Workaround, fix JSON country data
+              ? currentOptions
+              : Object.keys(currentOptions)
+            ).map(name => {
+              return { label: name, value: name }
+            })}
+            onChange={({
+              target: { value },
+            }: React.ChangeEvent<HTMLSelectElement>) => {
+              let newFields: { [key: string]: string | null } = {
+                [field.name as string]: value,
+              }
+              for (let j = i + 1; j < fields.length; ++j) {
+                newFields = { ...newFields, [fields[j].name as string]: null }
+              }
+              setAddress((prevAddress: Address) => ({
+                ...prevAddress,
+                ...newFields,
+              }))
             }}
+            placeholder="Select..."
+            value={fieldValue}
           />
         </div>
       )
