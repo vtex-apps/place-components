@@ -1,4 +1,4 @@
-query getAddressFromPostalCode($postalCode: String, $countryCode: String) {
+query GetAddressFromPostalCode($postalCode: String, $countryCode: String) {
   getAddressFromPostalCode(postalCode: $postalCode, countryCode: $countryCode) {
     addressId
     addressType

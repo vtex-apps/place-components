@@ -1,5 +1,5 @@
-query ReverseGeocode($lat: String, $lng: String, $apiKey: String) {
-  reverseGeocode(lat: $lat, lng: $lng, apiKey: $apiKey) {
+query ReverseGeocode($lat: String, $lng: String) {
+  reverseGeocode(lat: $lat, lng: $lng) {
     addressId
     addressType
     city
