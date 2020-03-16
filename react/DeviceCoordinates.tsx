@@ -22,6 +22,7 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
 
   useEffect(() => {
     if (data) {
+      setState(State.GRANTED)
       setAddress(data.reverseGeocode)
     } else if (loading) {
       setState(State.LOADING)
