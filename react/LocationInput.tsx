@@ -27,7 +27,9 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
     if (data) {
       setAddress(data.getAddressFromPostalCode)
       onSuccess?.(data.getAddressFromPostalCode)
-    } else if (error) {
+    }
+
+    if (error) {
       console.warn(error.message)
     }
   }, [data, error, onSuccess, setAddress])
