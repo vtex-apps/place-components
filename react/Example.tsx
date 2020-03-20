@@ -1,10 +1,12 @@
 import React from 'react'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { LocaleSwitcher } from 'vtex.locale-switcher'
+import { Address } from 'vtex.checkout-graphql'
 
 import AddressForm from './AddressForm'
 import LocationSelect from './LocationSelect'
 import LocationCountry from './LocationCountry'
+import LocationInput from './LocationInput'
 import DeviceCoordinates from './DeviceCoordinates'
 import {
   sampleAddress1 as address1,
@@ -50,8 +52,49 @@ const Example4: StorefrontFunctionComponent = () => {
   )
 }
 
+const Example5: StorefrontFunctionComponent = () => {
+  return (
+    <div>
+      <h2>LocationInput</h2>
+      <AddressForm />
+      <LocationInput />
+    </div>
+  )
+}
+
+const TestExample: StorefrontFunctionComponent = () => {
+  const incompleteAddress: Address = {
+    street: 'Av. Belgrano',
+    number: '2248',
+    complement: '',
+    postalCode: '2000',
+    city: '',
+    state: '',
+    addressId: '',
+    addressType: null,
+    country: 'ARG',
+    geoCoordinates: [],
+    neighborhood: '',
+    receiverName: null,
+    reference: null,
+  }
+
+  return (
+    <div>
+      <h2>Test Example</h2>
+      <AddressContextProvider
+        countries={countryList}
+        address={incompleteAddress}
+      >
+        <LocaleSwitcher />
+        <LocationSelect />
+      </AddressContextProvider>
+    </div>
+  )
+}
+
 const ExampleWrapper = () => (
-  <div>
+  <div className="w-70-ns pa4">
     <AddressContextProvider address={address1} countries={countryList}>
       <LocaleSwitcher />
       <Example1 />
@@ -68,6 +111,13 @@ const ExampleWrapper = () => (
       <LocaleSwitcher />
       <Example4 />
     </AddressContextProvider>
+    <div className="w-100 mw6">
+      <AddressContextProvider address={address1} countries={countryList}>
+        <LocaleSwitcher />
+        <Example5 />
+      </AddressContextProvider>
+    </div>
+    <TestExample />
   </div>
 )
 

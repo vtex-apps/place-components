@@ -57,7 +57,6 @@ describe('Place Details', () => {
     expect(queryByText(completeAddress.street)).toBeInTheDocument()
     expect(queryByText(completeAddress.number)).toBeInTheDocument()
     expect(queryByText(completeAddress.postalCode)).toBeInTheDocument()
-    expect(queryByText(completeAddress.city)).toBeInTheDocument()
 
     expect(queryByText(completeAddress.complement)).not.toBeInTheDocument()
   })

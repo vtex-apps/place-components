@@ -37,11 +37,10 @@ const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
   }
 
   const parseLine = (line: LineFragment[], index: number) => [
-    ...line.map(parseLineFragment),
-    <br key={index} />,
+    <div key={index}>{line.map(parseLineFragment)}</div>,
   ]
 
-  return <div>{summary.map(parseLine)}</div>
+  return <div className="lh-title">{summary.map(parseLine)}</div>
 }
 
 export default PlaceDetails

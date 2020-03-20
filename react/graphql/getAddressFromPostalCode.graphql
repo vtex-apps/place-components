@@ -1,5 +1,5 @@
-query ReverseGeocode($lat: String, $lng: String) {
-  reverseGeocode(lat: $lat, lng: $lng) {
+query GetAddressFromPostalCode($postalCode: String, $countryCode: String) {
+  getAddressFromPostalCode(postalCode: $postalCode, countryCode: $countryCode) {
     addressId
     addressType
     city

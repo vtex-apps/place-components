@@ -5,7 +5,11 @@ import * as Styleguide from 'vtex.styleguide'
 declare module 'vtex.styleguide' {
   import React from 'react'
 
+  export const Button: React.FC
+
   export const Input: React.FC
+
+  export const InputButton: React.FC
 
   export const Spinner: React.FC
 
@@ -14,4 +18,6 @@ declare module 'vtex.styleguide' {
   export const Checkbox: React.FC
 
   export const Dropdown: React.FC
+
+  export const IconSearch: React.FC
 }

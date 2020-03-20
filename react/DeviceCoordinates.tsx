@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
@@ -6,16 +6,18 @@ import { useLazyQuery } from 'react-apollo'
 
 import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
-enum State {
+enum PermissionState {
   PROMPT,
+  PENDING,
   GRANTED,
-  LOADING,
   DENIED,
 }
 
 const DeviceCoordinates: StorefrontFunctionComponent = () => {
   const { setAddress } = useAddressContext()
-  const [state, setState] = useState<State>(State.PROMPT)
+  const [geolocationPermission, setGeolocationPermission] = useState<
+    PermissionState
+  >(PermissionState.PROMPT)
   const [executeReverseGeocode, { error, loading, data }] = useLazyQuery(
     REVERSE_GEOCODE_QUERY
   )
@@ -26,31 +28,31 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
     }
 
     if (error) {
-      console.warn(`error ${error.message}`)
+      console.warn(error.message)
     }
-  }, [data, error, setAddress])
+  }, [data, error, loading, setAddress])
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
+      setGeolocationPermission(PermissionState.GRANTED)
+
       executeReverseGeocode({
         variables: {
           lat: coords.latitude.toString(),
           lng: coords.longitude.toString(),
         },
       })
-
-      setState(State.GRANTED)
     },
     [executeReverseGeocode]
   )
 
   const onGetCurrentPositionError = useCallback((err: PositionError) => {
-    setState(State.DENIED)
+    setGeolocationPermission(PermissionState.DENIED)
     console.warn(`ERROR(${err.code}): ${err.message}`)
   }, [])
 
-  const onButtonClick = useCallback(() => {
-    setState(State.LOADING)
+  const requestGeolocation = useCallback(() => {
+    setGeolocationPermission(PermissionState.PENDING)
     navigator.geolocation.getCurrentPosition(
       onGetCurrentPositionSuccess,
       onGetCurrentPositionError,
@@ -58,50 +60,56 @@ const DeviceCoordinates: StorefrontFunctionComponent = () => {
         enableHighAccuracy: true,
       }
     )
-  }, [onGetCurrentPositionSuccess, onGetCurrentPositionError])
+  }, [onGetCurrentPositionError, onGetCurrentPositionSuccess])
+
+  const handleButtonClick = () => {
+    requestGeolocation()
+  }
 
   useEffect(() => {
     navigator.permissions
       .query({ name: 'geolocation' })
-      .then((result: { state: string }) => {
+      .then((result: PermissionStatus) => {
         if (result.state === 'granted') {
-          onButtonClick()
+          requestGeolocation()
         } else if (result.state === 'denied') {
-          setState(State.DENIED)
+          setGeolocationPermission(PermissionState.DENIED)
         }
       })
-  }, [onButtonClick])
+  }, [requestGeolocation])
 
-  const renderIcon = () => {
-    let icon = null
-
-    switch (state) {
-      case State.PROMPT:
-        icon = <IconLocation />
-        break
-      case State.GRANTED:
-        icon = <IconLocation solid />
-        break
-      case State.LOADING:
-        icon = <Spinner size={16} />
-        break
-      case State.DENIED:
-        icon = <IconLocation />
-        break
+  const locationIcon = useMemo(() => {
+    switch (geolocationPermission) {
+      case PermissionState.PROMPT:
+        return <IconLocation block />
+      case PermissionState.GRANTED:
+        return <IconLocation solid block />
+      case PermissionState.PENDING:
+        return <Spinner size={16} block />
+      case PermissionState.DENIED:
+        return <IconLocation block />
       default:
+        return null
     }
-
-    return loading ? <Spinner size={16} /> : icon
-  }
+  }, [geolocationPermission])
 
   let buttonElement = (
-    <ButtonPlain disabled={state === State.DENIED} onClick={onButtonClick}>
-      {renderIcon()}
-      <FormattedMessage id="place-components.label.useCurrentLocation" />
+    <ButtonPlain
+      disabled={geolocationPermission === PermissionState.DENIED}
+      onClick={handleButtonClick}
+    >
+      <div className="flex items-center">
+        <div className="flex-none mr3">
+          {loading ? <Spinner size={16} /> : locationIcon}
+        </div>
+        <div className="flex-auto">
+          <FormattedMessage id="place-components.label.useCurrentLocation" />
+        </div>
+      </div>
     </ButtonPlain>
   )
 
-  if (state === State.DENIED) {
+  if (geolocationPermission === PermissionState.DENIED) {
     buttonElement = (
       <Tooltip label="Permission not granted">{buttonElement}</Tooltip>
     )

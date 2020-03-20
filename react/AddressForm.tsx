@@ -132,7 +132,7 @@ const AddressForm: StorefrontFunctionComponent = () => {
     }
 
     return (
-      <div className="flex-auto mh3" style={style as React.CSSProperties}>
+      <div className="flex-auto mb5 mr5" style={style as React.CSSProperties}>
         {fragmentElement}
       </div>
     )
@@ -153,12 +153,14 @@ const AddressForm: StorefrontFunctionComponent = () => {
 
   return (
     <div>
-      <PlaceDetails display={displayMode} />
-      {!editing && (
-        <ButtonPlain onClick={onEditButtonClick} title="edit">
-          <FormattedMessage {...messages.edit} />
-        </ButtonPlain>
-      )}
+      <div className="mb6">
+        <PlaceDetails display={displayMode} />
+        {!editing && (
+          <ButtonPlain onClick={onEditButtonClick} title="edit">
+            <FormattedMessage {...messages.edit} />
+          </ButtonPlain>
+        )}
+      </div>
       <div>{summary.map(parseLine)}</div>
     </div>
   )

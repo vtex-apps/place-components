@@ -73,18 +73,21 @@ const LocationSelect: StorefrontFunctionComponent = () => {
       const fieldValue = address[field.name!]
 
       locationSelects.push(
-        <Dropdown
-          {...{
-            label: (
+        <div className="mb5" key={i}>
+          <Dropdown
+            label={
               <FormattedMessage
                 {...messages[field.label as keyof typeof messages]}
               />
-            ),
-            disabled: i > completedFields.length,
-            options: Object.keys(currentOptions).map(name => {
+            }
+            disabled={i > completedFields.length}
+            options={(Array.isArray(currentOptions) // Workaround, fix JSON country data
+              ? currentOptions
+              : Object.keys(currentOptions)
+            ).map(name => {
               return { label: name, value: name }
-            }),
-            onChange: ({
+            })}
+            onChange={({
               target: { value },
             }: React.ChangeEvent<HTMLSelectElement>) => {
               let newFields: { [key: string]: string | null } = {
@@ -97,11 +100,11 @@ const LocationSelect: StorefrontFunctionComponent = () => {
                 ...prevAddress,
                 ...newFields,
               }))
-            },
-            placeholder: 'Select...',
-            value: fieldValue,
-          }}
-        />
+            }}
+            placeholder="Select..."
+            value={fieldValue}
+          />
+        </div>
       )
 
       currentOptions = fieldValue ? currentOptions[fieldValue as keyof {}] : {}

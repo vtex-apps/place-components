@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `LocationInput` component.
+- Styling to `AddressForm` and others.
+
 ## [0.5.0] - 2020-03-16
 
 ### Added
