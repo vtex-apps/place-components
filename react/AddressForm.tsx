@@ -2,14 +2,8 @@ import React, { useState } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
-import { Address } from 'vtex.checkout-graphql'
 
-import {
-  LineFragment,
-  Fields,
-  Field,
-  Display,
-} from './typings/countryRulesTypes.d'
+import { LineFragment, Fields } from './typings/countryRulesTypes.d'
 import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
@@ -67,89 +61,26 @@ const getSummaryFields = (summary: LineFragment[][]) => {
   return summaryFields
 }
 
+const hasWithoutNumberOption = (label: string) => {
+  return label.endsWith('Option')
+}
+
 const AddressForm: React.FC = () => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
   const { fields, display } = rules[address.country!]
-  const summary = display.extended as LineFragment[][]
+  const summary = display.extended
   const [ignoredFields, setIgnoredFields] = useState(
     getSummaryFields(display.compact)
   )
-
-  const hasWithoutNumberOption = (label: string) => {
-    return label.endsWith('Option')
-  }
-
-  const getFieldProps = (field: Field, fragment: LineFragment) => {
-    const { maxLength, autoComplete, required, label, options } = field
-
-    const onChange = ({
-      target: { value },
-    }: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setAddress((prevAddress: Address) => ({
-        ...prevAddress,
-        [fragment.name]: value,
-      }))
-    }
-    const fieldRequired = {
-      errorMessage: intl.formatMessage(messages.fieldRequired),
-    }
-    const value = address[fragment.name]
-
-    return {
-      label: <FormattedMessage {...messages[label as keyof typeof messages]} />,
-      value,
-      onChange,
-      ...(options && { options }),
-      ...(maxLength && { maxLength }),
-      ...(autoComplete && { autoComplete }),
-      ...(required && address[fragment.name]!.length === 0 && fieldRequired),
-    }
-  }
-
-  const parseLineFragment = (fragment: LineFragment) => {
-    const field = fields[fragment.name as keyof Fields]
-
-    if (
-      !field ||
-      ignoredFields.has(fragment.name) ||
-      address[fragment.name] == null
-    ) {
-      return null
-    }
-
-    const style = styleRules[field.label]
-
-    let fragmentElement
-
-    if (hasWithoutNumberOption(field.label)) {
-      fragmentElement = <NumberOption showCheckbox />
-    } else if (field.options) {
-      fragmentElement = <Dropdown {...getFieldProps(field, fragment)} />
-    } else {
-      fragmentElement = <Input {...getFieldProps(field, fragment)} />
-    }
-
-    return (
-      <div className="flex-auto mb5 mr5" style={style as React.CSSProperties}>
-        {fragmentElement}
-      </div>
-    )
-  }
-
-  const parseLine = (line: LineFragment[], index: number) => [
-    <div className="flex flex-wrap" key={index}>
-      {line.map(parseLineFragment)}
-    </div>,
-  ]
 
   const onEditButtonClick = () => {
     setIgnoredFields(getSummaryFields(display.minimal))
     setEditing(true)
   }
 
-  const displayMode: keyof Display = editing ? 'minimal' : 'compact'
+  const displayMode = editing ? 'minimal' : 'compact'
 
   return (
     <div>
@@ -161,7 +92,84 @@ const AddressForm: React.FC = () => {
           </ButtonPlain>
         )}
       </div>
-      <div>{summary.map(parseLine)}</div>
+      <div>
+        {summary.map((line, index) => (
+          <div className="flex flex-wrap" key={index}>
+            {line.map(fragment => {
+              const field = fields[fragment.name as keyof Fields]
+
+              if (
+                !field ||
+                ignoredFields.has(fragment.name) ||
+                address[fragment.name] == null
+              ) {
+                return null
+              }
+
+              const style = styleRules[field.label]
+
+              let fragmentElement = null
+
+              if (hasWithoutNumberOption(field.label)) {
+                fragmentElement = <NumberOption showCheckbox />
+              } else {
+                const Component = field.options ? Dropdown : Input
+
+                const {
+                  maxLength,
+                  autoComplete,
+                  required,
+                  label,
+                  options,
+                } = field
+
+                const handleChange: React.ChangeEventHandler<
+                  HTMLInputElement | HTMLSelectElement
+                > = ({ target: { value } }) => {
+                  setAddress(prevAddress => ({
+                    ...prevAddress,
+                    [fragment.name]: value,
+                  }))
+                }
+
+                const fieldRequired = {
+                  errorMessage: intl.formatMessage(messages.fieldRequired),
+                }
+
+                const value = address[fragment.name]
+
+                fragmentElement = (
+                  <Component
+                    label={
+                      <FormattedMessage
+                        {...messages[label as keyof typeof messages]}
+                      />
+                    }
+                    value={value}
+                    onChange={handleChange}
+                    {...(options && { options })}
+                    {...(maxLength && { maxLength })}
+                    {...(autoComplete && { autoComplete })}
+                    {...(required &&
+                      address[fragment.name]!.length === 0 &&
+                      fieldRequired)}
+                  />
+                )
+              }
+
+              return (
+                <div
+                  className="flex-auto mb5 mr5"
+                  style={style}
+                  key={fragment.name}
+                >
+                  {fragmentElement}
+                </div>
+              )
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

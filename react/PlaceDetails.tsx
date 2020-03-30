@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 
-import { LineFragment, Display } from './typings/countryRulesTypes.d'
+import { Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 
 interface Props {
@@ -10,37 +10,40 @@ interface Props {
 
 const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
   const { address } = useAddressContext()
-  const summary = rules[address.country!].display[display]
+  const displaySpec = rules[address.country!].display[display]
 
-  const parseLineFragment = (
-    fragment: LineFragment,
-    index: number,
-    line: LineFragment[]
-  ) => {
-    const hasPreviousFragment = index > 0 && address[line[index - 1].name]
-    const hasNextFragment =
-      index + 1 < line.length && address[line[index + 1].name]
-    const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
-    const shouldShowDelimiter = hasNextFragment ?? hasDifferentDelimiter
+  return (
+    <div>
+      {displaySpec.map((line, displayIndex) => (
+        <div key={displayIndex}>
+          {line.map((fragment, index) => {
+            if (!address[fragment.name]) {
+              return null
+            }
 
-    return address[fragment.name] ? (
-      <span key={fragment.name}>
-        {fragment.delimiter && hasPreviousFragment && (
-          <span>{fragment.delimiter}</span>
-        )}
-        <span className={fragment.name}>{address[fragment.name]}</span>
-        {fragment.delimiterAfter && shouldShowDelimiter && (
-          <span>{fragment.delimiterAfter}</span>
-        )}
-      </span>
-    ) : null
-  }
+            const hasPreviousFragment =
+              index > 0 && address[line[index - 1].name]
+            const hasNextFragment =
+              index + 1 < line.length && address[line[index + 1].name]
+            const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
+            const shouldShowDelimiter = hasNextFragment ?? hasDifferentDelimiter
 
-  const parseLine = (line: LineFragment[], index: number) => [
-    <div key={index}>{line.map(parseLineFragment)}</div>,
-  ]
-
-  return <div>{summary.map(parseLine)}</div>
+            return (
+              <span key={fragment.name}>
+                {fragment.delimiter && hasPreviousFragment && (
+                  <span>{fragment.delimiter}</span>
+                )}
+                <span className={fragment.name}>{address[fragment.name]}</span>
+                {fragment.delimiterAfter && shouldShowDelimiter && (
+                  <span>{fragment.delimiterAfter}</span>
+                )}
+              </span>
+            )
+          })}
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export default PlaceDetails
