@@ -5,10 +5,10 @@ import { LineFragment, Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 
 interface Props {
-  display: keyof Display
+  display?: keyof Display
 }
 
-const PlaceDetails: React.FC<Props> = ({ display }) => {
+const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
   const { address } = useAddressContext()
   const summary = rules[address.country!].display[display]
 
