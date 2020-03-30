@@ -5950,25 +5950,25 @@ vtex-tachyons@^3.2.0:
   version "0.0.4"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.4/public/@types/vtex.address-context#865c4ba79c9ab240645eb3e7de0bfb9a2b04dab5"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.25.1/public/@types/vtex.checkout-graphql":
-  version "0.25.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.25.1/public/@types/vtex.checkout-graphql#c9f6ff21f6e16cf7c070e3b10439e0650e050c6d"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.29.1/public/@types/vtex.checkout-graphql":
+  version "0.29.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.29.1/public/@types/vtex.checkout-graphql#77ef7285c88c3dfa92c1ce9efde8bc2e89f76d54"
 
 "vtex.locale-switcher@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.5/public/@types/vtex.locale-switcher":
   version "0.5.5"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.5/public/@types/vtex.locale-switcher#c07555ef8aef2e6b635a4c6b5f7b421930e1eda6"
 
-"vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.1.0/public/@types/vtex.places-grahpql":
-  version "0.0.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.1.0/public/@types/vtex.places-grahpql#fa7a0347e046eab3dd768998fc9252b2c0dd5aef"
+"vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql":
+  version "0.2.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql#5625dafa1175684df56f78f4aefc66d01cce8234"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.1/public/@types/vtex.render-runtime":
-  version "8.95.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.95.1/public/@types/vtex.render-runtime#3aae291d0cd239d3059ea8ae8c3c2800ce36d22f"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.97.2/public/@types/vtex.render-runtime":
+  version "8.97.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.97.2/public/@types/vtex.render-runtime#b1097168c8d8c8b8b9a1d1e715d67d1d55fd10d6"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.15/public/@types/vtex.styleguide":
-  version "9.112.15"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.15/public/@types/vtex.styleguide#1859832d974e0b0b82dff8ed086f005907058dda"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.27/public/@types/vtex.styleguide":
+  version "9.112.27"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.27/public/@types/vtex.styleguide#30fa53650c1bb08e25d2252d7c3af4285daccd95"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
