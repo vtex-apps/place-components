@@ -67,7 +67,7 @@ const getSummaryFields = (summary: LineFragment[][]) => {
   return summaryFields
 }
 
-const AddressForm: StorefrontFunctionComponent = () => {
+const AddressForm: React.FC = () => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)

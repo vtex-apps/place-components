@@ -45,7 +45,7 @@ const messages = defineMessages({
   },
 })
 
-const LocationSelect: StorefrontFunctionComponent = () => {
+const LocationSelect: React.FC = () => {
   const { address, setAddress } = useAddressContext()
   const countryRules = rules[address.country!]
 

@@ -35,7 +35,7 @@ const sortOptionsByLabel = (options: Option[]) => {
     .sort((a: Option, b: Option) => a.label.localeCompare(b.label))
 }
 
-const LocationCountry: StorefrontFunctionComponent = () => {
+const LocationCountry: React.FC = () => {
   const intl = useIntl()
   const { address, setAddress, countries } = useAddressContext()
   const {

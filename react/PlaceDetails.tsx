@@ -8,7 +8,7 @@ interface Props {
   display: keyof Display
 }
 
-const PlaceDetails: StorefrontFunctionComponent<Props> = ({ display }) => {
+const PlaceDetails: React.FC<Props> = ({ display }) => {
   const { address } = useAddressContext()
   const summary = rules[address.country!].display[display]
 
