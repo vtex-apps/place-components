@@ -40,7 +40,7 @@ const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
     <div key={index}>{line.map(parseLineFragment)}</div>,
   ]
 
-  return <div className="lh-title">{summary.map(parseLine)}</div>
+  return <div>{summary.map(parseLine)}</div>
 }
 
 export default PlaceDetails
