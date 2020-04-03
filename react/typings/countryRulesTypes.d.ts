@@ -1,14 +1,16 @@
 import { Address } from 'vtex.checkout-graphql'
 
 export interface LineFragment {
-  name: keyof Address
+  name: AddressFields
   delimiter?: string
   delimiterAfter?: string
 }
 
+type AddressFields = keyof Omit<Address, '__typename'>
+
 export interface Field {
   label: string
-  name?: keyof Address
+  name?: AddressFields
   hidden?: boolean
   maxLength?: number
   size?: string
