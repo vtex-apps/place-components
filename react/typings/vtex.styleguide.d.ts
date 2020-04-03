@@ -1,23 +1,27 @@
-/* eslint-disable import/order */
-
-import * as Styleguide from 'vtex.styleguide'
+import React from 'react'
 
 declare module 'vtex.styleguide' {
-  import React from 'react'
+  export const Button: React.FC<any>
 
-  export const Button: React.FC
+  export const Input: React.FC<any>
 
-  export const Input: React.FC
+  export const InputButton: React.FC<any>
 
-  export const InputButton: React.FC
+  export const Spinner: React.FC<any>
 
-  export const Spinner: React.FC
+  export const IconLocation: React.FC<any>
 
-  export const IconLocation: React.FC
+  export const Checkbox: React.FC<any>
 
-  export const Checkbox: React.FC
+  interface DropdownProps {
+    value?: string
+    label?: React.ReactNode
+    placeholder?: string
+    options: Array<{ label: string; value: string }>
+    onChange?: React.ChangeEventHandler<HTMLSelectElement>
+  }
 
-  export const Dropdown: React.FC
+  export const Dropdown: React.FC<DropdownProps>
 
-  export const IconSearch: React.FC
+  export const IconSearch: React.FC<any>
 }

@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Dropdown } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
-import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   ARG: {
@@ -41,22 +40,23 @@ const LocationCountry: React.FC = () => {
   const {
     culture: { country: storeCountry },
   } = useRuntime()
-  let { country } = address
+  const [country, setCountry] = useState(() => {
+    if (address?.country) {
+      return address.country
+    }
+
+    /* should try to get by saved addresses in account */
+
+    /* should try to get by IP */
+
+    /* else, try to get by store config */
+    return storeCountry
+  })
 
   if (country && countries && !countries.includes(country)) {
     throw new Error(
       `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
     )
-  }
-
-  if (!country) {
-    /* Try to get by saved addresses in account */
-
-    /* Try to get by IP */
-
-    /* Try to get by store config */
-
-    country = storeCountry
   }
 
   const options = sortOptionsByLabel(
@@ -68,26 +68,30 @@ const LocationCountry: React.FC = () => {
     })
   )
 
+  useEffect(() => {
+    setAddress(prevAddress => ({
+      ...prevAddress,
+      country,
+      // reset all other fields related
+      // to the country
+      city: null,
+      complement: null,
+      geoCoordinates: null,
+      neighborhood: null,
+      number: null,
+      postalCode: null,
+      state: null,
+      street: null,
+    }))
+  }, [country, setAddress])
+
   return (
     <Dropdown
       label={<FormattedMessage id="place-components.label.country" />}
       value={country}
       placeholder="Select..."
-      onChange={({
-        target: { value },
-      }: React.ChangeEvent<HTMLSelectElement>) => {
-        setAddress((prevAddress: Address) => ({
-          ...prevAddress,
-          city: null,
-          complement: null,
-          country: value,
-          geoCoordinates: null,
-          neighborhood: null,
-          number: null,
-          postalCode: null,
-          state: null,
-          street: null,
-        }))
+      onChange={({ target: { value } }) => {
+        setCountry(value)
       }}
       options={options}
     />
