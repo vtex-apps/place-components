@@ -3,7 +3,11 @@ import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 
-import { LineFragment, Fields } from './typings/countryRulesTypes.d'
+import {
+  LineFragment,
+  Fields,
+  AddressFields,
+} from './typings/countryRulesTypes.d'
 import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
@@ -69,7 +73,11 @@ const hasWithoutNumberOption = (label: string) => {
   return label.endsWith('Option')
 }
 
-const AddressForm: React.FC = () => {
+interface AddressFormProps {
+  hiddenFields?: AddressFields[]
+}
+
+const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
@@ -105,6 +113,7 @@ const AddressForm: React.FC = () => {
               if (
                 !field ||
                 ignoredFields.has(fragment.name) ||
+                hiddenFields.includes(fragment.name) ||
                 address[fragment.name] == null
               ) {
                 return null
@@ -136,27 +145,28 @@ const AddressForm: React.FC = () => {
                   }))
                 }
 
-                const fieldRequired = {
-                  errorMessage: intl.formatMessage(messages.fieldRequired),
-                }
-
                 const value = address[fragment.name]
 
                 fragmentElement = (
+                  // @ts-ignore: TypeScript struggles to infer the types for a component
+                  // that is "simoutaneously" two components.
                   <Component
                     label={
                       <FormattedMessage
                         {...messages[label as keyof typeof messages]}
                       />
                     }
-                    value={value}
+                    value={value as string}
                     onChange={handleChange}
                     {...(options && { options })}
                     {...(maxLength && { maxLength })}
                     {...(autoComplete && { autoComplete })}
                     {...(required &&
-                      address[fragment.name]!.length === 0 &&
-                      fieldRequired)}
+                      address[fragment.name]!.length === 0 && {
+                        errorMessage: intl.formatMessage(
+                          messages.fieldRequired
+                        ),
+                      })}
                   />
                 )
               }
