@@ -19,6 +19,7 @@ declare module 'vtex.styleguide' {
     placeholder?: string
     options: Array<{ label: string; value: string }>
     onChange?: React.ChangeEventHandler<HTMLSelectElement>
+    disabled?: boolean
   }
 
   export const Dropdown: React.FC<DropdownProps>
