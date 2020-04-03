@@ -9,6 +9,10 @@ import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
 
 const messages = defineMessages({
+  receiverName: {
+    id: 'place-components.label.receiverName',
+    defaultMessage: 'Receiver',
+  },
   country: {
     defaultMessage: '',
     id: 'place-components.label.country',
