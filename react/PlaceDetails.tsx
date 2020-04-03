@@ -1,7 +1,6 @@
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 
-import { Display } from './typings/countryRulesTypes.d'
 import rules from './countries/rules'
 
 interface Props {

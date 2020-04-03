@@ -3,11 +3,6 @@ import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 
-import {
-  LineFragment,
-  Fields,
-  AddressFields,
-} from './typings/countryRulesTypes.d'
 import rules, { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
@@ -145,7 +140,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
                   }))
                 }
 
-                const value = address[fragment.name]
+                const value = address[fragment.name]!
 
                 fragmentElement = (
                   // @ts-ignore: TypeScript struggles to infer the types for a component
@@ -156,7 +151,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
                         {...messages[label as keyof typeof messages]}
                       />
                     }
-                    value={value as string}
+                    value={value}
                     onChange={handleChange}
                     {...(options && { options })}
                     {...(maxLength && { maxLength })}

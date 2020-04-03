@@ -8,7 +8,6 @@ import {
   incompleteAddress,
 } from '../__mocks__/mockDescriptions'
 import PlaceDetails from '../PlaceDetails'
-import { Display } from '../typings/countryRulesTypes.d'
 
 describe('Place Details', () => {
   const renderComponent = (address: Address, display: keyof Display) => {

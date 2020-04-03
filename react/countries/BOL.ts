@@ -1,5 +1,3 @@
-import { CountryRules } from '../typings/countryRulesTypes.d'
-
 const countryData = {
   Beni: {
     Cercado: {
