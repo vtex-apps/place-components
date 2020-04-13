@@ -144,7 +144,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
 
                 fragmentElement = (
                   // @ts-ignore: TypeScript struggles to infer the types for a component
-                  // that is "simoutaneously" two components.
+                  // that is "simultaneously" two components.
                   <Component
                     label={
                       <FormattedMessage
