@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
@@ -78,16 +78,17 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
   const [editing, setEditing] = useState(false)
   const { fields, display } = rules[address.country!]
   const summary = display.extended
-  const [ignoredFields, setIgnoredFields] = useState(
-    getSummaryFields(display.compact)
-  )
 
   const onEditButtonClick = () => {
-    setIgnoredFields(getSummaryFields(display.minimal))
     setEditing(true)
   }
 
   const displayMode = editing ? 'minimal' : 'compact'
+
+  const ignoredFields = useMemo(() => getSummaryFields(display[displayMode]), [
+    display,
+    displayMode,
+  ])
 
   return (
     <div>
