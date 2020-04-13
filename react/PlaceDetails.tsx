@@ -12,7 +12,7 @@ const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
   const displaySpec = rules[address.country!].display[display]
 
   return (
-    <div>
+    <div className="flex flex-column">
       {displaySpec.map((line, displayIndex) => (
         <div key={displayIndex}>
           {line.map((fragment, index) => {
