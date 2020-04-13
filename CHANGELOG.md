@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Crash on `AddressForm` when address included the `receiverName` field.
 
+### Removed
+- Route `/places`, `Example` component and `store` builder.
+- Dependency on `vtex.locale-switcher`.
+
 ## [0.6.0] - 2020-03-20
 ### Added
 - `LocationInput` component.

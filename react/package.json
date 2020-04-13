@@ -20,11 +20,10 @@
     "@vtex/styleguide": "^9.112.13",
     "@vtex/test-tools": "^3.0.2",
     "vtex.address-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.4/public/@types/vtex.address-context",
-    "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.29.1/public/@types/vtex.checkout-graphql",
-    "vtex.locale-switcher": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.locale-switcher@0.5.5/public/@types/vtex.locale-switcher",
+    "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.31.2/public/@types/vtex.checkout-graphql",
     "vtex.places-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.97.2/public/@types/vtex.render-runtime",
-    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.112.27/public/@types/vtex.styleguide"
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.99.0/public/@types/vtex.render-runtime",
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.113.1/public/@types/vtex.styleguide"
   },
   "version": "0.6.0"
 }
