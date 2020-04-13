@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Default value for `display` prop in `PlaceDetails` component.
+
+### Changed
+- Update design of `LocationInput` component to match their spec.
+
 ### Fixed
 - Crash on `AddressForm` when address included the `receiverName` field.
 
