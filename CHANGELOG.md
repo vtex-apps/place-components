@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Default value for `display` prop in `PlaceDetails` component.
-- Prop `hiddenFields` in `AddressForm`.
+- Prop `hiddenFields` in `AddressForm` component.
+- Prop `onNoPostalCode` in `LocationInput` component.
 
 ### Changed
 - Update design of `LocationInput` component to match their spec.

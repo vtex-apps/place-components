@@ -10,9 +10,10 @@ import styles from './LocationInput.css'
 
 interface Props {
   onSuccess?: (address: Address) => void
+  onNoPostalCode?: () => void
 }
 
-const LocationInput: React.FC<Props> = ({ onSuccess }) => {
+const LocationInput: React.FC<Props> = ({ onSuccess, onNoPostalCode }) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
   const [
@@ -31,7 +32,9 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
     }
   }, [data, error, onSuccess, setAddress])
 
-  const handleButtonClick = () => {
+  const handleButtonClick: React.MouseEventHandler<HTMLButtonElement> = evt => {
+    evt.preventDefault()
+
     executeGetAddressFromPostalCode({
       variables: {
         postalCode: inputValue,
@@ -60,7 +63,7 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
           inputMode="numeric"
         />
       </div>
-      <ButtonPlain size="small">
+      <ButtonPlain size="small" onClick={onNoPostalCode}>
         <FormattedMessage id="place-components.label.dontKnowPostalCode" />
       </ButtonPlain>
     </div>
