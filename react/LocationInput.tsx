@@ -11,9 +11,14 @@ import styles from './LocationInput.css'
 interface Props {
   onSuccess?: (address: Address) => void
   onNoPostalCode?: () => void
+  variation?: 'primary' | 'secondary'
 }
 
-const LocationInput: React.FC<Props> = ({ onSuccess, onNoPostalCode }) => {
+const LocationInput: React.FC<Props> = ({
+  variation = 'secondary',
+  onSuccess,
+  onNoPostalCode,
+}) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
   const [
@@ -53,14 +58,17 @@ const LocationInput: React.FC<Props> = ({ onSuccess, onNoPostalCode }) => {
         <Input
           label={<FormattedMessage id="place-components.label.postalCode" />}
           suffix={
-            <Button onClick={handleButtonClick} isLoading={loading}>
+            <Button
+              onClick={handleButtonClick}
+              isLoading={loading}
+              variation={variation}
+            >
               <IconSearch />
             </Button>
           }
           size="large"
           value={inputValue}
           onChange={handleInputChange}
-          inputMode="numeric"
         />
       </div>
       <ButtonPlain size="small" onClick={onNoPostalCode}>
