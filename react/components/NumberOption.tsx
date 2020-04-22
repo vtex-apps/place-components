@@ -29,7 +29,7 @@ interface Props {
   showCheckbox: boolean
 }
 
-const NumberOption: StorefrontFunctionComponent<Props> = ({ showCheckbox }) => {
+const NumberOption: React.FC<Props> = ({ showCheckbox }) => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)

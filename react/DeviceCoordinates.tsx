@@ -13,7 +13,7 @@ enum PermissionState {
   DENIED,
 }
 
-const DeviceCoordinates: StorefrontFunctionComponent = () => {
+const DeviceCoordinates: React.FC = () => {
   const { setAddress } = useAddressContext()
   const [geolocationPermission, setGeolocationPermission] = useState<
     PermissionState

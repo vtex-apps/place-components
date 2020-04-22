@@ -1,8 +1,0 @@
-{
-  "place-components": {
-    "component": "*"
-  },
-  "place-components.example": {
-    "component": "Example"
-  }
-}

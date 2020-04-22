@@ -1,4 +1,5 @@
 {
+  "place-components.label.receiverName": "Destinatario",
   "place-components.label.country": "País",
   "place-components.label.state": "Estado",
   "place-components.label.city": "Ciudad",

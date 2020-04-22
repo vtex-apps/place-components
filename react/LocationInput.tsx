@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { IconSearch, Input, ButtonPlain } from 'vtex.styleguide'
+import { IconSearch, Input, ButtonPlain, Button } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
+import { Address } from 'vtex.places-graphql'
 
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
+import styles from './LocationInput.css'
 
 interface Props {
-  onSuccess?: (address: any) => void
+  onSuccess?: (address: Address) => void
+  onNoPostalCode?: () => void
+  variation?: 'primary' | 'secondary'
 }
 
-const LocationInput: React.FC<Props> = ({ onSuccess }) => {
+const LocationInput: React.FC<Props> = ({
+  variation = 'secondary',
+  onSuccess,
+  onNoPostalCode,
+}) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
-  const [getAddressFromPostalCode, { error, data, loading }] = useLazyQuery(
-    GET_ADDRESS_FROM_POSTAL_CODE
-  )
-
-  if (!address.country) {
-    throw new Error(
-      'The LocationField (Input) should be used when the country field is already filled'
-    )
-  }
+  const [
+    executeGetAddressFromPostalCode,
+    { error, data, loading },
+  ] = useLazyQuery(GET_ADDRESS_FROM_POSTAL_CODE)
 
   useEffect(() => {
     if (data) {
@@ -34,8 +37,10 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
     }
   }, [data, error, onSuccess, setAddress])
 
-  const handleButtonClick = () => {
-    getAddressFromPostalCode({
+  const handleButtonClick: React.MouseEventHandler<HTMLButtonElement> = evt => {
+    evt.preventDefault()
+
+    executeGetAddressFromPostalCode({
       variables: {
         postalCode: inputValue,
         countryCode: address.country,
@@ -49,20 +54,24 @@ const LocationInput: React.FC<Props> = ({ onSuccess }) => {
 
   return (
     <div className="w-100">
-      <div className="mb4">
+      <div className={`${styles.locationInput} mb4`}>
         <Input
           label={<FormattedMessage id="place-components.label.postalCode" />}
-          button={<IconSearch />}
-          buttonProps={{
-            onClick: handleButtonClick,
-          }}
-          isLoadingButton={loading}
-          size="regular"
+          suffix={
+            <Button
+              onClick={handleButtonClick}
+              isLoading={loading}
+              variation={variation}
+            >
+              <IconSearch />
+            </Button>
+          }
+          size="large"
           value={inputValue}
           onChange={handleInputChange}
         />
       </div>
-      <ButtonPlain size="small">
+      <ButtonPlain size="small" onClick={onNoPostalCode}>
         <FormattedMessage id="place-components.label.dontKnowPostalCode" />
       </ButtonPlain>
     </div>

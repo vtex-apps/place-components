@@ -14,12 +14,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es2017",
-    "types": ["node", "jest", "graphql"]
+    "target": "es2017"
   },
-  "exclude": ["node_modules"],
-  "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"],
-  "typeAcquisition": {
-    "enable": false
-  }
+  "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"]
 }

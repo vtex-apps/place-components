@@ -1,5 +1,3 @@
-import { CountryRules } from '../typings/countryRulesTypes'
-
 const countryData = {
   'Ciudad Autónoma de Buenos Aires': ['Ciudad Autónoma de Buenos Aires'],
   'Buenos Aires': [
