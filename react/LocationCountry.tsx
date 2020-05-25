@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { Dropdown } from 'vtex.styleguide'
-import { FormattedMessage, defineMessages, useIntl } from 'react-intl'
+import { Listbox } from 'vtex.checkout-components'
+import { CountryFlag } from 'vtex.country-flags'
+import { defineMessages, useIntl } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
+
+const {
+  ListboxInput,
+  ListboxButton,
+  ListboxPopover,
+  ListboxList,
+  ListboxOption,
+} = Listbox
 
 const messages = defineMessages({
   ARG: {
@@ -34,6 +43,19 @@ const sortOptionsByLabel = (options: Option[]) => {
     .sort((a: Option, b: Option) => a.label.localeCompare(b.label))
 }
 
+const renderCountryFlagWithName = ({
+  country,
+  name,
+}: {
+  country: string
+  name: string
+}) => (
+  <>
+    <CountryFlag iso3={country} />
+    <span className="dib ml3">{name}</span>
+  </>
+)
+
 const LocationCountry: React.FC = () => {
   const intl = useIntl()
   const { address, setAddress, countries } = useAddressContext()
@@ -59,15 +81,6 @@ const LocationCountry: React.FC = () => {
     )
   }
 
-  const options = sortOptionsByLabel(
-    countries.map((name: string) => {
-      return {
-        label: intl.formatMessage(messages[name as keyof typeof messages]),
-        value: name,
-      }
-    })
-  )
-
   useEffect(() => {
     setAddress(prevAddress => ({
       ...prevAddress,
@@ -85,16 +98,45 @@ const LocationCountry: React.FC = () => {
     }))
   }, [country, setAddress])
 
+  // Do not render anything if we only have 1 country or none.
+  if (countries.length <= 1) {
+    return null
+  }
+
   return (
-    <Dropdown
-      label={<FormattedMessage id="place-components.label.country" />}
+    <ListboxInput
+      translate={undefined}
+      label={intl.formatMessage({ id: 'place-components.label.country' })}
       value={country}
-      placeholder="Select..."
-      onChange={({ target: { value } }) => {
-        setCountry(value)
-      }}
-      options={options}
-    />
+      onChange={setCountry}
+    >
+      <ListboxButton>
+        {({ label }) =>
+          renderCountryFlagWithName({
+            country,
+            name: label,
+          })
+        }
+      </ListboxButton>
+      <ListboxPopover translate={undefined}>
+        <ListboxList>
+          {countries.map(countryCode => {
+            const name = intl.formatMessage(
+              messages[countryCode as keyof typeof messages]
+            )
+
+            return (
+              <ListboxOption value={countryCode} label={name} key={countryCode}>
+                {renderCountryFlagWithName({
+                  country: countryCode,
+                  name,
+                })}
+              </ListboxOption>
+            )
+          })}
+        </ListboxList>
+      </ListboxPopover>
+    </ListboxInput>
   )
 }
 

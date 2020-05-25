@@ -25,4 +25,6 @@ declare module 'vtex.styleguide' {
   export const Dropdown: React.FC<DropdownProps>
 
   export const IconSearch: React.FC<any>
+
+  export const IconCaretDown: React.FC<any>
 }
