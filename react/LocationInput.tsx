@@ -37,9 +37,10 @@ const LocationInput: React.FC<Props> = ({
     }
   }, [data, error, onSuccess, setAddress])
 
-  const handleButtonClick: React.MouseEventHandler<HTMLButtonElement> = evt => {
+  const handleSubmit: React.EventHandler<
+    React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  > = evt => {
     evt.preventDefault()
-
     executeGetAddressFromPostalCode({
       variables: {
         postalCode: inputValue,
@@ -54,12 +55,13 @@ const LocationInput: React.FC<Props> = ({
 
   return (
     <div className="w-100">
-      <div className={`${styles.locationInput} mb4`}>
+      <form className={`${styles.locationInput} mb4`} onSubmit={handleSubmit}>
         <Input
           label={<FormattedMessage id="place-components.label.postalCode" />}
           suffix={
             <Button
-              onClick={handleButtonClick}
+              type="submit"
+              onClick={handleSubmit}
               isLoading={loading}
               variation={variation}
             >
@@ -70,7 +72,7 @@ const LocationInput: React.FC<Props> = ({
           value={inputValue}
           onChange={handleInputChange}
         />
-      </div>
+      </form>
       <ButtonPlain size="small" onClick={onNoPostalCode}>
         <FormattedMessage id="place-components.label.dontKnowPostalCode" />
       </ButtonPlain>
