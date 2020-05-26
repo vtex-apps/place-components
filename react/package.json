@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "graphql": "^14.6.0",
+    "msk": "^1.0.5",
     "react": "^16.8.3",
     "react-apollo": "^3.1.3",
     "react-dom": "^16.8.3",

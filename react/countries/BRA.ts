@@ -75,6 +75,10 @@ const rules: CountryRules = {
       maxLength: 750,
       required: true,
     },
+    postalCode: {
+      mask: '99999-999',
+      label: 'postalCode',
+    },
   },
   display: {
     minimal: [[{ name: 'postalCode' }]],

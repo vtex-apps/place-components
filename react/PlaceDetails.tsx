@@ -1,3 +1,4 @@
+import msk from 'msk'
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 
@@ -9,7 +10,9 @@ interface Props {
 
 const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
   const { address } = useAddressContext()
-  const displaySpec = rules[address.country!].display[display]
+  const countryRules = rules[address.country!]
+
+  const displaySpec = countryRules.display[display]
 
   return (
     <div className="flex flex-column">
@@ -27,12 +30,21 @@ const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
             const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
             const shouldShowDelimiter = hasNextFragment ?? hasDifferentDelimiter
 
+            const valueMask =
+              fragment.name in countryRules.fields
+                ? countryRules.fields[fragment.name]?.mask
+                : undefined
+
+            const addressValue = valueMask
+              ? msk(address[fragment.name]!, valueMask)
+              : address[fragment.name]
+
             return (
               <span key={fragment.name}>
                 {fragment.delimiter && hasPreviousFragment && (
                   <span>{fragment.delimiter}</span>
                 )}
-                <span className={fragment.name}>{address[fragment.name]}</span>
+                <span className={fragment.name}>{addressValue}</span>
                 {fragment.delimiterAfter && shouldShowDelimiter && (
                   <span>{fragment.delimiterAfter}</span>
                 )}
