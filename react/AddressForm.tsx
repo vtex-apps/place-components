@@ -102,7 +102,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
       </div>
       <div>
         {summary.map((line, index) => (
-          <div className="flex flex-wrap" key={index}>
+          <div className="flex" key={index}>
             {line.map(fragment => {
               const field = fields[fragment.name as keyof Fields]
 
