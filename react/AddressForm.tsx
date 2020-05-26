@@ -147,11 +147,9 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
                   // @ts-ignore: TypeScript struggles to infer the types for a component
                   // that is "simultaneously" two components.
                   <Component
-                    label={
-                      <FormattedMessage
-                        {...messages[label as keyof typeof messages]}
-                      />
-                    }
+                    label={intl.formatMessage(
+                      messages[label as keyof typeof messages]
+                    )}
                     value={value}
                     onChange={handleChange}
                     {...(options && { options })}
