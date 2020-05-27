@@ -21156,6 +21156,10 @@ const rules: CountryRules = {
       maxLength: 750,
       required: true,
     },
+    postalCode: {
+      label: 'postalCode',
+      forgottenURL: 'http://www.correoargentino.com.ar/formularios/cpa',
+    },
   },
   display: {
     minimal: [[{ name: 'postalCode' }]],

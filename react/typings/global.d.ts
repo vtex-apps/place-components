@@ -35,6 +35,14 @@ declare global {
     extended: LineFragment[][]
   }
 
+  interface PostalCodeField extends Field {
+    /**
+     * Link to the country postal code service to help the user
+     * retrieve the postal code for their address.
+     */
+    forgottenURL?: string
+  }
+
   interface Fields {
     country?: Field
     street?: Field
@@ -45,7 +53,7 @@ declare global {
     state?: Field
     city?: Field
     receiverName?: Field
-    postalCode?: Field
+    postalCode?: PostalCodeField
   }
 
   interface LocationSelect {

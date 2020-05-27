@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { IconSearch, Input, ButtonPlain, Button } from 'vtex.styleguide'
+import { IconSearch, Input, Button, ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
 import { Address } from 'vtex.places-graphql'
 
+import rules from './countries/rules'
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import styles from './LocationInput.css'
 
 interface Props {
   onSuccess?: (address: Address) => void
-  onNoPostalCode?: () => void
   variation?: 'primary' | 'secondary'
 }
 
 const LocationInput: React.FC<Props> = ({
   variation = 'secondary',
   onSuccess,
-  onNoPostalCode,
 }) => {
   const { address, setAddress } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
@@ -25,6 +24,8 @@ const LocationInput: React.FC<Props> = ({
     executeGetAddressFromPostalCode,
     { error, data, loading },
   ] = useLazyQuery(GET_ADDRESS_FROM_POSTAL_CODE)
+
+  const countryRules = rules[address.country!]
 
   useEffect(() => {
     if (data) {
@@ -73,9 +74,14 @@ const LocationInput: React.FC<Props> = ({
           onChange={handleInputChange}
         />
       </form>
-      <ButtonPlain size="small" onClick={onNoPostalCode}>
-        <FormattedMessage id="place-components.label.dontKnowPostalCode" />
-      </ButtonPlain>
+      {countryRules.fields.postalCode?.forgottenURL && (
+        <ButtonPlain
+          href={countryRules.fields.postalCode.forgottenURL}
+          target="_blank noreferrer"
+        >
+          <FormattedMessage id="place-components.label.dontKnowPostalCode" />
+        </ButtonPlain>
+      )}
     </div>
   )
 }

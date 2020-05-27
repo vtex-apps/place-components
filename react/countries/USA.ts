@@ -99,6 +99,10 @@ const rules: CountryRules = {
       maxLength: 750,
       required: true,
     },
+    postalCode: {
+      label: 'postalCode',
+      forgottenURL: 'https://tools.usps.com/go/ZipLookupAction_input',
+    },
   },
   display: {
     minimal: [[{ name: 'postalCode' }]],

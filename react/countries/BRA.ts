@@ -78,6 +78,8 @@ const rules: CountryRules = {
     postalCode: {
       mask: '99999-999',
       label: 'postalCode',
+      forgottenURL:
+        'http://www.buscacep.correios.com.br/servicos/dnec/index.do',
     },
   },
   display: {
