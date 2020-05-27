@@ -1,5 +1,6 @@
+import classnames from 'classnames'
 import React, { useState, useMemo, useRef } from 'react'
-import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
+import { Input, Dropdown, ButtonPlain, IconEdit } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 
@@ -86,6 +87,7 @@ const hasWithoutNumberOption = (label: string) => {
 
 interface AddressFormProps {
   hiddenFields?: AddressFields[]
+  onResetAddress?: () => void
 }
 
 interface FieldMeta {
@@ -96,7 +98,10 @@ type FieldsMeta = {
   [field in AddressFields]?: FieldMeta
 }
 
-const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
+const AddressForm: React.FC<AddressFormProps> = ({
+  hiddenFields = [],
+  onResetAddress,
+}) => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
   const [editing, setEditing] = useState(false)
@@ -105,8 +110,12 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
 
   const [fieldsMeta, setFieldsMeta] = useState<FieldsMeta>({})
 
-  const onEditButtonClick = () => {
-    setEditing(true)
+  const handleEditButtonClick = () => {
+    if (editing) {
+      onResetAddress?.()
+    } else {
+      setEditing(true)
+    }
   }
 
   const displayMode = editing ? 'minimal' : 'compact'
@@ -149,13 +158,21 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
 
   return (
     <div>
-      <div className="mb6">
+      <div
+        className={classnames('mb6 flex', {
+          'flex-column items-start': !editing,
+        })}
+      >
         <PlaceDetails display={displayMode} />
-        {!editing && (
-          <ButtonPlain onClick={onEditButtonClick} title="edit">
-            <FormattedMessage {...messages.edit} />
+        <div className={classnames({ ml4: editing })}>
+          <ButtonPlain onClick={handleEditButtonClick} title="edit">
+            {editing ? (
+              <IconEdit solid />
+            ) : (
+              <FormattedMessage {...messages.edit} />
+            )}
           </ButtonPlain>
-        )}
+        </div>
       </div>
       <div onBlur={handleFieldBlur}>
         {summary.map((line, index) => (

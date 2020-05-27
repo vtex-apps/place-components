@@ -28,4 +28,6 @@ declare module 'vtex.styleguide' {
   export const IconSearch: React.FC<any>
 
   export const IconCaretDown: React.FC<any>
+
+  export const IconEdit: React.FC<any>
 }
