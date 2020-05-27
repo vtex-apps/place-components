@@ -163,7 +163,10 @@ const AddressForm: React.FC<AddressFormProps> = ({
           'flex-column items-start': !editing,
         })}
       >
-        <PlaceDetails display={displayMode} />
+        <PlaceDetails
+          display={displayMode}
+          hiddenFields={initialInvalidFields.current as AddressFields[]}
+        />
         <div className={classnames({ ml4: editing })}>
           <ButtonPlain onClick={handleEditButtonClick} title="edit">
             {editing ? (

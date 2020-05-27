@@ -6,9 +6,13 @@ import rules from './countries/rules'
 
 interface Props {
   display?: keyof Display
+  hiddenFields?: AddressFields[]
 }
 
-const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
+const PlaceDetails: React.FC<Props> = ({
+  display = 'extended',
+  hiddenFields = [],
+}) => {
   const { address } = useAddressContext()
   const countryRules = rules[address.country!]
 
@@ -19,7 +23,10 @@ const PlaceDetails: React.FC<Props> = ({ display = 'extended' }) => {
       {displaySpec.map((line, displayIndex) => (
         <div key={displayIndex}>
           {line.map((fragment, index) => {
-            if (!address[fragment.name]) {
+            if (
+              !address[fragment.name] ||
+              hiddenFields.includes(fragment.name)
+            ) {
               return null
             }
 
