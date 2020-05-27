@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { Input, Dropdown, ButtonPlain } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
@@ -54,14 +54,30 @@ const messages = defineMessages({
   },
 })
 
-const getSummaryFields = (summary: LineFragment[][]) => {
-  const summaryFields = new Set()
+/**
+ * This utility serves to create a "diff" for the fields we will
+ * show to the user.
+ *
+ * For example if the address form is not in a  editing state, we will
+ * render a place details with the "extended" display and we will only
+ * show the fields that are *not* in the compact mode. This works by ignoring
+ * all fields from the compact mode that are in the extended mode.
+ */
+const getExcludedFields = (
+  summary: LineFragment[][],
+  includedFields: string[] = []
+) => {
+  const excludedFields = new Set<string>()
   summary.forEach((line: LineFragment[]) => {
     line.forEach((fragment: LineFragment) => {
-      summaryFields.add(fragment.name)
+      if (includedFields.includes(fragment.name)) {
+        return
+      }
+
+      excludedFields.add(fragment.name)
     })
   })
-  return summaryFields
+  return excludedFields
 }
 
 const hasWithoutNumberOption = (label: string) => {
@@ -72,6 +88,14 @@ interface AddressFormProps {
   hiddenFields?: AddressFields[]
 }
 
+interface FieldMeta {
+  blurred: boolean
+}
+
+type FieldsMeta = {
+  [field in AddressFields]?: FieldMeta
+}
+
 const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
   const intl = useIntl()
   const { address, setAddress } = useAddressContext()
@@ -79,16 +103,49 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
   const { fields, display } = rules[address.country!]
   const summary = display.extended
 
+  const [fieldsMeta, setFieldsMeta] = useState<FieldsMeta>({})
+
   const onEditButtonClick = () => {
     setEditing(true)
   }
 
   const displayMode = editing ? 'minimal' : 'compact'
 
-  const ignoredFields = useMemo(() => getSummaryFields(display[displayMode]), [
-    display,
-    displayMode,
-  ])
+  // The use of `useRef` is to prevent the fields from suddenly disappearing
+  // from the form while typing the value
+  //
+  // For example: if the form is missing the number from the address and the user
+  // starts typing the number, since the only validation we do on numbers is to check
+  // if the value _exists_, as soon as the first character is typed the field will no
+  // longer be invalid causing it to suddenly "disappear" from the screen if we don't use
+  // the `useRef` hook.
+  const initialInvalidFields = useRef(
+    Object.entries(fields)
+      .filter(([fieldName, fieldSchema]) => {
+        return fieldSchema.required && !address[fieldName as AddressFields]
+      })
+      .map(([fieldName]) => fieldName)
+  )
+
+  const ignoredFields = useMemo(
+    () => getExcludedFields(display[displayMode], initialInvalidFields.current),
+    [display, displayMode]
+  )
+
+  const handleFieldBlur: React.FocusEventHandler<HTMLDivElement> = evt => {
+    const fieldName = ((evt.target as unknown) as HTMLInputElement).name
+
+    if (!(fieldName in address)) {
+      return
+    }
+
+    setFieldsMeta(prevMeta => ({
+      ...prevMeta,
+      [fieldName]: {
+        blurred: true,
+      },
+    }))
+  }
 
   return (
     <div>
@@ -100,7 +157,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
           </ButtonPlain>
         )}
       </div>
-      <div>
+      <div onBlur={handleFieldBlur}>
         {summary.map((line, index) => (
           <div className="flex" key={index}>
             {line.map(fragment => {
@@ -119,51 +176,50 @@ const AddressForm: React.FC<AddressFormProps> = ({ hiddenFields = [] }) => {
 
               let fragmentElement = null
 
-              if (hasWithoutNumberOption(field.label)) {
-                fragmentElement = <NumberOption showCheckbox />
-              } else {
-                const Component = field.options ? Dropdown : Input
+              const {
+                maxLength,
+                autoComplete,
+                required,
+                label,
+                options,
+              } = field
 
-                const {
-                  maxLength,
-                  autoComplete,
-                  required,
-                  label,
-                  options,
-                } = field
-
-                const handleChange: React.ChangeEventHandler<
-                  HTMLInputElement | HTMLSelectElement
-                > = ({ target: { value } }) => {
-                  setAddress(prevAddress => ({
-                    ...prevAddress,
-                    [fragment.name]: value,
-                  }))
-                }
-
-                const value = address[fragment.name]!
-
-                fragmentElement = (
-                  // @ts-ignore: TypeScript struggles to infer the types for a component
-                  // that is "simultaneously" two components.
-                  <Component
-                    label={intl.formatMessage(
-                      messages[label as keyof typeof messages]
-                    )}
-                    value={value}
-                    onChange={handleChange}
-                    {...(options && { options })}
-                    {...(maxLength && { maxLength })}
-                    {...(autoComplete && { autoComplete })}
-                    {...(required &&
-                      address[fragment.name]!.length === 0 && {
-                        errorMessage: intl.formatMessage(
-                          messages.fieldRequired
-                        ),
-                      })}
-                  />
-                )
+              const handleChange: React.ChangeEventHandler<
+                HTMLInputElement | HTMLSelectElement
+              > = ({ target: { value } }) => {
+                setAddress(prevAddress => ({
+                  ...prevAddress,
+                  [fragment.name]: value,
+                }))
               }
+
+              const value = address[fragment.name]!
+
+              const commonProps = {
+                label: intl.formatMessage(
+                  messages[label as keyof typeof messages]
+                ),
+                value,
+                onChange: handleChange,
+                name: fragment.name,
+                ...(maxLength && { maxLength }),
+                ...(autoComplete && { autoComplete }),
+                ...(required &&
+                address[fragment.name]!.length === 0 &&
+                fieldsMeta[fragment.name]?.blurred
+                  ? {
+                      errorMessage: intl.formatMessage(messages.fieldRequired),
+                    }
+                  : null),
+              }
+
+              fragmentElement = hasWithoutNumberOption(field.label) ? (
+                <NumberOption {...commonProps} showCheckbox />
+              ) : field.options ? (
+                <Dropdown {...commonProps} options={field.options} />
+              ) : (
+                <Input {...commonProps} />
+              )
 
               return (
                 <div
