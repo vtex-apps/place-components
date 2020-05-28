@@ -25,7 +25,7 @@ const LocationInput: React.FC<Props> = ({
     { error, data, loading },
   ] = useLazyQuery(GET_ADDRESS_FROM_POSTAL_CODE)
 
-  const countryRules = rules[address.country!]
+  const countryRules = address?.country ? rules[address.country] : undefined
 
   useEffect(() => {
     if (data) {
@@ -52,6 +52,10 @@ const LocationInput: React.FC<Props> = ({
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setInputValue(evt.target.value)
+  }
+
+  if (!countryRules) {
+    return null
   }
 
   return (
