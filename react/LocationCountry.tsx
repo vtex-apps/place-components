@@ -121,9 +121,12 @@ const LocationCountry: React.FC = () => {
       <ListboxPopover translate={undefined}>
         <ListboxList>
           {countries.map(countryCode => {
-            const name = intl.formatMessage(
-              messages[countryCode as keyof typeof messages]
-            )
+            const name =
+              countryCode in messages
+                ? intl.formatMessage(
+                    messages[countryCode as keyof typeof messages]
+                  )
+                : countryCode
 
             return (
               <ListboxOption value={countryCode} label={name} key={countryCode}>
