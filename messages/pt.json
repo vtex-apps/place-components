@@ -24,6 +24,6 @@
   "place-components.label.BOL": "Bolivia",
   "place-components.label.KOR": "Coreia do Sul",
   "place-components.label.useCurrentLocation": "Usar localização atual",
-  "place-components.label.postalCode": "Código Postal",
-  "place-components.label.dontKnowPostalCode": "Não sei meu código postal"
+  "place-components.label.postalCode": "CEP",
+  "place-components.label.dontKnowPostalCode": "Não sei meu CEP"
 }

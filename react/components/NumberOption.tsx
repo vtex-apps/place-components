@@ -27,38 +27,19 @@ const messages = defineMessages({
 
 interface Props {
   showCheckbox: boolean
+  name: string
+  label: React.ReactNode
+  value: string
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+  disabled?: boolean
+  maxLength?: number
+  autoComplete?: string
 }
 
-const NumberOption: React.FC<Props> = ({ showCheckbox }) => {
+const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   const intl = useIntl()
-  const { address, setAddress } = useAddressContext()
+  const { setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
-  const field = rules[address.country!].fields.number
-  if (!field) return null
-  const { maxLength, autoComplete, required, label } = field
-
-  const onInputChange = ({
-    target: { value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress((prevAddress: Address) => ({
-      ...prevAddress,
-      number: value,
-    }))
-  }
-
-  const fieldRequired = {
-    errorMessage: intl.formatMessage(messages.fieldRequired),
-  }
-
-  const inputProps = {
-    label: <FormattedMessage {...messages[label as keyof typeof messages]} />,
-    value: address.number,
-    onChange: onInputChange,
-    disabled,
-    ...(maxLength && { maxLength }),
-    ...(autoComplete && { autoComplete }),
-    ...(required && address.number!.length === 0 && fieldRequired),
-  }
 
   const onCheckboxChange = () => {
     setAddress((prevAddress: Address) => ({
@@ -79,10 +60,10 @@ const NumberOption: React.FC<Props> = ({ showCheckbox }) => {
   return (
     <div className="flex">
       <div className="flex-auto">
-        <Input {...inputProps} />
+        <Input {...props} disabled={disabled || props.disabled} />
       </div>
       {showCheckbox && (
-        <div className="flex-none ml5 mt7 pt3">
+        <div className="flex-none h-regular ml5 mt7 flex items-center">
           <Checkbox {...checkboxProps} />
         </div>
       )}

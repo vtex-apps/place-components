@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Prop `hiddenFields` to `PlaceDetails` component.
+
+### Changed
+- `LocationCountry` now shows the country flag alognside their name.
+
+### Fixed
+- `LocationCountry` shown with only one country.
+- Unable to submit `LocationInput` form by pressing enter.
+- Locale string os postal code in portuguese.
+- Forgotten postal code URL didn't work.
+- Format of brazilian postal codes wasn't correct.
+- `AddressForm` didn't show invalid fields in the collapsed version.
+- No way to change the address in `AddressForm` after clicking "edit".
+- States were not shown abbreviated in the states dropdown in `AddressForm`.
+- Street and number fields weren't in the same line in `PlaceDetails` and `AddressForm`.
+- Wrong label of `[Object object]` in states dropdown in `AddressForm`.
+
+### Removed
+- Prop `onNoPostalCode` from `LocationInput`.
 
 ## [0.7.0] - 2020-04-22
 ### Added
