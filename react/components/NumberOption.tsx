@@ -38,7 +38,7 @@ interface Props {
 
 const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   const intl = useIntl()
-  const inputNode = useRef<HTMLInputElement>(null);
+  const inputNode = useRef<HTMLInputElement>(null)
   const { setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
 
@@ -51,9 +51,9 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
     
     setTimeout(() => {
       if (inputNode.current !== null) {        
-        inputNode.current.focus();
+        inputNode.current.focus()
       }
-    }, 0);
+    }, 0)
   }
 
   const checkboxProps = {
