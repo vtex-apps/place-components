@@ -50,9 +50,7 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
     setDisabled(!disabled)
     
     setTimeout(() => {
-      if (inputNode.current !== null) {        
-        inputNode.current.focus()
-      }
+      inputNode.current?.focus()
     }, 0)
   }
 
