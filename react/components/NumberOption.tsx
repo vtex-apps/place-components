@@ -38,7 +38,7 @@ interface Props {
 
 const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   const intl = useIntl()
-  const inputNode = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const { setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
 
@@ -50,7 +50,7 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
     setDisabled(!disabled)
     
     setTimeout(() => {
-      inputNode.current?.focus()
+      inputRef.current?.focus()
     }, 0)
   }
 
@@ -65,7 +65,7 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   return (
     <div className="flex">
       <div className="flex-auto">
-        <Input ref={inputNode} {...props} disabled={disabled || props.disabled} />
+        <Input ref={inputRef} {...props} disabled={disabled || props.disabled} />
       </div>
       {showCheckbox && (
         <div className="flex-none h-regular ml5 mt7 flex items-center">
