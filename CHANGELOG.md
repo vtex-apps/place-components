@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.2] - 2020-06-22
+### Fixed
+- Remove default text `-` when reactivating NumberOption.
+- Focus NumberOption input when after activating it.
+
 ## [0.7.1] - 2020-06-02
 ### Added
 - Prop `hiddenFields` to `PlaceDetails` component.
