@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Remove default text `-` when reactivating NumberOption.
+- Focus NumberOption input after activating it.
 
 ## [0.7.1] - 2020-06-02
 ### Added

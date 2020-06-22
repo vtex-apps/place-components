@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Input, Checkbox } from 'vtex.styleguide'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
@@ -38,15 +38,20 @@ interface Props {
 
 const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   const intl = useIntl()
+  const inputRef = useRef<HTMLInputElement>(null)
   const { setAddress } = useAddressContext()
   const [disabled, setDisabled] = useState(false)
 
   const onCheckboxChange = () => {
     setAddress((prevAddress: Address) => ({
       ...prevAddress,
-      number: disabled ? '-' : intl.formatMessage(messages.wn),
+      number: disabled ? '' : intl.formatMessage(messages.wn),
     }))
     setDisabled(!disabled)
+    
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 0)
   }
 
   const checkboxProps = {
@@ -60,7 +65,7 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   return (
     <div className="flex">
       <div className="flex-auto">
-        <Input {...props} disabled={disabled || props.disabled} />
+        <Input ref={inputRef} {...props} disabled={disabled || props.disabled} />
       </div>
       {showCheckbox && (
         <div className="flex-none h-regular ml5 mt7 flex items-center">
