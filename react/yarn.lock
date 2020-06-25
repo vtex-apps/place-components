@@ -6051,9 +6051,9 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.0.tgz#81cf3491fea110e50ca91c318c02c714b6d0ae62"
   integrity sha512-RUK2HX/Z2+GTrFHcA3+gfl1Tib33WL49i6pnUZhE6/imHmiUBMfWQL7qQbYDhI9Pws57KFgdF+qSnla3Jjg6Fw==
 
-"vtex.address-context@https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592852963/public/@types/vtex.address-context":
+"vtex.address-context@https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592854478/public/@types/vtex.address-context":
   version "0.0.4"
-  resolved "https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592852963/public/@types/vtex.address-context#daa6c791e976a9434c9390f6b76e752d2c50f5f0"
+  resolved "https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592854478/public/@types/vtex.address-context#97dc551c051f5faab49f00b8cfcf2638920da468"
 
 "vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components":
   version "0.4.0"
@@ -6071,9 +6071,9 @@ vtex-tachyons@^3.2.0:
   version "0.2.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql#5625dafa1175684df56f78f4aefc66d01cce8234"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.106.0/public/@types/vtex.render-runtime":
-  version "8.106.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.106.0/public/@types/vtex.render-runtime#545b27f0bb91d7387d45a27a807e06eac2f4908f"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.109.0/public/@types/vtex.render-runtime":
+  version "8.109.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.109.0/public/@types/vtex.render-runtime#88f682998e59c395fa10147883e95c03b8ee0884"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.121.0/public/@types/vtex.styleguide":
   version "9.121.0"
