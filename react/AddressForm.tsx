@@ -2,9 +2,10 @@ import classnames from 'classnames'
 import React, { useState, useMemo, useRef } from 'react'
 import { Input, Dropdown, ButtonPlain, IconEdit } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
+import { LineFragment, AddressFields, Fields } from 'vtex.address-context/types'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 
-import rules, { styleRules } from './countries/rules'
+import { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
 
@@ -103,10 +104,13 @@ const AddressForm: React.FC<AddressFormProps> = ({
   onResetAddress,
 }) => {
   const intl = useIntl()
-  const { address, setAddress } = useAddressContext()
+  const { address, setAddress, rules } = useAddressContext()
   const [editing, setEditing] = useState(false)
-  const { fields, display } = rules[address.country!]
-  const summary = display.extended
+
+  const countryRules = (address.country && rules[address.country]) || undefined
+
+  const { fields, display } = countryRules ?? {}
+  const summary = display?.extended
 
   const [fieldsMeta, setFieldsMeta] = useState<FieldsMeta>({})
 
@@ -129,7 +133,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
   // longer be invalid causing it to suddenly "disappear" from the screen if we don't use
   // the `useRef` hook.
   const initialInvalidFields = useRef(
-    Object.entries(fields)
+    Object.entries(fields ?? {})
       .filter(([fieldName, fieldSchema]) => {
         return fieldSchema.required && !address[fieldName as AddressFields]
       })
@@ -137,7 +141,11 @@ const AddressForm: React.FC<AddressFormProps> = ({
   )
 
   const ignoredFields = useMemo(
-    () => getExcludedFields(display[displayMode], initialInvalidFields.current),
+    () =>
+      getExcludedFields(
+        display?.[displayMode] ?? [],
+        initialInvalidFields.current
+      ),
     [display, displayMode]
   )
 
@@ -178,10 +186,10 @@ const AddressForm: React.FC<AddressFormProps> = ({
         </div>
       </div>
       <div onBlur={handleFieldBlur}>
-        {summary.map((line, index) => (
+        {summary?.map((line, index) => (
           <div className="flex" key={index}>
             {line.map(fragment => {
-              const field = fields[fragment.name as keyof Fields]
+              const field = fields?.[fragment.name as keyof Fields]
 
               if (
                 !field ||

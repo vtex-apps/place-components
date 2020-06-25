@@ -1,19 +1,7 @@
-import React from 'react'
-
-import ARG from './ARG'
-import BOL from './BOL'
-import BRA from './BRA'
-import USA from './USA'
-
-const rules: { [key: string]: CountryRules } = {
-  ARG,
-  BOL,
-  BRA,
-  USA,
-}
+import { CSSProperties } from 'react'
 
 export const styleRules: {
-  [key: string]: React.CSSProperties
+  [key: string]: CSSProperties
 } = {
   complement: {
     minWidth: 199,
@@ -112,5 +100,3 @@ export const styleRules: {
     maxWidth: 256,
   },
 }
-
-export default rules

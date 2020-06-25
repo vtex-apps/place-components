@@ -6051,33 +6051,33 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.0.tgz#81cf3491fea110e50ca91c318c02c714b6d0ae62"
   integrity sha512-RUK2HX/Z2+GTrFHcA3+gfl1Tib33WL49i6pnUZhE6/imHmiUBMfWQL7qQbYDhI9Pws57KFgdF+qSnla3Jjg6Fw==
 
-"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.4/public/@types/vtex.address-context":
+"vtex.address-context@https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592852963/public/@types/vtex.address-context":
   version "0.0.4"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.0.4/public/@types/vtex.address-context#865c4ba79c9ab240645eb3e7de0bfb9a2b04dab5"
+  resolved "https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592852963/public/@types/vtex.address-context#daa6c791e976a9434c9390f6b76e752d2c50f5f0"
 
-"vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.3.0/public/@types/vtex.checkout-components":
-  version "0.3.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.3.0/public/@types/vtex.checkout-components#cbb63357d134c2ff36347bf83d20726284d8a098"
+"vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components":
+  version "0.4.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components#e944338bd1d7acaee7e32dacb0ffd2bc45aa5c9b"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.34.2/public/@types/vtex.checkout-graphql":
+"vtex.checkout-graphql@https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.34.2+build1591209535/public/@types/vtex.checkout-graphql":
   version "0.34.2"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.34.2/public/@types/vtex.checkout-graphql#44eda15d0e390604c9a29c01df7724d99f77cb97"
+  resolved "https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.34.2+build1591209535/public/@types/vtex.checkout-graphql#6d9d708bcb704fd42acb0adbb856ba738babeebf"
 
-"vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.0/public/@types/vtex.country-flags":
-  version "0.1.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.0/public/@types/vtex.country-flags#8f3b2d28cc32f536d88c5ef087f9823b22950578"
+"vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
+  version "0.1.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags#90f42d100c364aa8b549bd8b8c88c8dc9550686a"
 
 "vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql":
   version "0.2.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql#5625dafa1175684df56f78f4aefc66d01cce8234"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.102.1/public/@types/vtex.render-runtime":
-  version "8.102.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.102.1/public/@types/vtex.render-runtime#95fcc13efb1c3fd9070798fb0acaafe9dd5cf8eb"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.106.0/public/@types/vtex.render-runtime":
+  version "8.106.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.106.0/public/@types/vtex.render-runtime#545b27f0bb91d7387d45a27a807e06eac2f4908f"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.119.0/public/@types/vtex.styleguide":
-  version "9.119.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.119.0/public/@types/vtex.styleguide#e403de99f313f6ac4b065afad0079711b0992163"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.121.0/public/@types/vtex.styleguide":
+  version "9.121.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.121.0/public/@types/vtex.styleguide#acd5bb61dbbe2d5afff4ebd585015619300e6c92"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

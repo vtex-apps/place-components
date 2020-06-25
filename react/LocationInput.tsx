@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
 import { Address } from 'vtex.places-graphql'
 
-import rules from './countries/rules'
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import styles from './LocationInput.css'
 
@@ -18,7 +17,7 @@ const LocationInput: React.FC<Props> = ({
   variation = 'secondary',
   onSuccess,
 }) => {
-  const { address, setAddress } = useAddressContext()
+  const { address, setAddress, rules } = useAddressContext()
   const [inputValue, setInputValue] = useState('')
   const [
     executeGetAddressFromPostalCode,
@@ -78,9 +77,9 @@ const LocationInput: React.FC<Props> = ({
           onChange={handleInputChange}
         />
       </form>
-      {countryRules.fields.postalCode?.forgottenURL && (
+      {countryRules.fields.postalCode?.additionalData?.forgottenURL && (
         <ButtonPlain
-          href={countryRules.fields.postalCode.forgottenURL}
+          href={countryRules.fields.postalCode.additionalData.forgottenURL}
           target="_blank noreferrer"
         >
           <FormattedMessage id="place-components.label.dontKnowPostalCode" />
