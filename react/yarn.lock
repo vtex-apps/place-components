@@ -6051,17 +6051,17 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.0.tgz#81cf3491fea110e50ca91c318c02c714b6d0ae62"
   integrity sha512-RUK2HX/Z2+GTrFHcA3+gfl1Tib33WL49i6pnUZhE6/imHmiUBMfWQL7qQbYDhI9Pws57KFgdF+qSnla3Jjg6Fw==
 
-"vtex.address-context@https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592854478/public/@types/vtex.address-context":
-  version "0.0.4"
-  resolved "https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.address-context@0.0.4+build1592854478/public/@types/vtex.address-context#97dc551c051f5faab49f00b8cfcf2638920da468"
+"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.1.0/public/@types/vtex.address-context":
+  version "0.1.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.1.0/public/@types/vtex.address-context#0717272bfd9d4182e4a0ba380590b6420f6a493b"
 
 "vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components":
   version "0.4.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components#e944338bd1d7acaee7e32dacb0ffd2bc45aa5c9b"
 
-"vtex.checkout-graphql@https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.34.2+build1591209535/public/@types/vtex.checkout-graphql":
-  version "0.34.2"
-  resolved "https://steps--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.checkout-graphql@0.34.2+build1591209535/public/@types/vtex.checkout-graphql#6d9d708bcb704fd42acb0adbb856ba738babeebf"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.35.0/public/@types/vtex.checkout-graphql":
+  version "0.35.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.35.0/public/@types/vtex.checkout-graphql#26e3e5d22bda7905f1858b4f8adfdffdbe6e5f64"
 
 "vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
   version "0.1.1"
@@ -6075,9 +6075,9 @@ vtex-tachyons@^3.2.0:
   version "8.109.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.109.0/public/@types/vtex.render-runtime#88f682998e59c395fa10147883e95c03b8ee0884"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.121.0/public/@types/vtex.styleguide":
-  version "9.121.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.121.0/public/@types/vtex.styleguide#acd5bb61dbbe2d5afff4ebd585015619300e6c92"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.123.0/public/@types/vtex.styleguide":
+  version "9.123.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.123.0/public/@types/vtex.styleguide#821de16fb8128fbe29e69b7fa7864345d5dc31ba"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
