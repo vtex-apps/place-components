@@ -68,7 +68,11 @@ const LocationSelect: React.FC = () => {
 
     for (let i = 0; i < fields.length; ++i) {
       const field = fields[i]
-      const fieldValue = address[field.name!]!
+      const fieldValue = address[field.name!]
+
+      if (typeof fieldValue !== 'string') {
+        continue
+      }
 
       locationSelects.push(
         <div className="mb5" key={i}>
