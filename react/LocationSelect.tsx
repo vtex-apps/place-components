@@ -4,8 +4,6 @@ import { Dropdown } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
 
-import rules from './countries/rules'
-
 const messages = defineMessages({
   province: {
     defaultMessage: '',
@@ -46,10 +44,10 @@ const messages = defineMessages({
 })
 
 const LocationSelect: React.FC = () => {
-  const { address, setAddress } = useAddressContext()
+  const { address, setAddress, rules } = useAddressContext()
   const countryRules = rules[address.country!]
 
-  if (!countryRules.locationSelect) {
+  if (!countryRules?.locationSelect) {
     throw new Error(
       `The country "${address.country}" is not applicable to the LocationSelect component`
     )
@@ -70,7 +68,11 @@ const LocationSelect: React.FC = () => {
 
     for (let i = 0; i < fields.length; ++i) {
       const field = fields[i]
-      const fieldValue = address[field.name!]!
+      const fieldValue = address[field.name!]
+
+      if (typeof fieldValue !== 'string') {
+        continue
+      }
 
       locationSelects.push(
         <div className="mb5" key={i}>

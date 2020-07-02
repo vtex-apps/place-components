@@ -1,8 +1,7 @@
 import msk from 'msk'
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-
-import rules from './countries/rules'
+import { Display, AddressFields } from 'vtex.address-context/types'
 
 interface Props {
   display?: keyof Display
@@ -13,8 +12,12 @@ const PlaceDetails: React.FC<Props> = ({
   display = 'extended',
   hiddenFields = [],
 }) => {
-  const { address } = useAddressContext()
+  const { address, rules } = useAddressContext()
   const countryRules = rules[address.country!]
+
+  if (!countryRules) {
+    return null
+  }
 
   const displaySpec = countryRules.display[display]
 

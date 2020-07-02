@@ -4,8 +4,6 @@ import { Input, Checkbox } from 'vtex.styleguide'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
 
-import rules from '../countries/rules'
-
 const messages = defineMessages({
   wn: {
     defaultMessage: '',
