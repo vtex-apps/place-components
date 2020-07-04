@@ -3,6 +3,7 @@ import { Input, IconSearch, IconClear } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 
 import styles from './LocationSearch.css'
+import { addresses as mockedAddresses } from './addresses'
 
 const LocationSearch: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('')
