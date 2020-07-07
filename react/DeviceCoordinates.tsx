@@ -3,6 +3,7 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { ButtonPlain, Spinner, Tooltip, IconLocation } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
+import { Address } from 'vtex.places-graphql'
 
 import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
@@ -13,24 +14,30 @@ enum PermissionState {
   DENIED,
 }
 
-const DeviceCoordinates: React.FC = () => {
+interface Props {
+  onSuccess?: (address: Address) => void
+}
+
+const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
   const { setAddress } = useAddressContext()
   const [geolocationPermission, setGeolocationPermission] = useState<
     PermissionState
   >(PermissionState.PROMPT)
-  const [executeReverseGeocode, { error, loading, data }] = useLazyQuery(
-    REVERSE_GEOCODE_QUERY
-  )
+
+  const [executeReverseGeocode, geoResult] = useLazyQuery(REVERSE_GEOCODE_QUERY)
+
+  const { loading } = geoResult
 
   useEffect(() => {
-    if (data) {
-      setAddress(data.reverseGeocode)
+    if (geoResult.data) {
+      setAddress(geoResult.data.reverseGeocode)
+      onSuccess?.(geoResult.data.reverseGeocode)
     }
 
-    if (error) {
-      console.warn(error.message)
+    if (geoResult.error) {
+      console.warn(geoResult.error.message)
     }
-  }, [data, error, loading, setAddress])
+  }, [geoResult, setAddress, onSuccess])
 
   const onGetCurrentPositionSuccess = useCallback(
     ({ coords }: Position) => {
@@ -70,9 +77,7 @@ const DeviceCoordinates: React.FC = () => {
     navigator.permissions
       .query({ name: 'geolocation' })
       .then((result: PermissionStatus) => {
-        if (result.state === 'granted') {
-          requestGeolocation()
-        } else if (result.state === 'denied') {
+        if (result.state === 'denied') {
           setGeolocationPermission(PermissionState.DENIED)
         }
       })
@@ -82,12 +87,16 @@ const DeviceCoordinates: React.FC = () => {
     switch (geolocationPermission) {
       case PermissionState.PROMPT:
         return <IconLocation block />
+
       case PermissionState.GRANTED:
         return <IconLocation solid block />
+
       case PermissionState.PENDING:
         return <Spinner size={16} block />
+
       case PermissionState.DENIED:
         return <IconLocation block />
+
       default:
         return null
     }
