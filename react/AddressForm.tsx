@@ -88,6 +88,7 @@ const hasWithoutNumberOption = (label: string) => {
 
 interface AddressFormProps {
   hiddenFields?: AddressFields[]
+  mandatoryEditableFields?: AddressFields[]
   onResetAddress?: () => void
 }
 
@@ -101,6 +102,7 @@ type FieldsMeta = {
 
 const AddressForm: React.FC<AddressFormProps> = ({
   hiddenFields = [],
+  mandatoryEditableFields = [],
   onResetAddress,
 }) => {
   const intl = useIntl()
@@ -134,9 +136,11 @@ const AddressForm: React.FC<AddressFormProps> = ({
   // the `useRef` hook.
   const initialInvalidFields = useRef(
     Object.entries(fields ?? {})
-      .filter(([fieldName, fieldSchema]) => {
-        return fieldSchema.required && !address[fieldName as AddressFields]
-      })
+      .filter(
+        ([fieldName, fieldSchema]) =>
+          mandatoryEditableFields?.includes(fieldName as AddressFields) ||
+          (fieldSchema.required && !address[fieldName as AddressFields])
+      )
       .map(([fieldName]) => fieldName)
   )
 
