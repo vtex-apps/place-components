@@ -1,0 +1,12 @@
+.locationSearch {
+  max-width: 18rem;
+}
+.locationSearch span {
+  outline: none;
+}
+
+.locationSearch span :global(.vtex__icon-clear) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

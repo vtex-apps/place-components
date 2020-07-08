@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { Input, IconSearch, IconClear } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 
+import styles from './LocationSearch.css'
+
 const LocationSearch: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('')
 
   const onClear = () => setInputValue('')
 
   return (
-    <div className="w-100">
+    <div className={`${styles.locationSearch} w-100`}>
       <Input
         label={
           <FormattedMessage id="place-components.label.autocompleteAddress" />
@@ -18,7 +20,7 @@ const LocationSearch: React.FC = () => {
           inputValue.length && (
             <span
               role="button"
-              tabIndex={0}
+              tabIndex={-1}
               className="pointer"
               onClick={onClear}
               onKeyPress={onClear}
