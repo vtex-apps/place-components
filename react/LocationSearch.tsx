@@ -7,7 +7,12 @@ import styles from './LocationSearch.css'
 const LocationSearch: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('')
 
-  const onClear = () => setInputValue('')
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key !== 'Escape') {
+      return
+    }
+    setInputValue('')
+  }
 
   return (
     <div className={`${styles.locationSearch} w-100`}>
@@ -27,8 +32,8 @@ const LocationSearch: React.FC = () => {
               role="button"
               tabIndex={-1}
               className="pointer c-muted-3 flex justify-center-s items-center-m outline-0-m"
-              onClick={onClear}
-              onKeyPress={onClear}
+              onClick={() => setInputValue('')}
+              onKeyPress={() => {}}
             >
               <IconClear />
             </span>
@@ -38,6 +43,7 @@ const LocationSearch: React.FC = () => {
         onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
           setInputValue(e.target.value)
         }
+        onKeyDown={handleKeyDown}
       />
     </div>
   )
