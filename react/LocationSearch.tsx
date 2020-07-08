@@ -12,20 +12,25 @@ const LocationSearch: React.FC = () => {
   return (
     <div className={`${styles.locationSearch} w-100`}>
       <Input
+        testId="location-search-input"
         label={
           <FormattedMessage id="place-components.label.autocompleteAddress" />
         }
-        prefix={<IconSearch color="#134CD8" />}
+        prefix={
+          <div className="c-action-primary flex justify-center-s items-center-m">
+            <IconSearch />
+          </div>
+        }
         suffix={
           inputValue.length && (
             <span
               role="button"
               tabIndex={-1}
-              className="pointer"
+              className="pointer c-muted-3 flex justify-center-s items-center-m outline-0-m"
               onClick={onClear}
               onKeyPress={onClear}
             >
-              <IconClear color="#CACBCC" />
+              <IconClear />
             </span>
           )
         }
