@@ -25,5 +25,6 @@
   "place-components.label.KOR": "Korea",
   "place-components.label.useCurrentLocation": "Use current location",
   "place-components.label.postalCode": "Postal Code",
-  "place-components.label.dontKnowPostalCode": "I don't know my postal code"
+  "place-components.label.dontKnowPostalCode": "I don't know my postal code",
+  "place-components.label.autocompleteAddress": "Address and number"
 }
