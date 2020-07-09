@@ -22,7 +22,7 @@ const LocationSearch: React.FC = () => {
           <FormattedMessage id="place-components.label.autocompleteAddress" />
         }
         prefix={
-          <div className="c-action-primary flex justify-center-s items-center-m">
+          <div className="c-action-primary flex justify-center items-center">
             <IconSearch />
           </div>
         }
@@ -31,7 +31,7 @@ const LocationSearch: React.FC = () => {
             <span
               role="button"
               tabIndex={-1}
-              className="pointer c-muted-3 flex justify-center-s items-center-m outline-0-m"
+              className="pointer c-muted-3 flex justify-center items-center outline-0"
               onClick={() => setInputValue('')}
               onKeyPress={() => {}}
             >
@@ -40,8 +40,8 @@ const LocationSearch: React.FC = () => {
           )
         }
         value={inputValue}
-        onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
-          setInputValue(e.target.value)
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setInputValue(event.target.value)
         }
         onKeyDown={handleKeyDown}
       />
