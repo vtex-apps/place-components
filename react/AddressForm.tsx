@@ -106,7 +106,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
   onResetAddress,
 }) => {
   const intl = useIntl()
-  const { address, setAddress, rules } = useAddressContext()
+  const { address, setAddress, invalidFields, rules } = useAddressContext()
   const [editing, setEditing] = useState(false)
 
   const countryRules = (address.country && rules[address.country]) || undefined
@@ -134,15 +134,10 @@ const AddressForm: React.FC<AddressFormProps> = ({
   // if the value _exists_, as soon as the first character is typed the field will no
   // longer be invalid causing it to suddenly "disappear" from the screen if we don't use
   // the `useRef` hook.
-  const initialInvalidFields = useRef(
-    Object.entries(fields ?? {})
-      .filter(
-        ([fieldName, fieldSchema]) =>
-          mandatoryEditableFields?.includes(fieldName as AddressFields) ||
-          (fieldSchema.required && !address[fieldName as AddressFields])
-      )
-      .map(([fieldName]) => fieldName)
-  )
+  const initialInvalidFields = useRef([
+    ...invalidFields,
+    ...mandatoryEditableFields,
+  ])
 
   const ignoredFields = useMemo(
     () =>
