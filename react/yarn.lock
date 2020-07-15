@@ -6051,33 +6051,33 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.0.tgz#81cf3491fea110e50ca91c318c02c714b6d0ae62"
   integrity sha512-RUK2HX/Z2+GTrFHcA3+gfl1Tib33WL49i6pnUZhE6/imHmiUBMfWQL7qQbYDhI9Pws57KFgdF+qSnla3Jjg6Fw==
 
-"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.1.0/public/@types/vtex.address-context":
-  version "0.1.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.1.0/public/@types/vtex.address-context#0717272bfd9d4182e4a0ba380590b6420f6a493b"
+"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.3.0/public/@types/vtex.address-context":
+  version "0.3.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.3.0/public/@types/vtex.address-context#3aee322e43b607d98a2b2c0361e391c900324a12"
 
 "vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components":
   version "0.4.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components#e944338bd1d7acaee7e32dacb0ffd2bc45aa5c9b"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.35.0/public/@types/vtex.checkout-graphql":
-  version "0.35.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.35.0/public/@types/vtex.checkout-graphql#26e3e5d22bda7905f1858b4f8adfdffdbe6e5f64"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.36.5/public/@types/vtex.checkout-graphql":
+  version "0.36.5"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.36.5/public/@types/vtex.checkout-graphql#750e41dfe30b38dd15adaf353810e96e9309f4b6"
 
 "vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
   version "0.1.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags#90f42d100c364aa8b549bd8b8c88c8dc9550686a"
 
-"vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql":
-  version "0.2.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.0/public/@types/vtex.places-graphql#5625dafa1175684df56f78f4aefc66d01cce8234"
+"vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.1/public/@types/vtex.places-graphql":
+  version "0.2.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.2.1/public/@types/vtex.places-graphql#ca02f9676515458e537afc08658ec79e6b263a7b"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.109.0/public/@types/vtex.render-runtime":
-  version "8.109.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.109.0/public/@types/vtex.render-runtime#88f682998e59c395fa10147883e95c03b8ee0884"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.111.0/public/@types/vtex.render-runtime":
+  version "8.111.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.111.0/public/@types/vtex.render-runtime#01b2ce53d1aa2a974f5229c61bd9c83b43a86d76"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.123.0/public/@types/vtex.styleguide":
-  version "9.123.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.123.0/public/@types/vtex.styleguide#821de16fb8128fbe29e69b7fa7864345d5dc31ba"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.124.2/public/@types/vtex.styleguide":
+  version "9.124.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.124.2/public/@types/vtex.styleguide#23f1937bebae169c1d110594a4af3cc3ef05c601"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
