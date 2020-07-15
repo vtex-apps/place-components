@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Input, IconSearch, IconClear } from 'vtex.styleguide'
 import {
@@ -15,12 +15,23 @@ import styles from './LocationSearch.css'
 
 const MAX_DROPDOWN_ADDRESSES = 6
 
+// This function will be replaced in the future, after integrating the
+// component with GraphQL queries.
+const getAddresses = (searchTerm: string) => {
+  return mockedAddresses
+    .filter((address: string) =>
+      address.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+    )
+    .slice(0, MAX_DROPDOWN_ADDRESSES)
+}
+
 interface LocationSearchProps {
   onSelectAddress?: (selectedAddress: string) => void
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const addresses = useMemo(() => getAddresses(searchTerm), [searchTerm])
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -32,16 +43,6 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   const handleAddressSelection = (selectedAddress: string) => {
     setSearchTerm(selectedAddress)
     onSelectAddress?.(selectedAddress)
-  }
-
-  // This function will be replaced in the future, after integrating the
-  // component with GraphQL queries.
-  const getAddresses = () => {
-    return mockedAddresses
-      .filter((address: string) =>
-        address.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-      )
-      .slice(0, MAX_DROPDOWN_ADDRESSES)
   }
 
   return (
@@ -79,9 +80,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
           onKeyDown={handleKeyDown}
         />
         <ComboboxPopover>
-          {getAddresses().length > 0 ? (
+          {addresses.length > 0 ? (
             <ComboboxList>
-              {getAddresses().map((address, index) => (
+              {addresses.map((address, index) => (
                 <ComboboxOption value={address} key={index} />
               ))}
             </ComboboxList>
