@@ -13,13 +13,7 @@ import '@reach/combobox/styles.css'
 import { addresses as mockedAddresses } from './addresses'
 import styles from './LocationSearch.css'
 
-const useAddressMatch = (term: string): string[] => {
-  return mockedAddresses
-    .filter((address: string) =>
-      address.toLocaleLowerCase().includes(term.toLocaleLowerCase())
-    )
-    .slice(0, 6)
-}
+const MAX_DROPDOWN_ADDRESSES = 6
 
 interface LocationSearchProps {
   onSelectAddress?: (selectedAddress: string) => void
@@ -27,7 +21,6 @@ interface LocationSearchProps {
 
 const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
-  const addresses = useAddressMatch(searchTerm)
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -39,6 +32,16 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   const handleAddressSelection = (selectedAddress: string) => {
     setSearchTerm(selectedAddress)
     onSelectAddress?.(selectedAddress)
+  }
+
+  // This function will be replaced in the future, after integrating the
+  // component with GraphQL queries.
+  const getAddresses = () => {
+    return mockedAddresses
+      .filter((address: string) =>
+        address.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+      )
+      .slice(0, MAX_DROPDOWN_ADDRESSES)
   }
 
   return (
@@ -76,9 +79,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
           onKeyDown={handleKeyDown}
         />
         <ComboboxPopover>
-          {addresses.length > 0 ? (
+          {getAddresses().length > 0 ? (
             <ComboboxList>
-              {addresses.map((address, index) => (
+              {getAddresses().map((address, index) => (
                 <ComboboxOption value={address} key={index} />
               ))}
             </ComboboxList>
