@@ -1,24 +1,49 @@
 import React, { useState } from 'react'
-import { Input, IconSearch, IconClear } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
-import { Combobox, ComboboxInput } from '@reach/combobox'
+import { Input, IconSearch, IconClear } from 'vtex.styleguide'
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxPopover,
+  ComboboxList,
+} from '@reach/combobox'
+import '@reach/combobox/styles.css'
 
-import styles from './LocationSearch.css'
 import { addresses as mockedAddresses } from './addresses'
+import styles from './LocationSearch.css'
 
-const LocationSearch: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>('')
+const useAddressMatch = (term: string): string[] => {
+  return mockedAddresses
+    .filter((address: string) =>
+      address.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+    )
+    .slice(0, 6)
+}
+
+interface LocationSearchProps {
+  onSelectAddress?: (selectedAddress: string) => void
+}
+
+const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const addresses = useAddressMatch(searchTerm)
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
       return
     }
-    setInputValue('')
+    setSearchTerm('')
+  }
+
+  const handleAddressSelection = (selectedAddress: string) => {
+    setSearchTerm(selectedAddress)
+    onSelectAddress?.(selectedAddress)
   }
 
   return (
     <div className={`${styles.locationSearch} w-100`}>
-      <Combobox>
+      <Combobox onSelect={handleAddressSelection}>
         <ComboboxInput
           as={Input}
           testId="location-search-input"
@@ -31,25 +56,36 @@ const LocationSearch: React.FC = () => {
             </div>
           }
           suffix={
-            inputValue.length && (
+            searchTerm.trim().length && (
               <span
                 data-testid="location-search-clear"
                 role="button"
                 tabIndex={-1}
                 className="pointer c-muted-3 flex justify-center items-center outline-0"
-                onClick={() => setInputValue('')}
+                onClick={() => setSearchTerm('')}
                 onKeyPress={() => {}}
               >
                 <IconClear />
               </span>
             )
           }
-          value={inputValue}
+          value={searchTerm}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setInputValue(event.target.value)
+            setSearchTerm(event.target.value)
           }
           onKeyDown={handleKeyDown}
         />
+        <ComboboxPopover>
+          {addresses.length > 0 ? (
+            <ComboboxList>
+              {addresses.map((address, index) => (
+                <ComboboxOption value={address} key={index} />
+              ))}
+            </ComboboxList>
+          ) : (
+            <FormattedMessage id="place-components.label.autocompleteAddressFail" />
+          )}
+        </ComboboxPopover>
       </Combobox>
     </div>
   )
