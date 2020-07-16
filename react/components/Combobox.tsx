@@ -70,7 +70,7 @@ export const ComboboxOption: React.FC<ReachComboboxOptionProps & {
   >
     {children ?? (
       <>
-        <Icon />
+        <Icon className="ml5 mr4" />
         <ReachComboboxOptionText />
       </>
     )}
