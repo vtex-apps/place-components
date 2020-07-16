@@ -1,15 +1,14 @@
 import React, { useState, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Input, IconSearch, IconClear } from 'vtex.styleguide'
+
 import {
   Combobox,
   ComboboxInput,
   ComboboxOption,
   ComboboxPopover,
   ComboboxList,
-} from '@reach/combobox'
-import '@reach/combobox/styles.css'
-
+} from './components/Combobox'
 import { addresses as mockedAddresses } from './addresses'
 import styles from './LocationSearch.css'
 
