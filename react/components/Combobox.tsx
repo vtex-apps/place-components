@@ -27,7 +27,7 @@ export const ComboboxPopover: React.FC<ReachComboboxPopoverProps & {
     className={classNames(
       className,
       styles.popover,
-      'bg-base list ma0 pa0 outline-0'
+      'bg-base pv3 mt2 br2 ba bw1 b--muted-4 absolute outline-0'
     )}
   />
 )
