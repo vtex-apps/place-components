@@ -31,7 +31,14 @@ export const ComboboxPopover: React.FC<ReachComboboxPopoverProps & {
   />
 )
 
-export const ComboboxList = ReachComboboxList
+export const ComboboxList: React.FC<ReachComboboxListProps & {
+  className?: string
+}> = ({ className, ...props }) => (
+  <ReachComboboxList
+    {...props}
+    className={classNames(className, 'bg-base list ma0 pa0 outline-0')}
+  />
+)
 
 export const ComboboxOption = ReachComboboxOption
 
