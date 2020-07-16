@@ -26,5 +26,6 @@
   "place-components.label.useCurrentLocation": "Usar localização atual",
   "place-components.label.postalCode": "CEP",
   "place-components.label.dontKnowPostalCode": "Não sei meu CEP",
-  "place-components.label.autocompleteAddress": "Endereço e número"
+  "place-components.label.autocompleteAddress": "Endereço e número",
+  "place-components.label.autocompleteAddressFail": "Nenhum resultado encontrado"
 }

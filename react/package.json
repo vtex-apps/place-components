@@ -3,6 +3,7 @@
     "test": "vtex-test-tools test"
   },
   "dependencies": {
+    "@reach/combobox": "^0.10.5",
     "classnames": "^2.2.6",
     "graphql": "^14.6.0",
     "msk": "^1.0.5",
