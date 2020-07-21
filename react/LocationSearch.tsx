@@ -97,7 +97,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
               ))}
             </ComboboxList>
           ) : (
-            <div className="flex truncate items-center pv3 ph5">
+            <div className="flex items-center pv3 ph5 c-disabled">
               <div className="flex flex-shrink-0 mr4">
                 <IconWarning />
               </div>
