@@ -72,13 +72,15 @@ export const ComboboxOption: React.FC<ReachComboboxOptionProps & {
     className={classNames(
       className,
       styles.option,
-      'flex-nowrap truncate items-center pointer bg-action-secondary pv3 pr7'
+      'flex truncate items-center pointer bg-action-secondary pv3 ph5'
     )}
   >
     {children ?? (
       <>
-        <Icon className="ml5 mr4" />
-        <ReachComboboxOptionText />
+        <Icon className="flex-shrink-0 mr4" />
+        <div className="truncate">
+          <ReachComboboxOptionText />
+        </div>
       </>
     )}
   </ReachComboboxOption>
