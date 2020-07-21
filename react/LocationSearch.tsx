@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Input, IconSearch, IconClear } from 'vtex.styleguide'
+import { positionMatchWidth } from '@reach/popover'
 
 import {
   Combobox,
@@ -31,6 +32,7 @@ interface LocationSearchProps {
 const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const addresses = useMemo(() => getAddresses(searchTerm), [searchTerm])
+  const inputWrapperEl = useRef<HTMLDivElement>(null)
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -47,38 +49,47 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   return (
     <div className={`${styles.locationSearch} w-100`}>
       <Combobox onSelect={handleAddressSelection}>
-        <ComboboxInput
-          as={Input}
-          testId="location-search-input"
-          label={
-            <FormattedMessage id="place-components.label.autocompleteAddress" />
-          }
-          prefix={
-            <div className="c-action-primary flex justify-center items-center">
-              <IconSearch />
-            </div>
-          }
-          suffix={
-            searchTerm.trim().length && (
-              <span
-                data-testid="location-search-clear"
-                role="button"
-                tabIndex={-1}
-                className="pointer c-muted-3 flex justify-center items-center outline-0"
-                onClick={() => setSearchTerm('')}
-                onKeyPress={() => {}}
-              >
-                <IconClear />
-              </span>
+        <div ref={inputWrapperEl}>
+          <ComboboxInput
+            as={Input}
+            testId="location-search-input"
+            label={
+              <FormattedMessage id="place-components.label.autocompleteAddress" />
+            }
+            prefix={
+              <div className="c-action-primary flex justify-center items-center">
+                <IconSearch />
+              </div>
+            }
+            suffix={
+              searchTerm.trim().length && (
+                <span
+                  data-testid="location-search-clear"
+                  role="button"
+                  tabIndex={-1}
+                  className="pointer c-muted-3 flex justify-center items-center outline-0"
+                  onClick={() => setSearchTerm('')}
+                  onKeyPress={() => {}}
+                >
+                  <IconClear />
+                </span>
+              )
+            }
+            value={searchTerm}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchTerm(event.target.value)
+            }
+            onKeyDown={handleKeyDown}
+          />
+        </div>
+        <ComboboxPopover
+          position={(_targetRect, popoverRect) =>
+            positionMatchWidth(
+              inputWrapperEl.current?.getBoundingClientRect(),
+              popoverRect
             )
           }
-          value={searchTerm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setSearchTerm(event.target.value)
-          }
-          onKeyDown={handleKeyDown}
-        />
-        <ComboboxPopover>
+        >
           {addresses.length > 0 ? (
             <ComboboxList>
               {addresses.map((address, index) => (

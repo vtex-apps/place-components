@@ -10,7 +10,8 @@ import {
   ComboboxOptionProps as ReachComboboxOptionProps,
   ComboboxOptionText as ReachComboboxOptionText,
 } from '@reach/combobox'
-import React from 'react'
+import { PopoverProps } from '@reach/popover'
+import React, { forwardRef } from 'react'
 import classNames from 'classnames'
 
 import styles from './Combobox.css'
@@ -19,18 +20,24 @@ export const Combobox = ReachCombobox
 
 export const ComboboxInput = ReachComboboxInput
 
-export const ComboboxPopover: React.FC<ReachComboboxPopoverProps & {
-  className?: string
-}> = ({ className, ...props }) => (
-  <ReachComboboxPopover
-    {...props}
-    className={classNames(
-      className,
-      styles.popover,
-      'bg-base pv3 mt2 br2 ba bw1 b--muted-4 absolute outline-0'
-    )}
-  />
-)
+export const ComboboxPopover = forwardRef<
+  HTMLDivElement,
+  ReachComboboxPopoverProps &
+    Partial<PopoverProps> &
+    React.RefAttributes<HTMLDivElement>
+>(function ComboboxPopover({ className, ...props }, ref) {
+  return (
+    <ReachComboboxPopover
+      {...props}
+      ref={ref}
+      className={classNames(
+        className,
+        styles.popover,
+        'bg-base pv3 mt2 br2 ba bw1 b--muted-4 absolute outline-0'
+      )}
+    />
+  )
+})
 
 export const ComboboxList: React.FC<ReachComboboxListProps & {
   className?: string
