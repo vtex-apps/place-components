@@ -1,7 +1,6 @@
 import {
   Combobox as ReachCombobox,
   ComboboxInput as ReachComboboxInput,
-  ComboboxInputProps as ReachComboboxInputProps,
   ComboboxPopover as ReachComboboxPopover,
   ComboboxPopoverProps as ReachComboboxPopoverProps,
   ComboboxList as ReachComboboxList,

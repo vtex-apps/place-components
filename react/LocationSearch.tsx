@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Input, IconSearch, IconClear } from 'vtex.styleguide'
+import { Input, IconSearch, IconClear, IconWarning } from 'vtex.styleguide'
 import { positionMatchWidth } from '@reach/popover'
 
 import {
@@ -97,7 +97,14 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
               ))}
             </ComboboxList>
           ) : (
-            <FormattedMessage id="place-components.label.autocompleteAddressFail" />
+            <div className="flex truncate items-center pv3 ph5">
+              <div className="flex flex-shrink-0 mr4">
+                <IconWarning />
+              </div>
+              <div className="truncate">
+                <FormattedMessage id="place-components.label.autocompleteAddressFail" />
+              </div>
+            </div>
           )}
         </ComboboxPopover>
       </Combobox>
