@@ -71,7 +71,7 @@ export const ComboboxOption: React.FC<ReachComboboxOptionProps & {
     className={classNames(
       className,
       styles.option,
-      'flex items-center pointer bg-action-secondary pv3 ph5'
+      'flex items-center pointer bg-action-secondary pv3 ph5 hover-bg-action-secondary'
     )}
   >
     {children ?? (

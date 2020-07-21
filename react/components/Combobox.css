@@ -2,7 +2,7 @@
   --reach-combobox: 1;
 }
 
-.option:not([aria-selected="true"]) {
+.option:not([aria-selected="true"]).option:not(:hover) {
   background-color: transparent;
 }
 
