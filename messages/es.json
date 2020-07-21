@@ -27,5 +27,5 @@
   "place-components.label.postalCode": "Código Postal",
   "place-components.label.dontKnowPostalCode": "No conozco mi código postal",
   "place-components.label.autocompleteAddress": "Dirección y número",
-  "place-components.label.autocompleteAddressFail": "No se han encontrado resultados"
+  "place-components.label.autocompleteAddressFail": "Sin resultados"
 }
