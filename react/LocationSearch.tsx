@@ -12,6 +12,7 @@ import {
 } from './components/Combobox'
 import { addresses as mockedAddresses } from './addresses'
 import styles from './LocationSearch.css'
+import GoogleLogo from './powered_by_google.png'
 
 const MAX_DROPDOWN_ADDRESSES = 6
 
@@ -91,11 +92,16 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
           }
         >
           {addresses.length > 0 ? (
-            <ComboboxList>
-              {addresses.map((address, index) => (
-                <ComboboxOption value={address} key={index} />
-              ))}
-            </ComboboxList>
+            <>
+              <ComboboxList>
+                {addresses.map((address, index) => (
+                  <ComboboxOption value={address} key={index} />
+                ))}
+              </ComboboxList>
+              <div className="flex flex-row-reverse">
+                <img className="h1 mt3 mb1 mh5" src={GoogleLogo} alt="ah" />
+              </div>
+            </>
           ) : (
             <div className="flex items-center pv3 ph5 c-disabled">
               <div className="flex flex-shrink-0 mr4">
