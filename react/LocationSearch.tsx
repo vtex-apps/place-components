@@ -12,7 +12,6 @@ import {
 } from './components/Combobox'
 import { addresses as mockedAddresses } from './addresses'
 import styles from './LocationSearch.css'
-import GoogleLogo from './powered_by_google.png'
 
 const MAX_DROPDOWN_ADDRESSES = 6
 
@@ -28,9 +27,15 @@ const getAddresses = (searchTerm: string) => {
 
 interface LocationSearchProps {
   onSelectAddress?: (selectedAddress: string) => void
+  renderEngineLogo?: (
+    props: React.ImgHTMLAttributes<HTMLImageElement> & { className?: string }
+  ) => HTMLImageElement
 }
 
-const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
+const LocationSearch: React.FC<LocationSearchProps> = ({
+  onSelectAddress,
+  renderEngineLogo,
+}) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const addresses = useMemo(() => getAddresses(searchTerm), [searchTerm])
   const inputWrapperEl = useRef<HTMLDivElement>(null)
@@ -98,9 +103,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
                   <ComboboxOption value={address} key={index} />
                 ))}
               </ComboboxList>
-              <div className="flex flex-row-reverse">
-                <img className="h1 mt3 mb1 mh5" src={GoogleLogo} alt="ah" />
-              </div>
+              {renderEngineLogo && (
+                <div className="flex flex-row-reverse">
+                  {renderEngineLogo({ className: 'h1 mt3 mb1 mh5' })}
+                </div>
+              )}
             </>
           ) : (
             <div className="flex items-center pv3 ph5 c-disabled">
