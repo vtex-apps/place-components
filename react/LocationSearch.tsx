@@ -27,9 +27,7 @@ const getAddresses = (searchTerm: string) => {
 
 interface LocationSearchProps {
   onSelectAddress?: (selectedAddress: string) => void
-  renderEngineLogo?: (
-    props: React.ImgHTMLAttributes<HTMLImageElement> & { className?: string }
-  ) => HTMLImageElement
+  renderEngineLogo?: () => React.ReactNode
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
@@ -107,7 +105,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               </ComboboxList>
               {renderEngineLogo && (
                 <div className="flex flex-row-reverse">
-                  {renderEngineLogo({ className: 'h1 mt3 mb1 mh5' })}
+                  <div className="mt3 mb1 mh5">{renderEngineLogo()}</div>
                 </div>
               )}
             </>
