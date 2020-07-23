@@ -38,7 +38,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const addresses = useMemo(() => getAddresses(searchTerm), [searchTerm])
-  const inputWrapperEl = useRef<HTMLDivElement>(null)
+  const inputWrapperRef = useRef<HTMLDivElement>(null)
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -55,7 +55,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   return (
     <div className={`${styles.locationSearch} w-100`}>
       <Combobox onSelect={handleAddressSelection}>
-        <div ref={inputWrapperEl}>
+        <div ref={inputWrapperRef}>
           <ComboboxInput
             as={Input}
             testId="location-search-input"
@@ -91,7 +91,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
         <ComboboxPopover
           position={(_targetRect, popoverRect) =>
             positionMatchWidth(
-              inputWrapperEl.current?.getBoundingClientRect(),
+              inputWrapperRef.current?.getBoundingClientRect(),
               popoverRect
             )
           }
