@@ -12,6 +12,7 @@ import {
 } from './components/Combobox'
 import { addresses as mockedAddresses } from './addresses'
 import styles from './LocationSearch.css'
+import PlaceIcon from './components/PlaceIcon'
 
 const MAX_DROPDOWN_ADDRESSES = 6
 
@@ -100,7 +101,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             <>
               <ComboboxList>
                 {addresses.map((address, index) => (
-                  <ComboboxOption value={address} key={index} />
+                  <ComboboxOption
+                    renderIcon={() => <PlaceIcon />}
+                    value={address}
+                    key={index}
+                  />
                 ))}
               </ComboboxList>
               {renderEngineLogo && (
