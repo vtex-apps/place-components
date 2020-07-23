@@ -102,7 +102,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               <ComboboxList>
                 {addresses.map((address, index) => (
                   <ComboboxOption
-                    renderIcon={() => <PlaceIcon />}
+                    icon={<PlaceIcon />}
                     value={address}
                     key={index}
                   />
