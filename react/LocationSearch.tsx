@@ -119,7 +119,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               <ComboboxList>
                 {addresses.map((address, index) => (
                   <ComboboxOption value={address.description} key={index}>
-                    <PlaceIcon className="flex flex-shrink-0 mr4" />
+                    <PlaceIcon className="flex flex-shrink-0 mr4 c-muted-1" />
                     {renderSuggestionText(address)}
                   </ComboboxOption>
                 ))}
