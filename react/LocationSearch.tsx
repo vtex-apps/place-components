@@ -10,19 +10,56 @@ import {
   ComboboxPopover,
   ComboboxList,
 } from './components/Combobox'
-import { addresses as mockedAddresses } from './addresses'
+import { locations, Location } from './addresses'
 import styles from './LocationSearch.css'
 import PlaceIcon from './components/PlaceIcon'
 
 const MAX_DROPDOWN_ADDRESSES = 6
 
+interface Interval {
+  offset: number
+  size: number
+}
+
+interface Suggestion {
+  description: string
+  mainText: string
+  mainTextMatchInterval: Interval
+  secondaryText: string
+}
+
+const renderSuggestionText = (suggestion: Suggestion) => {
+  const { mainText } = suggestion
+  const { offset, size } = suggestion.mainTextMatchInterval
+  return (
+    <div className="truncate c-muted-2">
+      <span className="c-on-base">{mainText.substr(0, offset)}</span>
+      <em className="c-on-base fs-normal b">{mainText.substr(offset, size)}</em>
+      <span className="c-on-base">{mainText.substr(size + offset)}</span>
+      <span> {suggestion.secondaryText}</span>
+    </div>
+  )
+}
+
 // This function will be replaced in the future, after integrating the
 // component with GraphQL queries.
 const getAddresses = (searchTerm: string) => {
-  return mockedAddresses
-    .filter((address: string) =>
-      address.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+  return locations
+    .filter(
+      (location: Location) =>
+        ~location.street.toLowerCase().indexOf(searchTerm.toLowerCase())
     )
+    .map((location: Location) => {
+      const mainText = location.street
+      // never will be -1
+      const offset = mainText.toLowerCase().indexOf(searchTerm.toLowerCase())
+      return {
+        description: `${location.street}, ${location.city}, ${location.state}`,
+        mainText,
+        secondaryText: `${location.city}, ${location.state}`,
+        mainTextMatchInterval: { offset, size: searchTerm.length },
+      } as Suggestion
+    })
     .slice(0, MAX_DROPDOWN_ADDRESSES)
 }
 
@@ -101,11 +138,10 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             <>
               <ComboboxList>
                 {addresses.map((address, index) => (
-                  <ComboboxOption
-                    icon={<PlaceIcon />}
-                    value={address}
-                    key={index}
-                  />
+                  <ComboboxOption value={address.description} key={index}>
+                    <PlaceIcon className="flex flex-shrink-0 mr4" />
+                    {renderSuggestionText(address)}
+                  </ComboboxOption>
                 ))}
               </ComboboxList>
               {renderEngineLogo && (
@@ -115,7 +151,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               )}
             </>
           ) : (
-            <div className="flex items-center pv3 ph5 c-disabled">
+            <div className="flex items-center pv3 ph5 c-muted-2">
               <div className="flex flex-shrink-0 mr4">
                 <IconWarning />
               </div>
