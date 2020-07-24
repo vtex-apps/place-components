@@ -10,18 +10,15 @@ import {
   ComboboxPopover,
   ComboboxList,
 } from './components/Combobox'
-import { locations, Location } from './addresses'
 import styles from './LocationSearch.css'
 import PlaceIcon from './components/PlaceIcon'
-
-const MAX_DROPDOWN_ADDRESSES = 6
 
 interface Interval {
   offset: number
   size: number
 }
 
-interface Suggestion {
+export interface Suggestion {
   description: string
   mainText: string
   mainTextMatchInterval: Interval
@@ -34,46 +31,29 @@ const renderSuggestionText = (suggestion: Suggestion) => {
   return (
     <div className="truncate c-muted-2">
       <span className="c-on-base">{mainText.substr(0, offset)}</span>
-      <em className="c-on-base fs-normal b">{mainText.substr(offset, size)}</em>
+      <span className="c-on-base b">{mainText.substr(offset, size)}</span>
       <span className="c-on-base">{mainText.substr(size + offset)}</span>
-      <span> {suggestion.secondaryText}</span>
+      <span>{` ${suggestion.secondaryText}`}</span>
     </div>
   )
 }
 
-// This function will be replaced in the future, after integrating the
-// component with GraphQL queries.
-const getAddresses = (searchTerm: string) => {
-  return locations
-    .filter(
-      (location: Location) =>
-        ~location.street.toLowerCase().indexOf(searchTerm.toLowerCase())
-    )
-    .map((location: Location) => {
-      const mainText = location.street
-      // never will be -1
-      const offset = mainText.toLowerCase().indexOf(searchTerm.toLowerCase())
-      return {
-        description: `${location.street}, ${location.city}, ${location.state}`,
-        mainText,
-        secondaryText: `${location.city}, ${location.state}`,
-        mainTextMatchInterval: { offset, size: searchTerm.length },
-      } as Suggestion
-    })
-    .slice(0, MAX_DROPDOWN_ADDRESSES)
-}
-
 interface LocationSearchProps {
+  getAddresses: (searchTerm: string) => Suggestion[]
   onSelectAddress?: (selectedAddress: string) => void
   renderEngineLogo?: () => React.ReactNode
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
+  getAddresses,
   onSelectAddress,
   renderEngineLogo,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
-  const addresses = useMemo(() => getAddresses(searchTerm), [searchTerm])
+  const addresses = useMemo(() => getAddresses(searchTerm), [
+    getAddresses,
+    searchTerm,
+  ])
   const inputWrapperRef = useRef<HTMLDivElement>(null)
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
