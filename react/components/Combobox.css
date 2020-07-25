@@ -6,6 +6,10 @@
   background-color: transparent;
 }
 
+.option:active {
+  background-color: #d2defc
+}
+
 .popover {
   box-shadow: 0px 1px 16px rgba(46, 46, 46, 0.12);
 }
