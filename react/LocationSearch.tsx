@@ -91,7 +91,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                   // the input can be cleared by pressing the esc key,
                   // so the clear button should not be tabbable
                   tabIndex={-1}
-                  className="pointer c-muted-3 hover-gray flex justify-center items-center outline-0"
+                  className="flex pa3 na3 pointer outline-0 c-muted-3 hover-gray"
                   onClick={() => setSearchTerm('')}
                   onKeyPress={() => {}}
                 >
