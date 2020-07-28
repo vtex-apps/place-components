@@ -131,11 +131,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               )}
             </>
           ) : (
-            <div className="flex items-center pv3 ph5 c-muted-2">
-              <div className="flex flex-shrink-0 mr4">
+            <div className="flex items-center pv3 ph5">
+              <div className="flex flex-shrink-0 mr4 c-muted-3">
                 <IconWarning />
               </div>
-              <div className="truncate">
+              <div className="truncate c-muted-2 fw6">
                 <FormattedMessage id="place-components.label.autocompleteAddressFail" />
               </div>
             </div>
