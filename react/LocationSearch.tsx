@@ -10,7 +10,6 @@ import {
   ComboboxPopover,
   ComboboxList,
 } from './components/Combobox'
-import styles from './LocationSearch.css'
 import PlaceIcon from './components/PlaceIcon'
 
 interface Interval {
@@ -69,7 +68,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   }
 
   return (
-    <div className={`${styles.locationSearch} w-100`}>
+    <div className="w-100">
       <Combobox onSelect={handleAddressSelection}>
         <div ref={inputWrapperRef}>
           <ComboboxInput
