@@ -29,9 +29,11 @@ const renderSuggestionText = (suggestion: Suggestion) => {
   const { offset, size } = suggestion.mainTextMatchInterval
   return (
     <div className="truncate c-muted-2">
-      <span className="c-on-base">{mainText.substr(0, offset)}</span>
-      <span className="c-on-base b">{mainText.substr(offset, size)}</span>
-      <span className="c-on-base">{mainText.substr(size + offset)}</span>
+      <span className="c-on-base">
+        {mainText.substr(0, offset)}
+        <span className="b">{mainText.substr(offset, size)}</span>
+        {mainText.substr(size + offset)}
+      </span>
       <span>{` ${suggestion.secondaryText}`}</span>
     </div>
   )
