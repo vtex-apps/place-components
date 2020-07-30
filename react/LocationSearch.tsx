@@ -33,8 +33,8 @@ const renderSuggestionText = (suggestion: Suggestion) => {
         {mainText.substr(0, offset)}
         <span className="b">{mainText.substr(offset, size)}</span>
         {mainText.substr(size + offset)}
-      </span>
-      <span>{` ${suggestion.secondaryText}`}</span>
+      </span>{' '}
+      <span>{suggestion.secondaryText}</span>
     </div>
   )
 }
