@@ -8,3 +8,9 @@ export { default as Checkbox } from '@vtex/styleguide/lib/Checkbox'
 // @ts-ignore
 export { default as Spinner } from '@vtex/styleguide/lib/Spinner'
 export { default as Tooltip } from '@vtex/styleguide/lib/Tooltip'
+// @ts-ignore
+export { default as IconSearch } from '@vtex/styleguide/lib/icon/Search'
+// @ts-ignore
+export { default as IconClear } from '@vtex/styleguide/lib/icon/Clear'
+// @ts-ignore
+export { default as IconWarning } from '@vtex/styleguide/lib/icon/Warning'
