@@ -48,9 +48,8 @@ export const ComboboxList: React.FC<ReachComboboxListProps & {
 )
 
 export const ComboboxOption: React.FC<ReachComboboxOptionProps & {
-  icon?: React.ReactNode
   className?: string
-}> = ({ icon, className, children, ...props }) => (
+}> = ({ className, children, ...props }) => (
   <ReachComboboxOption
     {...props}
     className={classNames(
@@ -59,14 +58,7 @@ export const ComboboxOption: React.FC<ReachComboboxOptionProps & {
       'flex items-center pointer bg-action-secondary pv3 ph5 hover-bg-action-secondary'
     )}
   >
-    {children ?? (
-      <>
-        {icon && <div className="flex flex-shrink-0 mr4">{icon}</div>}
-        <div className="truncate">
-          <ReachComboboxOptionText />
-        </div>
-      </>
-    )}
+    {children ?? <ReachComboboxOptionText />}
   </ReachComboboxOption>
 )
 
