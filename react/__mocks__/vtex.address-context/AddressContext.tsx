@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react'
 import { Address } from 'vtex.checkout-graphql'
+import { AddressRules } from 'vtex.address-context/types'
 
 interface Context {
   countries: string[]
@@ -11,6 +12,7 @@ interface AddressContextProps {
   children: ReactNode
   address: Address
   countries: string[]
+  rules: AddressRules
 }
 
 const AddressContextContext = createContext<Context | undefined>(undefined)
@@ -19,13 +21,17 @@ export const AddressContextProvider = ({
   children,
   address,
   countries,
+  rules,
 }: AddressContextProps) => {
   const [localAddress, setLocalAddress] = useState(address)
+  const [localRule, setLocalRule] = useState(rules)
 
   const state = {
     countries,
     address: localAddress,
     setAddress: setLocalAddress,
+    rule: localRule,
+    setRule: setLocalRule,
   }
 
   return (

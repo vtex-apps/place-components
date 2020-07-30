@@ -1,4 +1,4 @@
-import { countryDescriptions } from '../mocks/CountryDescriptions'
+import { countryDescriptions } from './CountryDescriptions'
 
 export const mockDescriptions = {
   ARG: countryDescriptions[0],
