@@ -1,37 +1,61 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Input, IconSearch, IconClear } from 'vtex.styleguide'
+import { Input, IconSearch, IconClear, IconWarning } from 'vtex.styleguide'
+import { positionMatchWidth } from '@reach/popover'
+
 import {
   Combobox,
   ComboboxInput,
   ComboboxOption,
   ComboboxPopover,
   ComboboxList,
-} from '@reach/combobox'
-import '@reach/combobox/styles.css'
+} from './components/Combobox'
+import PlaceIcon from './components/PlaceIcon'
 
-import { addresses as mockedAddresses } from './addresses'
-import styles from './LocationSearch.css'
+interface Interval {
+  offset: number
+  size: number
+}
 
-const MAX_DROPDOWN_ADDRESSES = 6
+export interface Suggestion {
+  description: string
+  mainText: string
+  mainTextMatchInterval: Interval
+  secondaryText: string
+}
 
-// This function will be replaced in the future, after integrating the
-// component with GraphQL queries.
-const getAddresses = (searchTerm: string) => {
-  return mockedAddresses
-    .filter((address: string) =>
-      address.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-    )
-    .slice(0, MAX_DROPDOWN_ADDRESSES)
+const renderSuggestionText = (suggestion: Suggestion) => {
+  const { mainText } = suggestion
+  const { offset, size } = suggestion.mainTextMatchInterval
+  return (
+    <div className="truncate c-muted-2">
+      <span className="c-on-base">
+        {mainText.substr(0, offset)}
+        <span className="b">{mainText.substr(offset, size)}</span>
+        {mainText.substr(size + offset)}
+      </span>{' '}
+      <span>{suggestion.secondaryText}</span>
+    </div>
+  )
 }
 
 interface LocationSearchProps {
+  getAddresses: (searchTerm: string) => Suggestion[]
   onSelectAddress?: (selectedAddress: string) => void
+  renderEngineLogo?: () => React.ReactNode
 }
 
-const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
+const LocationSearch: React.FC<LocationSearchProps> = ({
+  getAddresses,
+  onSelectAddress,
+  renderEngineLogo,
+}) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
-  const addresses = useMemo(() => getAddresses(searchTerm), [searchTerm])
+  const addresses = useMemo(() => getAddresses(searchTerm), [
+    getAddresses,
+    searchTerm,
+  ])
+  const inputWrapperRef = useRef<HTMLDivElement>(null)
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -46,48 +70,76 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectAddress }) => {
   }
 
   return (
-    <div className={`${styles.locationSearch} w-100`}>
+    <div className="w-100">
       <Combobox onSelect={handleAddressSelection}>
-        <ComboboxInput
-          as={Input}
-          testId="location-search-input"
-          label={
-            <FormattedMessage id="place-components.label.autocompleteAddress" />
-          }
-          prefix={
-            <div className="c-action-primary flex justify-center items-center">
-              <IconSearch />
-            </div>
-          }
-          suffix={
-            searchTerm.trim().length && (
-              <span
-                data-testid="location-search-clear"
-                role="button"
-                tabIndex={-1}
-                className="pointer c-muted-3 flex justify-center items-center outline-0"
-                onClick={() => setSearchTerm('')}
-                onKeyPress={() => {}}
-              >
-                <IconClear />
-              </span>
+        <div ref={inputWrapperRef}>
+          <ComboboxInput
+            as={Input}
+            testId="location-search-input"
+            label={
+              <FormattedMessage id="place-components.label.autocompleteAddress" />
+            }
+            prefix={
+              <div className="c-action-primary flex justify-center items-center">
+                <IconSearch />
+              </div>
+            }
+            suffix={
+              searchTerm.trim().length && (
+                <span
+                  data-testid="location-search-clear"
+                  role="button"
+                  // the input can be cleared by pressing the esc key,
+                  // so the clear button should not be tabbable
+                  tabIndex={-1}
+                  className="flex pa3 na3 pointer outline-0 c-muted-3 hover-gray"
+                  onClick={() => setSearchTerm('')}
+                  onKeyPress={() => {}}
+                >
+                  <IconClear />
+                </span>
+              )
+            }
+            value={searchTerm}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchTerm(event.target.value)
+            }
+            onKeyDown={handleKeyDown}
+          />
+        </div>
+        <ComboboxPopover
+          position={(_targetRect, popoverRect) =>
+            positionMatchWidth(
+              inputWrapperRef.current?.getBoundingClientRect(),
+              popoverRect
             )
           }
-          value={searchTerm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setSearchTerm(event.target.value)
-          }
-          onKeyDown={handleKeyDown}
-        />
-        <ComboboxPopover>
+        >
           {addresses.length > 0 ? (
-            <ComboboxList>
-              {addresses.map((address, index) => (
-                <ComboboxOption value={address} key={index} />
-              ))}
-            </ComboboxList>
+            <>
+              <ComboboxList>
+                {addresses.map((address, index) => (
+                  <ComboboxOption value={address.description} key={index}>
+                    <PlaceIcon className="flex flex-shrink-0 mr4 c-muted-1" />
+                    {renderSuggestionText(address)}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+              {renderEngineLogo && (
+                <div className="flex flex-row-reverse">
+                  <div className="mt3 mb1 mh5">{renderEngineLogo()}</div>
+                </div>
+              )}
+            </>
           ) : (
-            <FormattedMessage id="place-components.label.autocompleteAddressFail" />
+            <div className="flex items-center pv3 ph5">
+              <div className="flex flex-shrink-0 mr4 c-muted-3">
+                <IconWarning />
+              </div>
+              <div className="truncate c-muted-2 fw6">
+                <FormattedMessage id="place-components.label.autocompleteAddressFail" />
+              </div>
+            </div>
           )}
         </ComboboxPopover>
       </Combobox>
