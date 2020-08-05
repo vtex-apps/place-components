@@ -40,7 +40,7 @@ The Location Form component gathers the most basic details about a particular ad
 
 #### LocationField (Search)
 
-To be done.
+The Location Search is a component that suggests a list of addresses based on a search term. A plug and play feature allows the usage of a custom address database and search algorithm (this feature is currently under construction).
 
 #### LocationField (Input)
 
