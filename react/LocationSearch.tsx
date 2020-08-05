@@ -85,7 +85,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               </div>
             }
             suffix={
-              searchTerm.trim().length && (
+              searchTerm.trim().length ? (
                 <span
                   data-testid="location-search-clear"
                   role="button"
@@ -98,7 +98,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 >
                   <IconClear />
                 </span>
-              )
+              ) : null
             }
             value={searchTerm}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -107,41 +107,43 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             onKeyDown={handleKeyDown}
           />
         </div>
-        <ComboboxPopover
-          position={(_targetRect, popoverRect) =>
-            positionMatchWidth(
-              inputWrapperRef.current?.getBoundingClientRect(),
-              popoverRect
-            )
-          }
-        >
-          {addresses.length > 0 ? (
-            <>
-              <ComboboxList>
-                {addresses.map((address, index) => (
-                  <ComboboxOption value={address.description} key={index}>
-                    <PlaceIcon className="flex flex-shrink-0 mr4 c-muted-1" />
-                    {renderSuggestionText(address)}
-                  </ComboboxOption>
-                ))}
-              </ComboboxList>
-              {renderEngineLogo && (
-                <div className="flex flex-row-reverse">
-                  <div className="mt3 mb1 mh5">{renderEngineLogo()}</div>
+        {searchTerm.trim().length ? (
+          <ComboboxPopover
+            position={(_targetRect, popoverRect) =>
+              positionMatchWidth(
+                inputWrapperRef.current?.getBoundingClientRect(),
+                popoverRect
+              )
+            }
+          >
+            {addresses.length > 0 ? (
+              <>
+                <ComboboxList>
+                  {addresses.map((address, index) => (
+                    <ComboboxOption value={address.description} key={index}>
+                      <PlaceIcon className="flex flex-shrink-0 mr4 c-muted-1" />
+                      {renderSuggestionText(address)}
+                    </ComboboxOption>
+                  ))}
+                </ComboboxList>
+                {renderEngineLogo && (
+                  <div className="flex flex-row-reverse">
+                    <div className="mt3 mb1 mh5">{renderEngineLogo()}</div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="flex items-center pv3 ph5">
+                <div className="flex flex-shrink-0 mr4 c-muted-3">
+                  <IconWarning />
                 </div>
-              )}
-            </>
-          ) : (
-            <div className="flex items-center pv3 ph5">
-              <div className="flex flex-shrink-0 mr4 c-muted-3">
-                <IconWarning />
+                <div className="truncate c-muted-2 fw6">
+                  <FormattedMessage id="place-components.label.autocompleteAddressFail" />
+                </div>
               </div>
-              <div className="truncate c-muted-2 fw6">
-                <FormattedMessage id="place-components.label.autocompleteAddressFail" />
-              </div>
-            </div>
-          )}
-        </ComboboxPopover>
+            )}
+          </ComboboxPopover>
+        ) : null}
       </Combobox>
     </div>
   )
