@@ -1,4 +1,4 @@
-import { AddressRules } from 'vtex.address-context/types'
+import { AddressRules } from 'vtex.address-context/react/types'
 
 export const braRules: AddressRules = {
   BRA: {
