@@ -5,6 +5,7 @@ import { Address } from 'vtex.checkout-graphql'
 
 import LocationCountry from '../LocationCountry'
 import { sampleAddress } from '../__mocks__/mockDescriptions'
+import { braRules } from '../__mocks__/AddressRules'
 
 const countryListWithBrazil = ['ARG', 'BRA', 'KOR']
 const countryListWithoutBrazil = ['ARG', 'BOL', 'KOR']
@@ -12,7 +13,11 @@ const countryListWithoutBrazil = ['ARG', 'BOL', 'KOR']
 describe('Location Country', () => {
   const renderComponent = (address: Address, countryList: string[]) => {
     return render(
-      <AddressContextProvider address={address} countries={countryList}>
+      <AddressContextProvider
+        address={address}
+        countries={countryList}
+        rules={braRules}
+      >
         <LocationCountry />
       </AddressContextProvider>
     )

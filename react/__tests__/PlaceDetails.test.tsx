@@ -2,17 +2,19 @@ import React from 'react'
 import { render } from '@vtex/test-tools/react'
 import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
+import { Display } from 'vtex.address-context/types'
 
 import {
   completeAddress,
   incompleteAddress,
 } from '../__mocks__/mockDescriptions'
 import PlaceDetails from '../PlaceDetails'
+import { braRules } from '../__mocks__/AddressRules'
 
 describe('Place Details', () => {
   const renderComponent = (address: Address, display: keyof Display) => {
     return render(
-      <AddressContextProvider countries={[]} address={address}>
+      <AddressContextProvider countries={[]} address={address} rules={braRules}>
         <PlaceDetails display={display} />
       </AddressContextProvider>
     )

@@ -5,11 +5,12 @@ import { Address } from 'vtex.checkout-graphql'
 
 import AddressForm from '../AddressForm'
 import { sampleAddress } from '../__mocks__/mockDescriptions'
+import { braRules } from '../__mocks__/AddressRules'
 
 describe('Address Form', () => {
   const renderComponent = (address: Address) => {
     return render(
-      <AddressContextProvider countries={[]} address={address}>
+      <AddressContextProvider countries={[]} address={address} rules={braRules}>
         <AddressForm />
       </AddressContextProvider>
     )

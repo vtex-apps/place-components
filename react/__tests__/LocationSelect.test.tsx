@@ -8,11 +8,12 @@ import {
   sampleAddress as addressWithoutLocationSelect,
   incompleteAddress,
 } from '../__mocks__/mockDescriptions'
+import { braRules } from '../__mocks__/AddressRules'
 
 describe('Location Select', () => {
   const renderComponent = (address: Address) => {
     return render(
-      <AddressContextProvider address={address} countries={[]}>
+      <AddressContextProvider address={address} countries={[]} rules={braRules}>
         <LocationSelect />
       </AddressContextProvider>
     )
