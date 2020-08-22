@@ -1,0 +1,12 @@
+query SuggestAddresses($searchTerm: String) {
+  suggestAddresses(searchTerm: $searchTerm) {
+    description
+    mainText
+    mainTextMatchInterval {
+      offset
+      length
+    }
+    secondaryText
+    externalId
+  }
+}
