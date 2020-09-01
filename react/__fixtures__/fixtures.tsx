@@ -1,6 +1,8 @@
 import { Address } from 'vtex.checkout-graphql'
 import { AddressRules } from 'vtex.address-context/react/types'
 
+import { Suggestion } from '../LocationSearch'
+
 export const completeAddress: Address = {
   street: 'Av. Belgrano',
   number: '2248',
@@ -48,6 +50,30 @@ export const sampleAddress: Address = {
   receiverName: null,
   reference: null,
 }
+
+export const getFewAddresses = (searchTerm: string): Suggestion[] =>
+  [
+    {
+      description: 'Praia de Botafogo, 300, Botafogo, Rio de Janeiro, RJ',
+      mainText: 'Praia de Botafogo, 300',
+      mainTextMatchInterval: {
+        offset: 0,
+        size: 0,
+      },
+      secondaryText: 'Botafogo, Rio de Janeiro, RJ',
+    },
+    {
+      description: 'Praia de Botafogo, 200, Botafogo, Rio de Janeiro, RJ',
+      mainText: 'Praia de Botafogo, 200',
+      mainTextMatchInterval: {
+        offset: 0,
+        size: 0,
+      },
+      secondaryText: 'Botafogo, Rio de Janeiro, RJ',
+    },
+  ].filter(
+    suggestion => searchTerm.length && suggestion.mainText.includes(searchTerm)
+  )
 
 export const braRules: AddressRules = {
   BRA: {
