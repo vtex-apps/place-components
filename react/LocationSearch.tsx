@@ -10,7 +10,7 @@ import {
 import { positionMatchWidth } from '@reach/popover'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { useLazyQuery } from 'react-apollo'
-import { Address, AddressSuggestion } from 'vtex.places-graphql'
+import { Address, AddressSuggestion } from 'vtex.geolocation-graphql-interface'
 
 import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
 import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'

@@ -17,7 +17,8 @@
     "vtex.checkout-graphql": "0.x",
     "vtex.country-flags": "0.x",
     "vtex.places-graphql": "0.x",
-    "vtex.styleguide": "9.x"
+    "vtex.styleguide": "9.x",
+    "vtex.geolocation-graphql-interface": "0.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
