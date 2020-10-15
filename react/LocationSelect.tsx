@@ -3,6 +3,7 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Dropdown } from 'vtex.styleguide'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
+import { AddressFields } from 'vtex.address-context/types'
 
 const messages = defineMessages({
   province: {
@@ -45,7 +46,7 @@ const messages = defineMessages({
 
 const LocationSelect: React.FC = () => {
   const { address, setAddress, rules } = useAddressContext()
-  const countryRules = rules[address.country!]
+  const countryRules = rules[address.country as string]
 
   if (!countryRules?.locationSelect) {
     throw new Error(
@@ -55,7 +56,9 @@ const LocationSelect: React.FC = () => {
 
   const { countryData, fields } = countryRules.locationSelect
 
-  const addressFields = fields.map(field => address[field.name!])
+  const addressFields = fields.map(
+    field => address[field.name as AddressFields]
+  )
   const firstMissingIdx = addressFields.findIndex(field => !field)
   const completedFields =
     firstMissingIdx === -1
@@ -68,7 +71,7 @@ const LocationSelect: React.FC = () => {
 
     for (let i = 0; i < fields.length; ++i) {
       const field = fields[i]
-      const fieldValue = address[field.name!]
+      const fieldValue = address[field.name as AddressFields]
 
       if (typeof fieldValue !== 'string') {
         continue

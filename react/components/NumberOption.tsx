@@ -46,7 +46,7 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
       number: disabled ? '' : intl.formatMessage(messages.wn),
     }))
     setDisabled(!disabled)
-    
+
     setTimeout(() => {
       inputRef.current?.focus()
     }, 0)
@@ -63,7 +63,11 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
   return (
     <div className="flex">
       <div className="flex-auto">
-        <Input ref={inputRef} {...props} disabled={disabled || props.disabled} />
+        <Input
+          ref={inputRef}
+          {...props}
+          disabled={disabled || props.disabled}
+        />
       </div>
       {showCheckbox && (
         <div className="flex-none h-regular ml5 mt7 flex items-center">

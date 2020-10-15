@@ -13,7 +13,7 @@ const PlaceDetails: React.FC<Props> = ({
   hiddenFields = [],
 }) => {
   const { address, rules } = useAddressContext()
-  const countryRules = rules[address.country!]
+  const countryRules = rules[address.country as string]
 
   if (!countryRules) {
     return null
@@ -46,7 +46,7 @@ const PlaceDetails: React.FC<Props> = ({
                 : undefined
 
             const addressValue = valueMask
-              ? msk(address[fragment.name]!, valueMask)
+              ? msk(address[fragment.name] as string, valueMask)
               : address[fragment.name]
 
             return (

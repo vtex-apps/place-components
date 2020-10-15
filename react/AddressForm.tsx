@@ -203,13 +203,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
 
               let fragmentElement = null
 
-              const {
-                maxLength,
-                autoComplete,
-                required,
-                label,
-                options,
-              } = field
+              const { maxLength, autoComplete, required, label } = field
 
               const handleChange: React.ChangeEventHandler<
                 HTMLInputElement | HTMLSelectElement
@@ -220,7 +214,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
                 }))
               }
 
-              const value = address[fragment.name]!
+              const value = address[fragment.name] as string
 
               const commonProps = {
                 label: intl.formatMessage(
@@ -232,7 +226,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
                 ...(maxLength && { maxLength }),
                 ...(autoComplete && { autoComplete }),
                 ...(required &&
-                address[fragment.name]!.length === 0 &&
+                address[fragment.name]?.length === 0 &&
                 fieldsMeta[fragment.name]?.blurred
                   ? {
                       errorMessage: intl.formatMessage(messages.fieldRequired),
