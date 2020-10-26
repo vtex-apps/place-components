@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Prop `hiddenFields` to `PlaceDetails` component.
 
 ### Changed
-- `LocationCountry` now shows the country flag alognside their name.
+- `LocationCountry` now shows the country flag alongside their name.
 
 ### Fixed
 - `LocationCountry` shown with only one country.

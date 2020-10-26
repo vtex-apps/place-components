@@ -1286,6 +1286,7 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
+
 "@reach/auto-id@0.10.5":
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.10.5.tgz#fa78c71ce2f565ebed1ad91a8d9a685176d23c48"
@@ -6295,17 +6296,17 @@ vtex-tachyons@^3.2.0:
   version "0.1.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags#90f42d100c364aa8b549bd8b8c88c8dc9550686a"
 
-"vtex.geolocation-graphql-interface@https://w0geo--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.geolocation-graphql-interface@0.0.2+build1602857548/public/@types/vtex.geolocation-graphql-interface":
-  version "0.0.2"
-  resolved "https://w0geo--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.geolocation-graphql-interface@0.0.2+build1602857548/public/@types/vtex.geolocation-graphql-interface#5ebd6c6c9a3df8e5ce34709a89771dd2f02678e4"
+"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.3/public/@types/vtex.geolocation-graphql-interface":
+  version "0.0.3"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.3/public/@types/vtex.geolocation-graphql-interface#97a760cb855c05c1306b772c1c35ddd543262f81"
 
-"vtex.places-graphql@https://w0geo--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.places-graphql@0.3.0+build1602808301/public/@types/vtex.places-graphql":
-  version "0.3.0"
-  resolved "https://w0geo--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.places-graphql@0.3.0+build1602808301/public/@types/vtex.places-graphql#15e1a9ff5f7f1fbbcf2c8703070b624fcf7afffe"
+"vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql":
+  version "0.4.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql#19d8522f344c82c677b474829deb629583def399"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.123.1/public/@types/vtex.render-runtime":
-  version "8.123.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.123.1/public/@types/vtex.render-runtime#427325fde9f5dddfb7104e7605364c33e5f5fc6d"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.124.2/public/@types/vtex.render-runtime":
+  version "8.124.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.124.2/public/@types/vtex.render-runtime#d535e94b7f0a1fe69c79a2cb107f8c4a227a8b79"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.133.0/public/@types/vtex.styleguide":
   version "9.133.0"

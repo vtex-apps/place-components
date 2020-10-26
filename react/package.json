@@ -28,9 +28,9 @@
     "vtex.checkout-components": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.4.0/public/@types/vtex.checkout-components",
     "vtex.checkout-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.45.0/public/@types/vtex.checkout-graphql",
     "vtex.country-flags": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags",
-    "vtex.geolocation-graphql-interface": "https://w0geo--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.geolocation-graphql-interface@0.0.2+build1602857548/public/@types/vtex.geolocation-graphql-interface",
-    "vtex.places-graphql": "https://w0geo--checkoutio.myvtex.com/_v/private/typings/linked/v1/vtex.places-graphql@0.3.0+build1602808301/public/@types/vtex.places-graphql",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.123.1/public/@types/vtex.render-runtime",
+    "vtex.geolocation-graphql-interface": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.3/public/@types/vtex.geolocation-graphql-interface",
+    "vtex.places-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql",
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.124.2/public/@types/vtex.render-runtime",
     "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.133.0/public/@types/vtex.styleguide"
   },
   "version": "0.10.0"
