@@ -1,4 +1,4 @@
-query GetAddressByExternalId($id: String) {
+query GetAddressByExternalId($id: String!) {
   getAddressByExternalId(id: $id)
     @context(provider: "vtex.geolocation-graphql-interface") {
     addressId

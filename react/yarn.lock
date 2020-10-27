@@ -6296,9 +6296,9 @@ vtex-tachyons@^3.2.0:
   version "0.1.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags#90f42d100c364aa8b549bd8b8c88c8dc9550686a"
 
-"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.3/public/@types/vtex.geolocation-graphql-interface":
-  version "0.0.3"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.3/public/@types/vtex.geolocation-graphql-interface#97a760cb855c05c1306b772c1c35ddd543262f81"
+"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.4/public/@types/vtex.geolocation-graphql-interface":
+  version "0.0.4"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.0.4/public/@types/vtex.geolocation-graphql-interface#81866c68eec0f4f6c0dc97f9fb6e1df16aff194a"
 
 "vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql":
   version "0.4.0"

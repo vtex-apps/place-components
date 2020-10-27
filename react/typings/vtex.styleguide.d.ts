@@ -5,6 +5,10 @@ declare module 'vtex.styleguide' {
 
   export const Input: React.FC<any>
 
+  export const IconClear: React.FC<any>
+
+  export const IconWarning: React.FC<any>
+
   export const InputButton: React.FC<any>
 
   export const Spinner: React.FC<any>
