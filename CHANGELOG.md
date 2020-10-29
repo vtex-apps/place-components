@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Allow `onSuccess` to return a promise and wait for its fulfillment
+  before removing loading state.
+
+### Fixed
+- Postal code mask not applied on blur in `LocationInput` component.
 
 ## [0.11.0] - 2020-10-29
 ### Changed

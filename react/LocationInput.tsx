@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { IconSearch, Input, Button, ButtonPlain } from 'vtex.styleguide'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
 import { Address } from 'vtex.places-graphql'
+import { useRuntime } from 'vtex.render-runtime'
+import msk from 'msk'
 
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import styles from './LocationInput.css'
 
 interface Props {
-  onSuccess?: (address: Address) => void
+  onSuccess?: (address: Address) => void | Promise<void>
   variation?: 'primary' | 'secondary'
 }
 
@@ -18,22 +20,52 @@ const LocationInput: React.FC<Props> = ({
   onSuccess,
 }) => {
   const { address, setAddress, rules } = useAddressContext()
+  const { culture } = useRuntime()
+  const intl = useIntl()
   const [inputValue, setInputValue] = useState('')
-  const [
-    executeGetAddressFromPostalCode,
-    { error, data, loading },
-  ] = useLazyQuery(GET_ADDRESS_FROM_POSTAL_CODE)
+  const [executeGetAddressFromPostalCode, { error, data }] = useLazyQuery(
+    GET_ADDRESS_FROM_POSTAL_CODE
+  )
+  const [loading, setLoading] = useState(false)
+  const [invalidPostalCode, setInvalidPostalCode] = useState(false)
 
-  const countryRules = address?.country ? rules[address.country] : undefined
+  const country = address?.country ?? culture.country
+
+  const countryRules = country ? rules[country] : undefined
 
   useEffect(() => {
+    let cancelled = false
+
     if (data) {
-      setAddress(data.getAddressFromPostalCode)
-      onSuccess?.(data.getAddressFromPostalCode)
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      ;(onSuccess?.(data.getAddressFromPostalCode) || Promise.resolve())
+        .then(() => {
+          setAddress(data.getAddressFromPostalCode)
+
+          if (cancelled) {
+            return
+          }
+
+          setLoading(false)
+        })
+        .catch(() => {
+          if (cancelled) {
+            return
+          }
+
+          setInvalidPostalCode(true)
+          setLoading(false)
+        })
     }
 
     if (error) {
       console.warn(error.message)
+      setInvalidPostalCode(true)
+      setLoading(false)
+    }
+
+    return () => {
+      cancelled = true
     }
   }, [data, error, onSuccess, setAddress])
 
@@ -41,16 +73,28 @@ const LocationInput: React.FC<Props> = ({
     React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   > = evt => {
     evt.preventDefault()
+    setLoading(true)
+    setInvalidPostalCode(false)
     executeGetAddressFromPostalCode({
       variables: {
         postalCode: inputValue,
-        countryCode: address.country,
+        countryCode: country,
       },
     })
   }
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setInputValue(evt.target.value)
+  }
+
+  const handleInputBlur = () => {
+    const postalCodeMask = countryRules?.fields.postalCode?.mask
+
+    if (!postalCodeMask) {
+      return
+    }
+
+    setInputValue(msk(inputValue, postalCodeMask))
   }
 
   if (!countryRules) {
@@ -75,6 +119,14 @@ const LocationInput: React.FC<Props> = ({
           size="large"
           value={inputValue}
           onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          disabled={loading}
+          error={invalidPostalCode}
+          errorMessage={
+            invalidPostalCode
+              ? intl.formatMessage({ id: 'place-components.error.postalCode' })
+              : undefined
+          }
         />
       </form>
       {countryRules.fields.postalCode?.additionalData?.forgottenURL && (
