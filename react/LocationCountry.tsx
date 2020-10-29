@@ -37,12 +37,6 @@ interface Option {
   value: string
 }
 
-const sortOptionsByLabel = (options: Option[]) => {
-  return options
-    .slice()
-    .sort((a: Option, b: Option) => a.label.localeCompare(b.label))
-}
-
 const renderCountryFlagWithName = ({
   country,
   name,

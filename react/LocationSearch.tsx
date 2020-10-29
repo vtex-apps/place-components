@@ -10,7 +10,13 @@ import {
 import { positionMatchWidth } from '@reach/popover'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { useLazyQuery } from 'react-apollo'
-import { Address, AddressSuggestion } from 'vtex.places-graphql'
+import {
+  Address,
+  AddressSuggestion,
+  Query,
+  QueryGetAddressByExternalIdArgs,
+  QuerySuggestAddressesArgs,
+} from 'vtex.geolocation-graphql-interface'
 
 import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
 import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'
@@ -40,17 +46,19 @@ const useDebouncedValue = (value: string, delayInMs: number) => {
   return debouncedValue
 }
 
-const renderSuggestionText = (suggestion: AddressSuggestion) => {
-  const { mainText } = suggestion
-  const { offset, length } = suggestion.mainTextMatchInterval
+const renderSuggestionText = ({
+  mainText,
+  mainTextMatchInterval: { offset, length },
+  secondaryText,
+}: AddressSuggestion) => {
   return (
     <div className="truncate c-muted-2">
       <span className="c-on-base">
         {mainText.substr(0, offset)}
         <span className="b">{mainText.substr(offset, length)}</span>
-        {mainText.substr(length + offset)}
+        {mainText.substr(offset + length)}
       </span>{' '}
-      <span>{suggestion.secondaryText}</span>
+      <span>{secondaryText}</span>
     </div>
   )
 }
@@ -79,11 +87,13 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       error: suggestAddressesError,
       loading: suggestAddressesLoading,
     },
-  ] = useLazyQuery(SUGGEST_ADDRESSES)
+  ] = useLazyQuery<Query, QuerySuggestAddressesArgs>(SUGGEST_ADDRESSES)
   const [
     executeGetAddressByExternalId,
     { data: getAddressByExternalIdData, error: getAddressByExternalIdError },
-  ] = useLazyQuery(GET_ADDRESS_BY_EXTERNAL_ID)
+  ] = useLazyQuery<Query, QueryGetAddressByExternalIdArgs>(
+    GET_ADDRESS_BY_EXTERNAL_ID
+  )
 
   useEffect(() => {
     if (debouncedSearchTerm.trim().length) {
@@ -100,7 +110,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       setSuggestions(suggestAddressesData.suggestAddresses)
     }
     if (suggestAddressesError) {
-      console.warn(suggestAddressesError.message)
+      console.error(suggestAddressesError.message)
     }
   }, [suggestAddressesData, suggestAddressesError, setSuggestions])
 
@@ -110,7 +120,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       onSelectAddress?.(getAddressByExternalIdData.getAddressByExternalId)
     }
     if (getAddressByExternalIdError) {
-      console.warn(getAddressByExternalIdError.message)
+      console.error(getAddressByExternalIdError.message)
     }
   }, [
     getAddressByExternalIdData,
@@ -127,11 +137,16 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   }
 
   const handleAddressSelection = (selectedAddress: string) => {
-    setSearchTerm(selectedAddress)
     const id = suggestions.find(
       address => address.description === selectedAddress
     )?.externalId
-    executeGetAddressByExternalId({ variables: { id } })
+
+    if (id) {
+      setSearchTerm(selectedAddress)
+      executeGetAddressByExternalId({ variables: { id } })
+    } else {
+      console.error(`${selectedAddress} was not found`)
+    }
   }
 
   return (

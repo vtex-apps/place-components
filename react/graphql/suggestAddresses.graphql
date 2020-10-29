@@ -1,5 +1,6 @@
-query SuggestAddresses($searchTerm: String) {
-  suggestAddresses(searchTerm: $searchTerm) {
+query SuggestAddresses($searchTerm: String!) {
+  suggestAddresses(searchTerm: $searchTerm)
+    @context(provider: "vtex.geolocation-graphql-interface") {
     description
     mainText
     mainTextMatchInterval {
