@@ -25,6 +25,7 @@
   "place-components.label.KOR": "Corea del Sur",
   "place-components.label.useCurrentLocation": "Usar ubicación actual",
   "place-components.label.postalCode": "Código Postal",
+  "place-components.error.postalCode": "Ingresse un código postal válido.",
   "place-components.label.dontKnowPostalCode": "No sé mi código postal",
   "place-components.label.autocompleteAddress": "Dirección y número",
   "place-components.label.autocompleteAddressFail": "Sin resultados"
