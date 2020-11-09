@@ -155,6 +155,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
         <div ref={inputWrapperRef}>
           <ComboboxInput
             as={Input}
+            size="large"
             testId="location-search-input"
             label={
               <FormattedMessage id="place-components.label.autocompleteAddress" />

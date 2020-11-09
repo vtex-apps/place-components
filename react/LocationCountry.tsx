@@ -50,7 +50,13 @@ const renderCountryFlagWithName = ({
   </>
 )
 
-const LocationCountry: React.FC = () => {
+interface LocationCountryProps {
+  labelId?: string
+}
+
+const LocationCountry: React.FC<LocationCountryProps> = ({
+  labelId = 'location-country',
+}) => {
   const intl = useIntl()
   const { address, setAddress, countries } = useAddressContext()
   const {
@@ -98,42 +104,55 @@ const LocationCountry: React.FC = () => {
   }
 
   return (
-    <ListboxInput
-      translate={undefined}
-      label={intl.formatMessage({ id: 'place-components.label.country' })}
-      value={country}
-      onChange={setCountry}
-    >
-      <ListboxButton>
-        {({ label }) =>
-          renderCountryFlagWithName({
-            country,
-            name: label,
-          })
-        }
-      </ListboxButton>
-      <ListboxPopover translate={undefined}>
-        <ListboxList>
-          {countries.map(countryCode => {
-            const name =
-              countryCode in messages
-                ? intl.formatMessage(
-                    messages[countryCode as keyof typeof messages]
-                  )
-                : countryCode
+    <>
+      <span
+        id={labelId}
+        className="vtex-input__label db mb3 w-100 c-on-base t-body"
+      >
+        {intl.formatMessage({ id: 'place-components.label.country' })}
+      </span>
+      <ListboxInput
+        translate={undefined}
+        aria-labelledby={labelId}
+        className="h-100"
+        value={country}
+        onChange={setCountry}
+      >
+        <ListboxButton>
+          {({ label }) =>
+            renderCountryFlagWithName({
+              country,
+              name: label,
+            })
+          }
+        </ListboxButton>
+        <ListboxPopover translate={undefined}>
+          <ListboxList>
+            {countries.map(countryCode => {
+              const name =
+                countryCode in messages
+                  ? intl.formatMessage(
+                      messages[countryCode as keyof typeof messages]
+                    )
+                  : countryCode
 
-            return (
-              <ListboxOption value={countryCode} label={name} key={countryCode}>
-                {renderCountryFlagWithName({
-                  country: countryCode,
-                  name,
-                })}
-              </ListboxOption>
-            )
-          })}
-        </ListboxList>
-      </ListboxPopover>
-    </ListboxInput>
+              return (
+                <ListboxOption
+                  value={countryCode}
+                  label={name}
+                  key={countryCode}
+                >
+                  {renderCountryFlagWithName({
+                    country: countryCode,
+                    name,
+                  })}
+                </ListboxOption>
+              )
+            })}
+          </ListboxList>
+        </ListboxPopover>
+      </ListboxInput>
+    </>
   )
 }
 
