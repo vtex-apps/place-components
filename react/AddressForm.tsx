@@ -166,8 +166,8 @@ const AddressForm: React.FC<AddressFormProps> = ({
   return (
     <div>
       <div
-        className={classnames('mb6 flex', {
-          'flex-column items-start': !editing,
+        className={classnames('mb6 flex lh-copy', {
+          'flex-column items-baseline': !editing,
         })}
       >
         <PlaceDetails
@@ -175,12 +175,8 @@ const AddressForm: React.FC<AddressFormProps> = ({
           hiddenFields={initialInvalidFields.current as AddressFields[]}
         />
         <div className={classnames({ ml4: editing })}>
-          <ButtonPlain onClick={handleEditButtonClick} title="edit">
-            {editing ? (
-              <IconEdit solid />
-            ) : (
-              <FormattedMessage {...messages.edit} />
-            )}
+          <ButtonPlain onClick={handleEditButtonClick}>
+            <span className="ttl">{intl.formatMessage(messages.edit)}</span>
           </ButtonPlain>
         </div>
       </div>
