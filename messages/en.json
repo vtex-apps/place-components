@@ -27,6 +27,6 @@
   "place-components.label.postalCode": "Postal Code",
   "place-components.error.postalCode": "Inform a valid postal code.",
   "place-components.label.dontKnowPostalCode": "I don't know my postal code",
-  "place-components.label.autocompleteAddress": "Address and house number",
+  "place-components.label.autocompleteAddress": "Address (street, number, square...)",
   "place-components.label.autocompleteAddressFail": "No results found"
 }

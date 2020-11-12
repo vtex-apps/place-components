@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, ReactNode } from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   Input,
@@ -64,11 +64,13 @@ const renderSuggestionText = ({
 }
 
 interface LocationSearchProps {
+  label?: ReactNode | string
   onSelectAddress?: (address: Address) => void
   renderEngineLogo?: () => React.ReactNode
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
+  label = <FormattedMessage id="place-components.label.autocompleteAddress" />,
   onSelectAddress,
   renderEngineLogo,
 }) => {
@@ -157,9 +159,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             as={Input}
             size="large"
             testId="location-search-input"
-            label={
-              <FormattedMessage id="place-components.label.autocompleteAddress" />
-            }
+            label={label}
             prefix={
               <div className="c-action-primary flex justify-center items-center">
                 <IconSearch />
