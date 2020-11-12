@@ -1,9 +1,8 @@
-import classnames from 'classnames'
 import React, { useState, useMemo, useRef } from 'react'
-import { Input, Dropdown, ButtonPlain, IconEdit } from 'vtex.styleguide'
+import { Input, Dropdown } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { LineFragment, AddressFields, Fields } from 'vtex.address-context/types'
-import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import { useIntl, defineMessages } from 'react-intl'
 
 import { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
@@ -49,10 +48,6 @@ const messages = defineMessages({
   fieldRequired: {
     defaultMessage: '',
     id: 'place-components.error.fieldRequired',
-  },
-  edit: {
-    defaultMessage: '',
-    id: 'place-components.label.edit',
   },
 })
 
@@ -165,20 +160,12 @@ const AddressForm: React.FC<AddressFormProps> = ({
 
   return (
     <div>
-      <div
-        className={classnames('mb6 flex lh-copy', {
-          'flex-column items-baseline': !editing,
-        })}
-      >
+      <div className="mb6 flex items-baseline lh-copy">
         <PlaceDetails
           display={displayMode}
           hiddenFields={initialInvalidFields.current as AddressFields[]}
+          onEdit={handleEditButtonClick}
         />
-        <div className={classnames({ ml4: editing })}>
-          <ButtonPlain onClick={handleEditButtonClick}>
-            <span className="ttl">{intl.formatMessage(messages.edit)}</span>
-          </ButtonPlain>
-        </div>
       </div>
       <div onBlur={handleFieldBlur}>
         {summary?.map((line, index) => (

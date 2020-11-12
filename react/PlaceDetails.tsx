@@ -2,18 +2,31 @@ import msk from 'msk'
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Display, AddressFields } from 'vtex.address-context/types'
+import { ButtonPlain } from 'vtex.styleguide'
+import { useIntl, defineMessages } from 'react-intl'
 
 interface Props {
   display?: keyof Display
   hiddenFields?: AddressFields[]
+  onEdit?: () => void
 }
+
+const messages = defineMessages({
+  edit: {
+    defaultMessage: '',
+    id: 'place-components.label.edit',
+  },
+})
 
 const PlaceDetails: React.FC<Props> = ({
   display = 'extended',
   hiddenFields = [],
+  onEdit,
 }) => {
   const { address, rules } = useAddressContext()
   const countryRules = rules[address.country as string]
+
+  const intl = useIntl()
 
   if (!countryRules) {
     return null
@@ -24,7 +37,7 @@ const PlaceDetails: React.FC<Props> = ({
   return (
     <div className="flex flex-column">
       {displaySpec.map((line, displayIndex) => (
-        <div key={displayIndex}>
+        <div className="flex" key={displayIndex}>
           {line.map((fragment, index) => {
             if (
               !address[fragment.name] ||
@@ -50,7 +63,7 @@ const PlaceDetails: React.FC<Props> = ({
               : address[fragment.name]
 
             return (
-              <span key={fragment.name}>
+              <div className="dib" key={fragment.name}>
                 {fragment.delimiter && hasPreviousFragment && (
                   <span>{fragment.delimiter}</span>
                 )}
@@ -58,9 +71,16 @@ const PlaceDetails: React.FC<Props> = ({
                 {fragment.delimiterAfter && shouldShowDelimiter && (
                   <span>{fragment.delimiterAfter}</span>
                 )}
-              </span>
+              </div>
             )
           })}
+          {onEdit && displayIndex === 0 && (
+            <div className="ml4 flex items-center">
+              <ButtonPlain onClick={onEdit}>
+                <span className="ttl">{intl.formatMessage(messages.edit)}</span>
+              </ButtonPlain>
+            </div>
+          )}
         </div>
       ))}
     </div>
