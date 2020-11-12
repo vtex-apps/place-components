@@ -188,7 +188,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             onKeyDown={handleKeyDown}
           />
         </div>
-        {searchTerm.trim().length ? (
+        {debouncedSearchTerm.trim().length ? (
           <ComboboxPopover
             position={(_targetRect, popoverRect) =>
               positionMatchWidth(
