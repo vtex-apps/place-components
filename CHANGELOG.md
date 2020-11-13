@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `formatAddressToString` utility function.
+
 ### Changed
 - Added line height to place details inside `AddressForm`.
 - Removed edit icon and replace by plain text in `AddressForm`.
