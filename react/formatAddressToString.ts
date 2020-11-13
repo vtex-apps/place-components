@@ -2,11 +2,14 @@ import { Address } from 'vtex.checkout-graphql'
 import { CountryRules } from 'vtex.address-context/types'
 import msk from 'msk'
 
+import { Display } from './typings/countryRulesTypes'
+
 export default function formatAddressToString(
   address: Address,
-  rules: CountryRules
+  rules: CountryRules,
+  displayType: keyof Display = 'compact'
 ) {
-  const displaySpec = rules.display.compact
+  const displaySpec = rules.display[displayType]
 
   return displaySpec
     .map(line => line.filter(fragment => address[fragment.name]))
