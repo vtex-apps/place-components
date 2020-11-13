@@ -40,7 +40,10 @@ const LocationInput: React.FC<Props> = ({
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       ;(onSuccess?.(data.getAddressFromPostalCode) || Promise.resolve())
         .then(() => {
-          setAddress(data.getAddressFromPostalCode)
+          setAddress(prevAddress => ({
+            ...prevAddress,
+            ...data.getAddressFromPostalCode,
+          }))
 
           if (cancelled) {
             return
