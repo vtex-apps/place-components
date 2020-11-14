@@ -92,7 +92,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   ] = useLazyQuery<Query, QuerySuggestAddressesArgs>(SUGGEST_ADDRESSES)
   const [
     executeGetAddressByExternalId,
-    { data: getAddressByExternalIdData, error: getAddressByExternalIdError },
+    {
+      data: getAddressByExternalIdData,
+      error: getAddressByExternalIdError,
+      loading: getAddressByExternalIdLoading,
+    },
   ] = useLazyQuery<Query, QueryGetAddressByExternalIdArgs>(
     GET_ADDRESS_BY_EXTERNAL_ID
   )
@@ -166,7 +170,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               </div>
             }
             suffix={
-              searchTerm.trim().length ? (
+              getAddressByExternalIdLoading ? (
+                <Spinner size={20} />
+              ) : searchTerm.trim().length ? (
                 <span
                   data-testid="location-search-clear"
                   role="button"
@@ -181,6 +187,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 </span>
               ) : null
             }
+            disabled={getAddressByExternalIdLoading}
             value={searchTerm}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearchTerm(event.target.value)
