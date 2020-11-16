@@ -91,11 +91,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     },
   ] = useLazyQuery<Query, QuerySuggestAddressesArgs>(SUGGEST_ADDRESSES)
   const [
-    executeGetAddressByExternalId,
+    executeGetAddress,
     {
-      data: getAddressByExternalIdData,
-      error: getAddressByExternalIdError,
-      loading: getAddressByExternalIdLoading,
+      data: getAddressData,
+      error: getAddressError,
+      loading: getAddressLoading,
     },
   ] = useLazyQuery<Query, QueryGetAddressByExternalIdArgs>(
     GET_ADDRESS_BY_EXTERNAL_ID
@@ -121,19 +121,17 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   }, [suggestAddressesData, suggestAddressesError, setSuggestions])
 
   useEffect(() => {
-    if (getAddressByExternalIdData) {
-      setAddress(getAddressByExternalIdData.getAddressByExternalId)
-      onSelectAddress?.(getAddressByExternalIdData.getAddressByExternalId)
+    if (getAddressData) {
+      setAddress(prevAddress => ({
+        ...prevAddress,
+        ...getAddressData.getAddressByExternalId,
+      }))
+      onSelectAddress?.(getAddressData.getAddressByExternalId)
     }
-    if (getAddressByExternalIdError) {
-      console.error(getAddressByExternalIdError.message)
+    if (getAddressError) {
+      console.error(getAddressError.message)
     }
-  }, [
-    getAddressByExternalIdData,
-    getAddressByExternalIdError,
-    onSelectAddress,
-    setAddress,
-  ])
+  }, [getAddressData, getAddressError, onSelectAddress, setAddress])
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -147,12 +145,13 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       address => address.description === selectedAddress
     )?.externalId
 
-    if (id) {
-      setSearchTerm(selectedAddress)
-      executeGetAddressByExternalId({ variables: { id } })
-    } else {
+    if (id == null) {
       console.error(`${selectedAddress} was not found`)
+      return
     }
+
+    setSearchTerm(selectedAddress)
+    executeGetAddress({ variables: { id } })
   }
 
   return (
@@ -170,7 +169,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               </div>
             }
             suffix={
-              getAddressByExternalIdLoading ? (
+              getAddressLoading ? (
                 <Spinner size={20} />
               ) : searchTerm.trim().length ? (
                 <span
@@ -187,7 +186,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 </span>
               ) : null
             }
-            disabled={getAddressByExternalIdLoading}
+            disabled={getAddressLoading}
             value={searchTerm}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearchTerm(event.target.value)
