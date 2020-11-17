@@ -1,9 +1,14 @@
 import classnames from 'classnames'
 import React, { useState, useMemo, useRef } from 'react'
-import { Input, Dropdown, ButtonPlain, IconEdit } from 'vtex.styleguide'
+import { Input, Dropdown } from 'vtex.styleguide'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { LineFragment, AddressFields, Fields } from 'vtex.address-context/types'
-import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import {
+  LineFragment,
+  AddressFields,
+  Fields,
+  Field,
+} from 'vtex.address-context/types'
+import { useIntl, defineMessages } from 'react-intl'
 
 import { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
@@ -49,10 +54,6 @@ const messages = defineMessages({
   fieldRequired: {
     defaultMessage: '',
     id: 'place-components.error.fieldRequired',
-  },
-  edit: {
-    defaultMessage: '',
-    id: 'place-components.label.edit',
   },
 })
 
@@ -148,8 +149,10 @@ const AddressForm: React.FC<AddressFormProps> = ({
     [display, displayMode]
   )
 
-  const handleFieldBlur: React.FocusEventHandler<HTMLDivElement> = evt => {
-    const fieldName = ((evt.target as unknown) as HTMLInputElement).name
+  const handleFieldBlur: React.FocusEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = evt => {
+    const fieldName = evt.target.name
 
     if (!(fieldName in address)) {
       return
@@ -165,29 +168,17 @@ const AddressForm: React.FC<AddressFormProps> = ({
 
   return (
     <div>
-      <div
-        className={classnames('mb6 flex', {
-          'flex-column items-start': !editing,
-        })}
-      >
+      <div className="mb6 flex items-baseline lh-copy">
         <PlaceDetails
           display={displayMode}
           hiddenFields={initialInvalidFields.current as AddressFields[]}
+          onEdit={handleEditButtonClick}
         />
-        <div className={classnames({ ml4: editing })}>
-          <ButtonPlain onClick={handleEditButtonClick} title="edit">
-            {editing ? (
-              <IconEdit solid />
-            ) : (
-              <FormattedMessage {...messages.edit} />
-            )}
-          </ButtonPlain>
-        </div>
       </div>
-      <div onBlur={handleFieldBlur}>
-        {summary?.map((line, index) => (
-          <div className="flex" key={index}>
-            {line.map(fragment => {
+      <div>
+        {summary
+          ?.map(line =>
+            line.filter(fragment => {
               const field = fields?.[fragment.name as keyof Fields]
 
               if (
@@ -196,64 +187,78 @@ const AddressForm: React.FC<AddressFormProps> = ({
                 hiddenFields.includes(fragment.name) ||
                 address[fragment.name] == null
               ) {
-                return null
+                return false
               }
 
-              const style = styleRules[field.label]
+              return true
+            })
+          )
+          .filter(line => line.length > 0)
+          .map((line, index, renderedSummary) => (
+            <div className="flex flex-wrap" key={index}>
+              {line.map((fragment, fragmentIndex) => {
+                const field = fields?.[fragment.name as keyof Fields] as Field
+                const style = styleRules[field.label]
 
-              let fragmentElement = null
+                let fragmentElement = null
 
-              const { maxLength, autoComplete, required, label } = field
+                const { maxLength, autoComplete, required, label } = field
 
-              const handleChange: React.ChangeEventHandler<
-                HTMLInputElement | HTMLSelectElement
-              > = ({ target: { value } }) => {
-                setAddress(prevAddress => ({
-                  ...prevAddress,
-                  [fragment.name]: value,
-                }))
-              }
+                const handleChange: React.ChangeEventHandler<
+                  HTMLInputElement | HTMLSelectElement
+                > = ({ target: { value } }) => {
+                  setAddress(prevAddress => ({
+                    ...prevAddress,
+                    [fragment.name]: value,
+                  }))
+                }
 
-              const value = address[fragment.name] as string
+                const value = address[fragment.name] as string
 
-              const commonProps = {
-                label: intl.formatMessage(
-                  messages[label as keyof typeof messages]
-                ),
-                value,
-                onChange: handleChange,
-                name: fragment.name,
-                ...(maxLength && { maxLength }),
-                ...(autoComplete && { autoComplete }),
-                ...(required &&
-                address[fragment.name]?.length === 0 &&
-                fieldsMeta[fragment.name]?.blurred
-                  ? {
-                      errorMessage: intl.formatMessage(messages.fieldRequired),
-                    }
-                  : null),
-              }
+                const commonProps = {
+                  label: intl.formatMessage(
+                    messages[label as keyof typeof messages]
+                  ),
+                  value,
+                  onChange: handleChange,
+                  name: fragment.name,
+                  onBlur: handleFieldBlur,
+                  ...(maxLength && { maxLength }),
+                  ...(autoComplete && { autoComplete }),
+                  ...(required &&
+                  address[fragment.name]?.length === 0 &&
+                  fieldsMeta[fragment.name]?.blurred
+                    ? {
+                        errorMessage: intl.formatMessage(
+                          messages.fieldRequired
+                        ),
+                      }
+                    : null),
+                }
 
-              fragmentElement = hasWithoutNumberOption(field.label) ? (
-                <NumberOption {...commonProps} showCheckbox />
-              ) : field.options ? (
-                <Dropdown {...commonProps} options={field.options} />
-              ) : (
-                <Input {...commonProps} />
-              )
+                fragmentElement = hasWithoutNumberOption(field.label) ? (
+                  <NumberOption {...commonProps} showCheckbox />
+                ) : field.options ? (
+                  <Dropdown {...commonProps} options={field.options} />
+                ) : (
+                  <Input {...commonProps} />
+                )
 
-              return (
-                <div
-                  className="flex-auto mb5 mr5"
-                  style={style}
-                  key={fragment.name}
-                >
-                  {fragmentElement}
-                </div>
-              )
-            })}
-          </div>
-        ))}
+                return (
+                  <div
+                    className={classnames('flex-auto', {
+                      mb5: index < renderedSummary.length - 1,
+                      mr5: fragmentIndex < line.length - 1,
+                    })}
+                    style={style}
+                    key={fragment.name}
+                  >
+                    {fragmentElement}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
       </div>
     </div>
   )
