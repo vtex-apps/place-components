@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Fixed
-- `CountryLocation` label is now displayed.
+- `LocationCountry` label is now displayed.
+- Failure message will no longer show up when starting to type on `LocationSearch`.
+
+### Added
+- Label id prop for `LocationCountry`.
+- Loading state after selecting an address on `LocationSearch`.
 
 ## [0.13.0] - 2020-11-17
 ### Added
