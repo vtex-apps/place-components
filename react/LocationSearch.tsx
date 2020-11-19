@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, ReactNode } from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   Input,
@@ -64,11 +64,13 @@ const renderSuggestionText = ({
 }
 
 interface LocationSearchProps {
+  label?: ReactNode | string
   onSelectAddress?: (address: Address) => void
   renderEngineLogo?: () => React.ReactNode
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
+  label = <FormattedMessage id="place-components.label.autocompleteAddress" />,
   onSelectAddress,
   renderEngineLogo,
 }) => {
@@ -89,8 +91,12 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     },
   ] = useLazyQuery<Query, QuerySuggestAddressesArgs>(SUGGEST_ADDRESSES)
   const [
-    executeGetAddressByExternalId,
-    { data: getAddressByExternalIdData, error: getAddressByExternalIdError },
+    executeGetAddress,
+    {
+      data: getAddressData,
+      error: getAddressError,
+      loading: getAddressLoading,
+    },
   ] = useLazyQuery<Query, QueryGetAddressByExternalIdArgs>(
     GET_ADDRESS_BY_EXTERNAL_ID
   )
@@ -115,19 +121,17 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   }, [suggestAddressesData, suggestAddressesError, setSuggestions])
 
   useEffect(() => {
-    if (getAddressByExternalIdData) {
-      setAddress(getAddressByExternalIdData.getAddressByExternalId)
-      onSelectAddress?.(getAddressByExternalIdData.getAddressByExternalId)
+    if (getAddressData) {
+      setAddress(prevAddress => ({
+        ...prevAddress,
+        ...getAddressData.getAddressByExternalId,
+      }))
+      onSelectAddress?.(getAddressData.getAddressByExternalId)
     }
-    if (getAddressByExternalIdError) {
-      console.error(getAddressByExternalIdError.message)
+    if (getAddressError) {
+      console.error(getAddressError.message)
     }
-  }, [
-    getAddressByExternalIdData,
-    getAddressByExternalIdError,
-    onSelectAddress,
-    setAddress,
-  ])
+  }, [getAddressData, getAddressError, onSelectAddress, setAddress])
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -141,12 +145,13 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       address => address.description === selectedAddress
     )?.externalId
 
-    if (id) {
-      setSearchTerm(selectedAddress)
-      executeGetAddressByExternalId({ variables: { id } })
-    } else {
+    if (id == null) {
       console.error(`${selectedAddress} was not found`)
+      return
     }
+
+    setSearchTerm(selectedAddress)
+    executeGetAddress({ variables: { id } })
   }
 
   return (
@@ -155,17 +160,18 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
         <div ref={inputWrapperRef}>
           <ComboboxInput
             as={Input}
+            size="large"
             testId="location-search-input"
-            label={
-              <FormattedMessage id="place-components.label.autocompleteAddress" />
-            }
+            label={label}
             prefix={
               <div className="c-action-primary flex justify-center items-center">
                 <IconSearch />
               </div>
             }
             suffix={
-              searchTerm.trim().length ? (
+              getAddressLoading ? (
+                <Spinner size={20} />
+              ) : searchTerm.trim().length ? (
                 <span
                   data-testid="location-search-clear"
                   role="button"
@@ -180,6 +186,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 </span>
               ) : null
             }
+            disabled={getAddressLoading}
             value={searchTerm}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearchTerm(event.target.value)
@@ -187,7 +194,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             onKeyDown={handleKeyDown}
           />
         </div>
-        {searchTerm.trim().length ? (
+        {debouncedSearchTerm.trim().length ? (
           <ComboboxPopover
             position={(_targetRect, popoverRect) =>
               positionMatchWidth(

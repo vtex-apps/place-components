@@ -27,6 +27,6 @@
   "place-components.label.postalCode": "CEP",
   "place-components.error.postalCode": "Informe um CEP válido.",
   "place-components.label.dontKnowPostalCode": "Não sei meu CEP",
-  "place-components.label.autocompleteAddress": "Endereço e número",
+  "place-components.label.autocompleteAddress": "Endereço (rua, número, quadra...)",
   "place-components.label.autocompleteAddressFail": "Nenhum resultado encontrado"
 }

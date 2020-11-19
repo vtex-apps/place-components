@@ -3,9 +3,13 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { IconSearch, Input, Button, ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
-import { Address } from 'vtex.places-graphql'
 import { useRuntime } from 'vtex.render-runtime'
 import msk from 'msk'
+import {
+  Address,
+  Query,
+  QueryGetAddressFromPostalCodeArgs,
+} from 'vtex.places-graphql'
 
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import styles from './LocationInput.css'
@@ -23,9 +27,10 @@ const LocationInput: React.FC<Props> = ({
   const { culture } = useRuntime()
   const intl = useIntl()
   const [inputValue, setInputValue] = useState('')
-  const [executeGetAddressFromPostalCode, { error, data }] = useLazyQuery(
-    GET_ADDRESS_FROM_POSTAL_CODE
-  )
+  const [executeGetAddressFromPostalCode, { error, data }] = useLazyQuery<
+    Query,
+    QueryGetAddressFromPostalCodeArgs
+  >(GET_ADDRESS_FROM_POSTAL_CODE)
   const [loading, setLoading] = useState(false)
   const [invalidPostalCode, setInvalidPostalCode] = useState(false)
 
@@ -36,7 +41,7 @@ const LocationInput: React.FC<Props> = ({
   useEffect(() => {
     let cancelled = false
 
-    if (data) {
+    if (data?.getAddressFromPostalCode) {
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       ;(onSuccess?.(data.getAddressFromPostalCode) || Promise.resolve())
         .then(() => {
