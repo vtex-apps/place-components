@@ -1,4 +1,14 @@
-# Place Components
+📢 Use this project, [contribute](https://github.com/{OrganizationName}/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
+
+# PLACE COMPONENTS
+
+⚠️ **This is an ongoing, unsupported, unfinished and undocumented project. We do not guarantee any results after installation.** ⚠️
+
+<!-- DOCS-IGNORE:start -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- DOCS-IGNORE:end -->
 
 The Place Components are three components (`PlaceDetails`, `AddressForm`, and `LocationForm`) that are meant to replace the [AddressForm](https://github.com/vtex/address-form) repository.
 
@@ -53,3 +63,28 @@ The LocationField Select renders a set of select components (called `Dropdown` i
 ### DeviceCoordinates
 
 The `DeviceCoordinates` component renders a simple button that will ask for your permission to get the location from your device. In case the user allows this, the component will modify the address object from the `address-context` automatically filling data based on the lat/lng information gained through the browser. To do this autocompletion, this component communicates with the `places-graphql` project.
+
+## Configuration 
+
+TBC
+
+## Customization
+
+TBC
+
+<!-- DOCS-IGNORE:start -->
+
+## Contributors ✨
+
+Thanks goes to these wonderful people:
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
+
+<!-- DOCS-IGNORE:end -->
