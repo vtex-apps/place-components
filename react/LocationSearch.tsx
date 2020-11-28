@@ -9,15 +9,17 @@ import {
 } from 'vtex.styleguide'
 import { positionMatchWidth } from '@reach/popover'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { useLazyQuery } from 'react-apollo'
+import { useLazyQuery, useQuery } from 'react-apollo'
 import {
   Address,
   AddressSuggestion,
+  Image,
   Query,
   QueryGetAddressByExternalIdArgs,
   QuerySuggestAddressesArgs,
 } from 'vtex.geolocation-graphql-interface'
 
+import GET_LOGO from './graphql/getLogo.graphql'
 import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
 import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'
 import {
@@ -31,7 +33,15 @@ import PlaceIcon from './components/PlaceIcon'
 
 const DEBOUNCE_DELAY_IN_MS = 500
 
-const useDebouncedValue = (value: string, delayInMs: number) => {
+const useLogo = (): Image | undefined => {
+  const { data, error } = useQuery<Query, {}>(GET_LOGO)
+  if (error) {
+    console.error(error.message)
+  }
+  return data?.getLogo
+}
+
+const useDebouncedValue = (value: string, delayInMs: number): string => {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
   useEffect(() => {
@@ -44,6 +54,29 @@ const useDebouncedValue = (value: string, delayInMs: number) => {
   }, [value, delayInMs])
 
   return debouncedValue
+}
+
+const useSuggestions = (
+  searchTerm: string
+): { suggestions: AddressSuggestion[]; loading: boolean } => {
+  const [executeSuggestAddresses, { data, error, loading }] = useLazyQuery<
+    Query,
+    QuerySuggestAddressesArgs
+  >(SUGGEST_ADDRESSES)
+
+  useEffect(() => {
+    if (searchTerm.trim().length) {
+      executeSuggestAddresses({ variables: { searchTerm } })
+    }
+  }, [searchTerm, executeSuggestAddresses])
+
+  useEffect(() => {
+    if (error) {
+      console.error(error.message)
+    }
+  }, [error])
+
+  return { suggestions: data?.suggestAddresses ?? [], loading }
 }
 
 const renderSuggestionText = ({
@@ -66,72 +99,41 @@ const renderSuggestionText = ({
 interface LocationSearchProps {
   label?: ReactNode | string
   onSelectAddress?: (address: Address) => void
-  renderEngineLogo?: () => React.ReactNode
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
   label = <FormattedMessage id="place-components.label.autocompleteAddress" />,
   onSelectAddress,
-  renderEngineLogo,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
   const inputWrapperRef = useRef<HTMLDivElement>(null)
   const { setAddress } = useAddressContext()
+  const logo = useLogo()
   const debouncedSearchTerm = useDebouncedValue(
     searchTerm,
     DEBOUNCE_DELAY_IN_MS
   )
-  const [
-    executeSuggestAddresses,
-    {
-      data: suggestAddressesData,
-      error: suggestAddressesError,
-      loading: suggestAddressesLoading,
-    },
-  ] = useLazyQuery<Query, QuerySuggestAddressesArgs>(SUGGEST_ADDRESSES)
-  const [
-    executeGetAddress,
-    {
-      data: getAddressData,
-      error: getAddressError,
-      loading: getAddressLoading,
-    },
-  ] = useLazyQuery<Query, QueryGetAddressByExternalIdArgs>(
-    GET_ADDRESS_BY_EXTERNAL_ID
+  const { suggestions, loading: loadingSuggestions } = useSuggestions(
+    debouncedSearchTerm
   )
 
-  useEffect(() => {
-    if (debouncedSearchTerm.trim().length) {
-      executeSuggestAddresses({
-        variables: { searchTerm: debouncedSearchTerm },
-      })
-    } else {
-      setSuggestions([])
-    }
-  }, [debouncedSearchTerm, executeSuggestAddresses])
+  const [executeGetAddress, { data, error, loading }] = useLazyQuery<
+    Query,
+    QueryGetAddressByExternalIdArgs
+  >(GET_ADDRESS_BY_EXTERNAL_ID)
 
   useEffect(() => {
-    if (suggestAddressesData) {
-      setSuggestions(suggestAddressesData.suggestAddresses)
-    }
-    if (suggestAddressesError) {
-      console.error(suggestAddressesError.message)
-    }
-  }, [suggestAddressesData, suggestAddressesError, setSuggestions])
-
-  useEffect(() => {
-    if (getAddressData) {
+    if (data) {
       setAddress(prevAddress => ({
         ...prevAddress,
-        ...getAddressData.getAddressByExternalId,
+        ...data.getAddressByExternalId,
       }))
-      onSelectAddress?.(getAddressData.getAddressByExternalId)
+      onSelectAddress?.(data.getAddressByExternalId)
     }
-    if (getAddressError) {
-      console.error(getAddressError.message)
+    if (error) {
+      console.error(error.message)
     }
-  }, [getAddressData, getAddressError, onSelectAddress, setAddress])
+  }, [data, error, onSelectAddress, setAddress])
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Escape') {
@@ -169,7 +171,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               </div>
             }
             suffix={
-              getAddressLoading ? (
+              loading ? (
                 <Spinner size={20} />
               ) : searchTerm.trim().length ? (
                 <span
@@ -186,7 +188,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 </span>
               ) : null
             }
-            disabled={getAddressLoading}
+            disabled={loading}
             value={searchTerm}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearchTerm(event.target.value)
@@ -213,17 +215,19 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 ))}
               </ComboboxList>
             ) : null}
-            {suggestAddressesLoading ? (
+            {loadingSuggestions ? (
               <div className="flex flex-row justify-center items-center pa3">
                 <Spinner size={20} />
               </div>
             ) : null}
-            {suggestions.length > 0 && renderEngineLogo ? (
+            {suggestions.length > 0 && logo ? (
               <div className="flex flex-row-reverse">
-                <div className="mt3 mb1 mh5">{renderEngineLogo()}</div>
+                <div className="mt3 mb1 mh5">
+                  <img className="h1" src={logo.src} alt={logo.alt} />
+                </div>
               </div>
             ) : null}
-            {!suggestAddressesLoading && suggestions.length === 0 ? (
+            {!loadingSuggestions && suggestions.length === 0 ? (
               <div className="flex items-center pv3 ph5">
                 <div className="flex flex-shrink-0 mr4 c-muted-3">
                   <IconWarning />
