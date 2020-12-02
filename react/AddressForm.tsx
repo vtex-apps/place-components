@@ -55,6 +55,10 @@ const messages = defineMessages({
     defaultMessage: '',
     id: 'place-components.error.fieldRequired',
   },
+  postalCode: {
+    defaultMessage: '',
+    id: 'place-components.label.postalCode',
+  },
 })
 
 /**
