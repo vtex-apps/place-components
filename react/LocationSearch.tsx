@@ -56,9 +56,7 @@ const useDebouncedValue = (value: string, delayInMs: number): string => {
   return debouncedValue
 }
 
-const useSuggestions = (
-  searchTerm: string
-): { suggestions: AddressSuggestion[]; loading: boolean } => {
+const useSuggestions = (searchTerm: string): [AddressSuggestion[], boolean] => {
   const [executeSuggestAddresses, { data, error, loading }] = useLazyQuery<
     Query,
     QuerySuggestAddressesArgs
@@ -76,7 +74,7 @@ const useSuggestions = (
     }
   }, [error])
 
-  return { suggestions: data?.suggestAddresses ?? [], loading }
+  return [data?.suggestAddresses ?? [], loading]
 }
 
 const renderSuggestionText = ({
@@ -113,9 +111,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     searchTerm,
     DEBOUNCE_DELAY_IN_MS
   )
-  const { suggestions, loading: loadingSuggestions } = useSuggestions(
-    debouncedSearchTerm
-  )
+  const [suggestions, loadingSuggestions] = useSuggestions(debouncedSearchTerm)
 
   const [executeGetAddress, { data, error, loading }] = useLazyQuery<
     Query,
