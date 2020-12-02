@@ -1,6 +1,0 @@
-query GetLogo {
-  getLogo @context(provider: "vtex.geolocation-graphql-interface") {
-    src
-    alt
-  }
-}

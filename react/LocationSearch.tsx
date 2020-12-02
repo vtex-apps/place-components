@@ -19,7 +19,7 @@ import {
   QuerySuggestAddressesArgs,
 } from 'vtex.geolocation-graphql-interface'
 
-import GET_LOGO from './graphql/getLogo.graphql'
+import PROVIDER_LOGO from './graphql/providerLogo.graphql'
 import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
 import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'
 import {
@@ -34,11 +34,11 @@ import PlaceIcon from './components/PlaceIcon'
 const DEBOUNCE_DELAY_IN_MS = 500
 
 const useLogo = (): Image | undefined => {
-  const { data, error } = useQuery<Query, {}>(GET_LOGO)
+  const { data, error } = useQuery<Query, {}>(PROVIDER_LOGO)
   if (error) {
     console.error(error.message)
   }
-  return data?.getLogo
+  return data?.providerLogo
 }
 
 const useDebouncedValue = (value: string, delayInMs: number): string => {
