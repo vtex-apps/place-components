@@ -33,7 +33,7 @@ import PlaceIcon from './components/PlaceIcon'
 
 const DEBOUNCE_DELAY_IN_MS = 500
 
-const useLogo = (): Image | undefined => {
+const useProviderLogo = (): Image | undefined => {
   const { data, error } = useQuery<Query, {}>(PROVIDER_LOGO)
   if (error) {
     console.error(error.message)
@@ -106,7 +106,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const [searchTerm, setSearchTerm] = useState('')
   const inputWrapperRef = useRef<HTMLDivElement>(null)
   const { setAddress } = useAddressContext()
-  const logo = useLogo()
+  const providerLogo = useProviderLogo()
   const debouncedSearchTerm = useDebouncedValue(
     searchTerm,
     DEBOUNCE_DELAY_IN_MS
@@ -216,10 +216,14 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 <Spinner size={20} />
               </div>
             ) : null}
-            {suggestions.length > 0 && logo ? (
+            {suggestions.length > 0 && providerLogo ? (
               <div className="flex flex-row-reverse">
                 <div className="mt3 mb1 mh5">
-                  <img className="h1" src={logo.src} alt={logo.alt} />
+                  <img
+                    className="h1"
+                    src={providerLogo.src}
+                    alt={providerLogo.alt}
+                  />
                 </div>
               </div>
             ) : null}
