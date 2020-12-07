@@ -20,6 +20,7 @@ import {
 } from 'vtex.geolocation-graphql-interface'
 
 import PROVIDER_LOGO from './graphql/providerLogo.graphql'
+import SESSION_TOKEN from './graphql/sessionToken.graphql'
 import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
 import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'
 import {
@@ -56,7 +57,10 @@ const useDebouncedValue = (value: string, delayInMs: number): string => {
   return debouncedValue
 }
 
-const useSuggestions = (searchTerm: string): [AddressSuggestion[], boolean] => {
+const useSuggestions = (
+  searchTerm: string,
+  sessionToken: string | null
+): [AddressSuggestion[], boolean] => {
   const [executeSuggestAddresses, { data, error, loading }] = useLazyQuery<
     Query,
     QuerySuggestAddressesArgs
@@ -64,9 +68,9 @@ const useSuggestions = (searchTerm: string): [AddressSuggestion[], boolean] => {
 
   useEffect(() => {
     if (searchTerm.trim().length) {
-      executeSuggestAddresses({ variables: { searchTerm } })
+      executeSuggestAddresses({ variables: { searchTerm, sessionToken } })
     }
-  }, [searchTerm, executeSuggestAddresses])
+  }, [searchTerm, sessionToken, executeSuggestAddresses])
 
   useEffect(() => {
     if (error) {
@@ -111,7 +115,18 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     searchTerm,
     DEBOUNCE_DELAY_IN_MS
   )
-  const [suggestions, loadingSuggestions] = useSuggestions(debouncedSearchTerm)
+  const {
+    data: sessionTokenData,
+    loading: loadingSessionToken,
+    refetch: refetchSessionToken,
+  } = useQuery<Query, {}>(SESSION_TOKEN, { notifyOnNetworkStatusChange: true })
+  const sessionToken = loadingSessionToken
+    ? null
+    : sessionTokenData?.sessionToken ?? null
+  const [suggestions, loadingSuggestions] = useSuggestions(
+    debouncedSearchTerm,
+    sessionToken
+  )
 
   const [executeGetAddress, { data, error, loading }] = useLazyQuery<
     Query,
@@ -149,7 +164,8 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     }
 
     setSearchTerm(selectedAddress)
-    executeGetAddress({ variables: { id } })
+    executeGetAddress({ variables: { id, sessionToken } })
+    refetchSessionToken()
   }
 
   return (
