@@ -106,10 +106,10 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   }
 
   return (
-    <>
+    <div className={className}>
       <span
         id={labelId}
-        className={`vtex-input__label db mb3 w-100 c-on-base t-body ${className}`}
+        className="vtex-input__label db mb3 w-100 c-on-base t-body"
       >
         {intl.formatMessage({ id: 'place-components.label.country' })}
       </span>
@@ -154,7 +154,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
           </ListboxList>
         </ListboxPopover>
       </ListboxInput>
-    </>
+    </div>
   )
 }
 
