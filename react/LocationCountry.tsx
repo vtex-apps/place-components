@@ -52,10 +52,12 @@ const renderCountryFlagWithName = ({
 
 interface LocationCountryProps {
   labelId?: string
+  className?: string
 }
 
 const LocationCountry: React.FC<LocationCountryProps> = ({
   labelId = 'location-country',
+  className = '',
 }) => {
   const intl = useIntl()
   const { address, setAddress, countries } = useAddressContext()
@@ -107,7 +109,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
     <>
       <span
         id={labelId}
-        className="vtex-input__label db mb3 w-100 c-on-base t-body"
+        className={`vtex-input__label db mb3 w-100 c-on-base t-body ${className}`}
       >
         {intl.formatMessage({ id: 'place-components.label.country' })}
       </span>
