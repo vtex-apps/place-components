@@ -5,12 +5,14 @@ import {
 import { MockedResponse } from '@apollo/react-testing'
 
 import SUGGEST_ADDRESSES from '../../graphql/suggestAddresses.graphql'
+import { DEFAULT_SESSION_TOKEN } from './sessionToken.fixture'
 
 export const simpleSuggestions: MockedResponse = {
   request: {
     query: SUGGEST_ADDRESSES,
     variables: {
       searchTerm: 'Praia de Botafogo',
+      sessionToken: DEFAULT_SESSION_TOKEN,
     } as QuerySuggestAddressesArgs,
   },
   result: {
@@ -41,11 +43,23 @@ export const simpleSuggestions: MockedResponse = {
   },
 }
 
+export const simpleSuggestionWithoutToken: MockedResponse = {
+  ...simpleSuggestions,
+  request: {
+    ...simpleSuggestions.request,
+    variables: {
+      ...simpleSuggestions.request.variables,
+      sessionToken: null,
+    } as QuerySuggestAddressesArgs,
+  },
+}
+
 export const noSuggestions: MockedResponse = {
   request: {
     query: SUGGEST_ADDRESSES,
     variables: {
       searchTerm: 'asdfasdfasdf',
+      sessionToken: DEFAULT_SESSION_TOKEN,
     } as QuerySuggestAddressesArgs,
   },
   result: {

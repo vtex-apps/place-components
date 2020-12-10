@@ -117,6 +117,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   )
   const {
     data: sessionTokenData,
+    error: sessionTokenError,
     loading: loadingSessionToken,
     refetch: refetchSessionToken,
   } = useQuery<Query, {}>(SESSION_TOKEN, { notifyOnNetworkStatusChange: true })
@@ -132,6 +133,12 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     Query,
     QueryAddressArgs
   >(ADDRESS)
+
+  useEffect(() => {
+    if (sessionTokenError) {
+      console.error(sessionTokenError.message)
+    }
+  }, [sessionTokenError])
 
   useEffect(() => {
     if (data) {
