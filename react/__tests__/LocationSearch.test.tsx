@@ -11,7 +11,7 @@ import {
   noSuggestions,
   simpleSuggestions,
   simpleSuggestionWithoutToken,
-} from '../__fixtures__/graphql/suggestAddresses.fixture'
+} from '../__fixtures__/graphql/addressSuggestions.fixture'
 import { simpleSuggestedAddress } from '../__fixtures__/graphql/address.fixture'
 import { defaultSessionToken } from '../__fixtures__/graphql/sessionToken.fixture'
 

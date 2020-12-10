@@ -1,23 +1,23 @@
 import {
   Query,
-  QuerySuggestAddressesArgs,
+  QueryAddressSuggestionsArgs,
 } from 'vtex.geolocation-graphql-interface'
 import { MockedResponse } from '@apollo/react-testing'
 
-import SUGGEST_ADDRESSES from '../../graphql/suggestAddresses.graphql'
+import ADDRESS_SUGGESTIONS from '../../graphql/addressSuggestions.graphql'
 import { DEFAULT_SESSION_TOKEN } from './sessionToken.fixture'
 
 export const simpleSuggestions: MockedResponse = {
   request: {
-    query: SUGGEST_ADDRESSES,
+    query: ADDRESS_SUGGESTIONS,
     variables: {
       searchTerm: 'Praia de Botafogo',
       sessionToken: DEFAULT_SESSION_TOKEN,
-    } as QuerySuggestAddressesArgs,
+    } as QueryAddressSuggestionsArgs,
   },
   result: {
     data: {
-      suggestAddresses: [
+      addressSuggestions: [
         {
           description: 'Praia de Botafogo, 200, Botafogo, Rio de Janeiro, RJ',
           mainText: 'Praia de Botafogo, 200',
@@ -50,21 +50,21 @@ export const simpleSuggestionWithoutToken: MockedResponse = {
     variables: {
       ...simpleSuggestions.request.variables,
       sessionToken: null,
-    } as QuerySuggestAddressesArgs,
+    } as QueryAddressSuggestionsArgs,
   },
 }
 
 export const noSuggestions: MockedResponse = {
   request: {
-    query: SUGGEST_ADDRESSES,
+    query: ADDRESS_SUGGESTIONS,
     variables: {
       searchTerm: 'asdfasdfasdf',
       sessionToken: DEFAULT_SESSION_TOKEN,
-    } as QuerySuggestAddressesArgs,
+    } as QueryAddressSuggestionsArgs,
   },
   result: {
     data: {
-      suggestAddresses: [] as Query['suggestAddresses'],
+      addressSuggestions: [] as Query['addressSuggestions'],
     } as Query,
   },
 }

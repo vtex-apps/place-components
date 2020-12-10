@@ -16,12 +16,12 @@ import {
   Image,
   Query,
   QueryAddressArgs,
-  QuerySuggestAddressesArgs,
+  QueryAddressSuggestionsArgs,
 } from 'vtex.geolocation-graphql-interface'
 
 import PROVIDER_LOGO from './graphql/providerLogo.graphql'
 import SESSION_TOKEN from './graphql/sessionToken.graphql'
-import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
+import ADDRESS_SUGGESTIONS from './graphql/addressSuggestions.graphql'
 import ADDRESS from './graphql/address.graphql'
 import {
   Combobox,
@@ -61,16 +61,16 @@ const useSuggestions = (
   searchTerm: string,
   sessionToken: string | null
 ): [AddressSuggestion[], boolean] => {
-  const [executeSuggestAddresses, { data, error, loading }] = useLazyQuery<
+  const [executeAddressSuggestions, { data, error, loading }] = useLazyQuery<
     Query,
-    QuerySuggestAddressesArgs
-  >(SUGGEST_ADDRESSES)
+    QueryAddressSuggestionsArgs
+  >(ADDRESS_SUGGESTIONS)
 
   useEffect(() => {
     if (searchTerm.trim().length) {
-      executeSuggestAddresses({ variables: { searchTerm, sessionToken } })
+      executeAddressSuggestions({ variables: { searchTerm, sessionToken } })
     }
-  }, [searchTerm, sessionToken, executeSuggestAddresses])
+  }, [searchTerm, sessionToken, executeAddressSuggestions])
 
   useEffect(() => {
     if (error) {
@@ -78,7 +78,7 @@ const useSuggestions = (
     }
   }, [error])
 
-  return [data?.suggestAddresses ?? [], loading]
+  return [data?.addressSuggestions ?? [], loading]
 }
 
 const renderSuggestionText = ({
