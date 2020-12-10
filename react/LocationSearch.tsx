@@ -15,14 +15,14 @@ import {
   AddressSuggestion,
   Image,
   Query,
-  QueryGetAddressByExternalIdArgs,
+  QueryAddressArgs,
   QuerySuggestAddressesArgs,
 } from 'vtex.geolocation-graphql-interface'
 
 import PROVIDER_LOGO from './graphql/providerLogo.graphql'
 import SESSION_TOKEN from './graphql/sessionToken.graphql'
 import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
-import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'
+import ADDRESS from './graphql/address.graphql'
 import {
   Combobox,
   ComboboxInput,
@@ -128,18 +128,18 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     sessionToken
   )
 
-  const [executeGetAddress, { data, error, loading }] = useLazyQuery<
+  const [executeAddress, { data, error, loading }] = useLazyQuery<
     Query,
-    QueryGetAddressByExternalIdArgs
-  >(GET_ADDRESS_BY_EXTERNAL_ID)
+    QueryAddressArgs
+  >(ADDRESS)
 
   useEffect(() => {
     if (data) {
       setAddress(prevAddress => ({
         ...prevAddress,
-        ...data.getAddressByExternalId,
+        ...data.address,
       }))
-      onSelectAddress?.(data.getAddressByExternalId)
+      onSelectAddress?.(data.address)
     }
     if (error) {
       console.error(error.message)
@@ -154,17 +154,17 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   }
 
   const handleAddressSelection = (selectedAddress: string) => {
-    const id = suggestions.find(
+    const externalId = suggestions.find(
       address => address.description === selectedAddress
     )?.externalId
 
-    if (id == null) {
+    if (externalId == null) {
       console.error(`${selectedAddress} was not found`)
       return
     }
 
     setSearchTerm(selectedAddress)
-    executeGetAddress({ variables: { id, sessionToken } })
+    executeAddress({ variables: { externalId, sessionToken } })
     refetchSessionToken()
   }
 

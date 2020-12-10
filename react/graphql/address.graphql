@@ -1,5 +1,5 @@
-query GetAddressByExternalId($id: String!, $sessionToken: String) {
-  getAddressByExternalId(id: $id, sessionToken: $sessionToken)
+query Address($externalId: String!, $sessionToken: String) {
+  address(externalId: $externalId, sessionToken: $sessionToken)
     @context(provider: "vtex.geolocation-graphql-interface") {
     addressId
     addressType
