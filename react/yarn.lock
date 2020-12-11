@@ -6288,17 +6288,17 @@ vtex-tachyons@^3.2.0:
   version "0.5.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components#77d654aea75319f3024612fe7b263777b116105f"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.50.0/public/@types/vtex.checkout-graphql":
-  version "0.50.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.50.0/public/@types/vtex.checkout-graphql#3a07db135dfb2fe51a7d8c4308891e88a13f026a"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.52.1/public/@types/vtex.checkout-graphql":
+  version "0.52.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.52.1/public/@types/vtex.checkout-graphql#226ec5cc59c71065410ce9414c031ce942511701"
 
 "vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
   version "0.1.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags#90f42d100c364aa8b549bd8b8c88c8dc9550686a"
 
-"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.1.0/public/@types/vtex.geolocation-graphql-interface":
-  version "0.1.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.1.0/public/@types/vtex.geolocation-graphql-interface#e7b1cf2f68dcd0c1b6252c723839fd1f9505cfc7"
+"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.2.0/public/@types/vtex.geolocation-graphql-interface":
+  version "0.2.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.2.0/public/@types/vtex.geolocation-graphql-interface#eee30f5c90617f351b132bd6447f7c88150cba94"
 
 "vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql":
   version "0.4.0"
