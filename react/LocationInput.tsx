@@ -117,7 +117,7 @@ const LocationInput: React.FC<Props> = ({
           label={<FormattedMessage id="place-components.label.postalCode" />}
           suffix={
             <Button
-              id="submit-postal-code"
+              id="submit-postal-code-button"
               type="submit"
               onClick={handleSubmit}
               isLoading={loading}
