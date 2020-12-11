@@ -113,9 +113,11 @@ const LocationInput: React.FC<Props> = ({
     <div className="w-100">
       <form className={`${styles.locationInput} mb4`} onSubmit={handleSubmit}>
         <Input
+          id="postal-code-input"
           label={<FormattedMessage id="place-components.label.postalCode" />}
           suffix={
             <Button
+              id="submit-postal-code"
               type="submit"
               onClick={handleSubmit}
               isLoading={loading}
