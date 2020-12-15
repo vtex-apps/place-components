@@ -70,7 +70,9 @@ const useSuggestions = (
     if (searchTerm.trim().length) {
       executeAddressSuggestions({ variables: { searchTerm, sessionToken } })
     }
-  }, [searchTerm, sessionToken, executeAddressSuggestions])
+    // the effect shouldn't be triggered when the sessionToken changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, executeAddressSuggestions])
 
   useEffect(() => {
     if (error) {
@@ -108,6 +110,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   onSelectAddress,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [displayedSearchTerm, setDisplayedSearchTerm] = useState('')
   const inputWrapperRef = useRef<HTMLDivElement>(null)
   const { setAddress } = useAddressContext()
   const providerLogo = useProviderLogo()
@@ -118,12 +121,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const {
     data: sessionTokenData,
     error: sessionTokenError,
-    loading: loadingSessionToken,
     refetch: refetchSessionToken,
   } = useQuery<Query, {}>(SESSION_TOKEN, { notifyOnNetworkStatusChange: true })
-  const sessionToken = loadingSessionToken
-    ? null
-    : sessionTokenData?.sessionToken ?? null
+  const sessionToken = sessionTokenData?.sessionToken ?? null
   const [suggestions, loadingSuggestions] = useSuggestions(
     debouncedSearchTerm,
     sessionToken
@@ -158,6 +158,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       return
     }
     setSearchTerm('')
+    setDisplayedSearchTerm('')
   }
 
   const handleAddressSelection = (selectedAddress: string) => {
@@ -170,9 +171,19 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       return
     }
 
-    setSearchTerm(selectedAddress)
+    setDisplayedSearchTerm(selectedAddress)
     executeAddress({ variables: { externalId, sessionToken } })
     refetchSessionToken()
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+    setDisplayedSearchTerm(event.target.value)
+  }
+
+  const handleClick = () => {
+    setSearchTerm('')
+    setDisplayedSearchTerm('')
   }
 
   return (
@@ -200,7 +211,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                   // so the clear button should not be tabbable
                   tabIndex={-1}
                   className="flex pa3 na3 pointer outline-0 c-muted-3 hover-gray"
-                  onClick={() => setSearchTerm('')}
+                  onClick={handleClick}
                   onKeyPress={() => {}}
                 >
                   <IconClear />
@@ -208,10 +219,8 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               ) : null
             }
             disabled={loading}
-            value={searchTerm}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchTerm(event.target.value)
-            }
+            value={displayedSearchTerm}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
         </div>
