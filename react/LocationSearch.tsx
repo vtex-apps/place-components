@@ -15,13 +15,14 @@ import {
   AddressSuggestion,
   Image,
   Query,
-  QueryGetAddressByExternalIdArgs,
-  QuerySuggestAddressesArgs,
+  QueryAddressArgs,
+  QueryAddressSuggestionsArgs,
 } from 'vtex.geolocation-graphql-interface'
 
 import PROVIDER_LOGO from './graphql/providerLogo.graphql'
-import SUGGEST_ADDRESSES from './graphql/suggestAddresses.graphql'
-import GET_ADDRESS_BY_EXTERNAL_ID from './graphql/getAddressByExternalId.graphql'
+import SESSION_TOKEN from './graphql/sessionToken.graphql'
+import ADDRESS_SUGGESTIONS from './graphql/addressSuggestions.graphql'
+import ADDRESS from './graphql/address.graphql'
 import {
   Combobox,
   ComboboxInput,
@@ -56,17 +57,22 @@ const useDebouncedValue = (value: string, delayInMs: number): string => {
   return debouncedValue
 }
 
-const useSuggestions = (searchTerm: string): [AddressSuggestion[], boolean] => {
-  const [executeSuggestAddresses, { data, error, loading }] = useLazyQuery<
+const useSuggestions = (
+  searchTerm: string,
+  sessionToken: string | null
+): [AddressSuggestion[], boolean] => {
+  const [executeAddressSuggestions, { data, error, loading }] = useLazyQuery<
     Query,
-    QuerySuggestAddressesArgs
-  >(SUGGEST_ADDRESSES)
+    QueryAddressSuggestionsArgs
+  >(ADDRESS_SUGGESTIONS)
 
   useEffect(() => {
     if (searchTerm.trim().length) {
-      executeSuggestAddresses({ variables: { searchTerm } })
+      executeAddressSuggestions({ variables: { searchTerm, sessionToken } })
     }
-  }, [searchTerm, executeSuggestAddresses])
+    // the effect shouldn't be triggered when the sessionToken changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, executeAddressSuggestions])
 
   useEffect(() => {
     if (error) {
@@ -74,7 +80,7 @@ const useSuggestions = (searchTerm: string): [AddressSuggestion[], boolean] => {
     }
   }, [error])
 
-  return [data?.suggestAddresses ?? [], loading]
+  return [data?.addressSuggestions ?? [], loading]
 }
 
 const renderSuggestionText = ({
@@ -104,6 +110,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   onSelectAddress,
 }) => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [displayedSearchTerm, setDisplayedSearchTerm] = useState('')
   const inputWrapperRef = useRef<HTMLDivElement>(null)
   const { setAddress } = useAddressContext()
   const providerLogo = useProviderLogo()
@@ -111,20 +118,35 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     searchTerm,
     DEBOUNCE_DELAY_IN_MS
   )
-  const [suggestions, loadingSuggestions] = useSuggestions(debouncedSearchTerm)
+  const {
+    data: sessionTokenData,
+    error: sessionTokenError,
+    refetch: refetchSessionToken,
+  } = useQuery<Query, {}>(SESSION_TOKEN, { notifyOnNetworkStatusChange: true })
+  const sessionToken = sessionTokenData?.sessionToken ?? null
+  const [suggestions, loadingSuggestions] = useSuggestions(
+    debouncedSearchTerm,
+    sessionToken
+  )
 
-  const [executeGetAddress, { data, error, loading }] = useLazyQuery<
+  const [executeAddress, { data, error, loading }] = useLazyQuery<
     Query,
-    QueryGetAddressByExternalIdArgs
-  >(GET_ADDRESS_BY_EXTERNAL_ID)
+    QueryAddressArgs
+  >(ADDRESS)
+
+  useEffect(() => {
+    if (sessionTokenError) {
+      console.error(sessionTokenError.message)
+    }
+  }, [sessionTokenError])
 
   useEffect(() => {
     if (data) {
       setAddress(prevAddress => ({
         ...prevAddress,
-        ...data.getAddressByExternalId,
+        ...data.address,
       }))
-      onSelectAddress?.(data.getAddressByExternalId)
+      onSelectAddress?.(data.address)
     }
     if (error) {
       console.error(error.message)
@@ -136,20 +158,32 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       return
     }
     setSearchTerm('')
+    setDisplayedSearchTerm('')
   }
 
   const handleAddressSelection = (selectedAddress: string) => {
-    const id = suggestions.find(
+    const externalId = suggestions.find(
       address => address.description === selectedAddress
     )?.externalId
 
-    if (id == null) {
+    if (externalId == null) {
       console.error(`${selectedAddress} was not found`)
       return
     }
 
-    setSearchTerm(selectedAddress)
-    executeGetAddress({ variables: { id } })
+    setDisplayedSearchTerm(selectedAddress)
+    executeAddress({ variables: { externalId, sessionToken } })
+    refetchSessionToken()
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+    setDisplayedSearchTerm(event.target.value)
+  }
+
+  const handleClick = () => {
+    setSearchTerm('')
+    setDisplayedSearchTerm('')
   }
 
   return (
@@ -177,7 +211,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                   // so the clear button should not be tabbable
                   tabIndex={-1}
                   className="flex pa3 na3 pointer outline-0 c-muted-3 hover-gray"
-                  onClick={() => setSearchTerm('')}
+                  onClick={handleClick}
                   onKeyPress={() => {}}
                 >
                   <IconClear />
@@ -185,10 +219,8 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               ) : null
             }
             disabled={loading}
-            value={searchTerm}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchTerm(event.target.value)
-            }
+            value={displayedSearchTerm}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
         </div>

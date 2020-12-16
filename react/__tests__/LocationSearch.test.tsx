@@ -10,8 +10,10 @@ import { googleLogo } from '../__fixtures__/graphql/providerLogo.fixture'
 import {
   noSuggestions,
   simpleSuggestions,
-} from '../__fixtures__/graphql/suggestAddresses.fixture'
-import { simpleSuggestedAddress } from '../__fixtures__/graphql/getAddressByExternalId.fixture'
+  simpleSuggestionWithoutToken,
+} from '../__fixtures__/graphql/addressSuggestions.fixture'
+import { simpleSuggestedAddress } from '../__fixtures__/graphql/address.fixture'
+import { defaultSessionToken } from '../__fixtures__/graphql/sessionToken.fixture'
 
 const UNTABABBLE = -1
 const LABEL_MATCHER = /Address \(street, number, square\.\.\.\)/i
@@ -23,6 +25,17 @@ interface RenderComponentProps {
   graphqlMocks?: MockedResponse[]
 }
 
+const defaultGraphqlMocks = [
+  googleLogo,
+  defaultSessionToken,
+  // This duplication is intentional: the first one will be used during the
+  // first query and the second one is used during the refetch. Currently,
+  // Apollo provides not many good alternatives to do that. You can read
+  // more about it on this issue:
+  //  https://github.com/apollographql/apollo-client/issues/7286
+  defaultSessionToken,
+]
+
 describe('Location Search', () => {
   const renderComponent = ({
     address = null,
@@ -31,7 +44,10 @@ describe('Location Search', () => {
     graphqlMocks = [],
   }: RenderComponentProps) => {
     return render(
-      <MockedProvider addTypename={false} mocks={graphqlMocks}>
+      <MockedProvider
+        addTypename={false}
+        mocks={[...defaultGraphqlMocks, ...graphqlMocks]}
+      >
         <AddressContextProvider
           address={address}
           countries={countries}
@@ -42,9 +58,14 @@ describe('Location Search', () => {
       </MockedProvider>
     )
   }
+
   it('should be able to select a suggested address when a search term is found', async () => {
     renderComponent({
-      graphqlMocks: [googleLogo, simpleSuggestions, simpleSuggestedAddress],
+      graphqlMocks: [
+        simpleSuggestions,
+        simpleSuggestedAddress,
+        simpleSuggestionWithoutToken,
+      ],
     })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
@@ -68,7 +89,7 @@ describe('Location Search', () => {
 
   // TODO: fix act warning
   it('should be able to clear the input with clear button when something is typed', () => {
-    renderComponent({ graphqlMocks: [googleLogo, simpleSuggestions] })
+    renderComponent({ graphqlMocks: [simpleSuggestions] })
 
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
 
@@ -85,7 +106,7 @@ describe('Location Search', () => {
 
   // TODO: fix act warning
   it('should be able to clear the input with ESC key when something is typed', () => {
-    renderComponent({ graphqlMocks: [googleLogo, simpleSuggestions] })
+    renderComponent({ graphqlMocks: [simpleSuggestions] })
 
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
 
@@ -99,7 +120,7 @@ describe('Location Search', () => {
   })
 
   it('should display failure message when the search term is not found', async () => {
-    renderComponent({ graphqlMocks: [googleLogo, noSuggestions] })
+    renderComponent({ graphqlMocks: [noSuggestions] })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
     fireEvent.change(input, { target: { value: 'asdfasdfasdf' } })
@@ -109,7 +130,7 @@ describe('Location Search', () => {
   })
 
   it('should render provider logo', async () => {
-    renderComponent({ graphqlMocks: [googleLogo, simpleSuggestions] })
+    renderComponent({ graphqlMocks: [simpleSuggestions] })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
     fireEvent.change(input, { target: { value: 'Praia de Botafogo' } })

@@ -1,5 +1,5 @@
-query SuggestAddresses($searchTerm: String!) {
-  suggestAddresses(searchTerm: $searchTerm)
+query AddressSuggestions($searchTerm: String!, $sessionToken: String) {
+  addressSuggestions(searchTerm: $searchTerm, sessionToken: $sessionToken)
     @context(provider: "vtex.geolocation-graphql-interface") {
     description
     mainText

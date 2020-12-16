@@ -1,21 +1,20 @@
-import {
-  Query,
-  QueryGetAddressByExternalIdArgs,
-} from 'vtex.geolocation-graphql-interface'
+import { Query, QueryAddressArgs } from 'vtex.geolocation-graphql-interface'
 import { MockedResponse } from '@apollo/react-testing'
 
-import GET_ADDRESS_BY_EXTERNAL_ID from '../../graphql/getAddressByExternalId.graphql'
+import ADDRESS from '../../graphql/address.graphql'
+import { DEFAULT_SESSION_TOKEN } from './sessionToken.fixture'
 
 export const simpleSuggestedAddress: MockedResponse = {
   request: {
-    query: GET_ADDRESS_BY_EXTERNAL_ID,
+    query: ADDRESS,
     variables: {
-      id: '1',
-    } as QueryGetAddressByExternalIdArgs,
+      externalId: '1',
+      sessionToken: DEFAULT_SESSION_TOKEN,
+    } as QueryAddressArgs,
   },
   result: {
     data: {
-      getAddressByExternalId: {
+      address: {
         addressId: '1',
         addressType: 'residential',
         city: 'Rio de Janeiro',
@@ -24,7 +23,7 @@ export const simpleSuggestedAddress: MockedResponse = {
         geoCoordinates: [
           -43.18037200000001,
           -22.9418474,
-        ] as Query['getAddressByExternalId']['geoCoordinates'],
+        ] as Query['address']['geoCoordinates'],
         neighborhood: 'Botafogo',
         number: '200',
         postalCode: '22250-145',
@@ -32,7 +31,7 @@ export const simpleSuggestedAddress: MockedResponse = {
         reference: null,
         state: 'RJ',
         street: 'Rua Praia de Botafogo',
-      } as Query['getAddressByExternalId'],
+      } as Query['address'],
     } as Query,
   },
 }
