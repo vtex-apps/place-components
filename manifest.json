@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "place-components",
-  "version": "0.13.5",
+  "version": "0.13.6",
   "title": "Place Components",
   "description": "Place Components",
   "defaultLocale": "pt-BR",
