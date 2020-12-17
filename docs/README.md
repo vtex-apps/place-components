@@ -1,8 +1,8 @@
-📢 Use this project, [contribute](https://github.com/{OrganizationName}/{AppName}) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
+📢 Use this project, [contribute](https://github.com/vtex-apps/place-components) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
 
-# PLACE COMPONENTS
+# Place Components
 
-⚠️ **This is an ongoing, unsupported, unfinished and undocumented project. We do not guarantee any results after installation.** ⚠️
+> :warning: *Although ready to be installed, the Place Components app is currently an **open-beta project**. Bear in mind that due to that status, you can expect an accelerated state of evolution.*
 
 <!-- DOCS-IGNORE:start -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -70,7 +70,7 @@ TBC
 
 ## Customization
 
-TBC
+🚧 To be defined.
 
 <!-- DOCS-IGNORE:start -->
 
