@@ -59,7 +59,8 @@ const useDebouncedValue = (value: string, delayInMs: number): string => {
 
 const useSuggestions = (
   searchTerm: string,
-  sessionToken: string | null
+  sessionToken?: string | null,
+  country?: string | null
 ): [AddressSuggestion[], boolean] => {
   const [executeAddressSuggestions, { data, error, loading }] = useLazyQuery<
     Query,
@@ -68,11 +69,13 @@ const useSuggestions = (
 
   useEffect(() => {
     if (searchTerm.trim().length) {
-      executeAddressSuggestions({ variables: { searchTerm, sessionToken } })
+      executeAddressSuggestions({
+        variables: { searchTerm, sessionToken, country },
+      })
     }
     // the effect shouldn't be triggered when the sessionToken changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, executeAddressSuggestions])
+  }, [searchTerm, country, executeAddressSuggestions])
 
   useEffect(() => {
     if (error) {
@@ -112,7 +115,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [displayedSearchTerm, setDisplayedSearchTerm] = useState('')
   const inputWrapperRef = useRef<HTMLDivElement>(null)
-  const { setAddress } = useAddressContext()
+  const { address, setAddress } = useAddressContext()
   const providerLogo = useProviderLogo()
   const debouncedSearchTerm = useDebouncedValue(
     searchTerm,
@@ -126,7 +129,8 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const sessionToken = sessionTokenData?.sessionToken ?? null
   const [suggestions, loadingSuggestions] = useSuggestions(
     debouncedSearchTerm,
-    sessionToken
+    sessionToken,
+    address?.country
   )
 
   const [executeAddress, { data, error, loading }] = useLazyQuery<
