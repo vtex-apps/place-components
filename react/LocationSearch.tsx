@@ -165,17 +165,17 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     setDisplayedSearchTerm('')
   }
 
-  const handleAddressSelection = (selectedAddress: string) => {
+  const handleSuggestionSelection = (selectedSuggestion: string) => {
     const externalId = suggestions.find(
-      address => address.description === selectedAddress
+      suggestion => suggestion.description === selectedSuggestion
     )?.externalId
 
     if (externalId == null) {
-      console.error(`${selectedAddress} was not found`)
+      console.error(`${selectedSuggestion} was not found`)
       return
     }
 
-    setDisplayedSearchTerm(selectedAddress)
+    setDisplayedSearchTerm(selectedSuggestion)
     executeAddress({ variables: { externalId, sessionToken } })
     refetchSessionToken()
   }
@@ -192,7 +192,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   return (
     <div className="w-100">
-      <Combobox onSelect={handleAddressSelection}>
+      <Combobox onSelect={handleSuggestionSelection}>
         <div ref={inputWrapperRef}>
           <ComboboxInput
             as={Input}
@@ -239,10 +239,10 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
           >
             {suggestions.length > 0 ? (
               <ComboboxList>
-                {suggestions.map((address, index) => (
-                  <ComboboxOption value={address.description} key={index}>
+                {suggestions.map((suggestion, index) => (
+                  <ComboboxOption value={suggestion.description} key={index}>
                     <PlaceIcon className="flex flex-shrink-0 mr4 c-muted-1" />
-                    {renderSuggestionText(address)}
+                    {renderSuggestionText(suggestion)}
                   </ComboboxOption>
                 ))}
               </ComboboxList>
