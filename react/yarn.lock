@@ -6288,29 +6288,29 @@ vtex-tachyons@^3.2.0:
   version "0.5.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components#77d654aea75319f3024612fe7b263777b116105f"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.52.1/public/@types/vtex.checkout-graphql":
-  version "0.52.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.52.1/public/@types/vtex.checkout-graphql#226ec5cc59c71065410ce9414c031ce942511701"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.55.1/public/@types/vtex.checkout-graphql":
+  version "0.55.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.55.1/public/@types/vtex.checkout-graphql#a9f282941d74fffac3d3d877d92313dd755de07f"
 
 "vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
   version "0.1.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags#90f42d100c364aa8b549bd8b8c88c8dc9550686a"
 
-"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.2.0/public/@types/vtex.geolocation-graphql-interface":
-  version "0.2.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.2.0/public/@types/vtex.geolocation-graphql-interface#eee30f5c90617f351b132bd6447f7c88150cba94"
+"vtex.geolocation-graphql-interface@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.3.0/public/@types/vtex.geolocation-graphql-interface":
+  version "0.3.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.geolocation-graphql-interface@0.3.0/public/@types/vtex.geolocation-graphql-interface#7d8c16d1c0e71d7337afcbabaf4c0a2811d60a3b"
 
 "vtex.places-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql":
   version "0.4.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.places-graphql@0.4.0/public/@types/vtex.places-graphql#19d8522f344c82c677b474829deb629583def399"
 
-"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.4/public/@types/vtex.render-runtime":
-  version "8.126.4"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.4/public/@types/vtex.render-runtime#40d7ad8a7b04c50e61ff84a1089dcf7045efd548"
+"vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.5/public/@types/vtex.render-runtime":
+  version "8.126.5"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.5/public/@types/vtex.render-runtime#f529e960313579c39a9748820885b995f9d6d3e6"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.0/public/@types/vtex.styleguide":
-  version "9.134.0"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.0/public/@types/vtex.styleguide#9ce9062c2a0f9925d7a926a9c4d544b4f0409590"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.1/public/@types/vtex.styleguide":
+  version "9.134.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.1/public/@types/vtex.styleguide#7210ed4908f4e6482d2499d71c4cfcc21e3dfd6a"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
