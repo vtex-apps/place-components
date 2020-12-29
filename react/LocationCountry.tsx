@@ -116,7 +116,6 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
       <ListboxInput
         translate={undefined}
         aria-labelledby={labelId}
-        className="h-100"
         value={country}
         onChange={setCountry}
       >

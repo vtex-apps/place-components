@@ -1,6 +1,13 @@
-query AddressSuggestions($searchTerm: String!, $sessionToken: String) {
-  addressSuggestions(searchTerm: $searchTerm, sessionToken: $sessionToken)
-    @context(provider: "vtex.geolocation-graphql-interface") {
+query AddressSuggestions(
+  $searchTerm: String!
+  $sessionToken: String
+  $country: String
+) {
+  addressSuggestions(
+    searchTerm: $searchTerm
+    sessionToken: $sessionToken
+    country: $country
+  ) @context(provider: "vtex.geolocation-graphql-interface") {
     description
     mainText
     mainTextMatchInterval {

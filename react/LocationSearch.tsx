@@ -59,7 +59,8 @@ const useDebouncedValue = (value: string, delayInMs: number): string => {
 
 const useSuggestions = (
   searchTerm: string,
-  sessionToken: string | null
+  sessionToken?: string | null,
+  country?: string | null
 ): [AddressSuggestion[], boolean] => {
   const [executeAddressSuggestions, { data, error, loading }] = useLazyQuery<
     Query,
@@ -68,11 +69,13 @@ const useSuggestions = (
 
   useEffect(() => {
     if (searchTerm.trim().length) {
-      executeAddressSuggestions({ variables: { searchTerm, sessionToken } })
+      executeAddressSuggestions({
+        variables: { searchTerm, sessionToken, country },
+      })
     }
     // the effect shouldn't be triggered when the sessionToken changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, executeAddressSuggestions])
+  }, [searchTerm, country, executeAddressSuggestions])
 
   useEffect(() => {
     if (error) {
@@ -112,7 +115,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [displayedSearchTerm, setDisplayedSearchTerm] = useState('')
   const inputWrapperRef = useRef<HTMLDivElement>(null)
-  const { setAddress } = useAddressContext()
+  const { address, setAddress } = useAddressContext()
   const providerLogo = useProviderLogo()
   const debouncedSearchTerm = useDebouncedValue(
     searchTerm,
@@ -126,7 +129,8 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const sessionToken = sessionTokenData?.sessionToken ?? null
   const [suggestions, loadingSuggestions] = useSuggestions(
     debouncedSearchTerm,
-    sessionToken
+    sessionToken,
+    address?.country
   )
 
   const [executeAddress, { data, error, loading }] = useLazyQuery<
@@ -161,17 +165,17 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     setDisplayedSearchTerm('')
   }
 
-  const handleAddressSelection = (selectedAddress: string) => {
+  const handleSuggestionSelection = (selectedSuggestion: string) => {
     const externalId = suggestions.find(
-      address => address.description === selectedAddress
+      suggestion => suggestion.description === selectedSuggestion
     )?.externalId
 
     if (externalId == null) {
-      console.error(`${selectedAddress} was not found`)
+      console.error(`${selectedSuggestion} was not found`)
       return
     }
 
-    setDisplayedSearchTerm(selectedAddress)
+    setDisplayedSearchTerm(selectedSuggestion)
     executeAddress({ variables: { externalId, sessionToken } })
     refetchSessionToken()
   }
@@ -188,7 +192,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   return (
     <div className="w-100">
-      <Combobox onSelect={handleAddressSelection}>
+      <Combobox onSelect={handleSuggestionSelection}>
         <div ref={inputWrapperRef}>
           <ComboboxInput
             as={Input}
@@ -235,10 +239,10 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
           >
             {suggestions.length > 0 ? (
               <ComboboxList>
-                {suggestions.map((address, index) => (
-                  <ComboboxOption value={address.description} key={index}>
+                {suggestions.map((suggestion, index) => (
+                  <ComboboxOption value={suggestion.description} key={index}>
                     <PlaceIcon className="flex flex-shrink-0 mr4 c-muted-1" />
-                    {renderSuggestionText(address)}
+                    {renderSuggestionText(suggestion)}
                   </ComboboxOption>
                 ))}
               </ComboboxList>
