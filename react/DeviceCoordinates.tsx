@@ -7,6 +7,18 @@ import { Address } from 'vtex.places-graphql'
 
 import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
+interface GeolocationPosition {
+  coords: {
+    latitude: number
+    longitude: number
+  }
+}
+
+interface GeolocationPositionError {
+  code: number
+  message: string
+}
+
 type PermissionState = 'prompt' | 'pending' | 'granted' | 'denied'
 
 interface Props {
@@ -35,7 +47,7 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
   }, [geoResult, setAddress, onSuccess])
 
   const onGetCurrentPositionSuccess = useCallback(
-    ({ coords }: Position) => {
+    ({ coords }: GeolocationPosition) => {
       setGeolocationPermission('granted')
 
       executeReverseGeocode({
@@ -48,10 +60,13 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
     [executeReverseGeocode]
   )
 
-  const onGetCurrentPositionError = useCallback((err: PositionError) => {
-    setGeolocationPermission('denied')
-    console.warn(`ERROR(${err.code}): ${err.message}`)
-  }, [])
+  const onGetCurrentPositionError = useCallback(
+    (err: GeolocationPositionError) => {
+      setGeolocationPermission('denied')
+      console.warn(`ERROR(${err.code}): ${err.message}`)
+    },
+    []
+  )
 
   const requestGeolocation = useCallback(() => {
     setGeolocationPermission('pending')
