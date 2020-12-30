@@ -59,6 +59,7 @@ const LocationSelect: React.FC = () => {
   const addressFields = fields.map(
     field => address[field.name as AddressFields]
   )
+
   const firstMissingIdx = addressFields.findIndex(field => !field)
   const completedFields =
     firstMissingIdx === -1
@@ -98,9 +99,11 @@ const LocationSelect: React.FC = () => {
               let newFields: { [key: string]: string | null } = {
                 [field.name as string]: value,
               }
+
               for (let j = i + 1; j < fields.length; ++j) {
                 newFields = { ...newFields, [fields[j].name as string]: null }
               }
+
               setAddress((prevAddress: Address) => ({
                 ...prevAddress,
                 ...newFields,

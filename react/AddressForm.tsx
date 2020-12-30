@@ -75,6 +75,7 @@ const getExcludedFields = (
   includedFields: string[] = []
 ) => {
   const excludedFields = new Set<string>()
+
   summary.forEach((line: LineFragment[]) => {
     line.forEach((fragment: LineFragment) => {
       if (includedFields.includes(fragment.name)) {
@@ -84,6 +85,7 @@ const getExcludedFields = (
       excludedFields.add(fragment.name)
     })
   })
+
   return excludedFields
 }
 

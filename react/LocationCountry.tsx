@@ -64,6 +64,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   const {
     culture: { country: storeCountry },
   } = useRuntime()
+
   const [country, setCountry] = useState(() => {
     if (address?.country) {
       return address.country

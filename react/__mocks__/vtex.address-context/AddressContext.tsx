@@ -51,6 +51,7 @@ export const AddressContextProvider: React.FC<AddressContextProps> = ({
 
 export const useAddressContext = () => {
   const context = useContext(AddressContext)
+
   if (context === undefined) {
     throw new Error(
       'useAddressContext must be used within an AddressContextProvider'
