@@ -32,11 +32,6 @@ const messages = defineMessages({
   },
 })
 
-interface Option {
-  label: string
-  value: string
-}
-
 const renderCountryFlagWithName = ({
   country,
   name,
@@ -64,6 +59,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   const {
     culture: { country: storeCountry },
   } = useRuntime()
+
   const [country, setCountry] = useState(() => {
     if (address?.country) {
       return address.country

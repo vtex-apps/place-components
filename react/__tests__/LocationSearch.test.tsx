@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@vtex/test-tools/react'
+import { render, screen, fireEvent, act } from '@vtex/test-tools/react'
 import { MockedProvider, MockedResponse } from '@apollo/react-testing'
 import { Address } from 'vtex.checkout-graphql'
 import { AddressRules } from 'vtex.address-context/types'
@@ -69,6 +69,7 @@ describe('Location Search', () => {
     })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
+
     fireEvent.change(input, { target: { value: 'Praia de Botafogo' } })
 
     expect(
@@ -82,9 +83,9 @@ describe('Location Search', () => {
     expect(input).toHaveValue(
       'Praia de Botafogo, 200, Botafogo, Rio de Janeiro, RJ'
     )
+
     // same as waiting loading to finish
-    expect(await screen.findByRole('button')).toBeInTheDocument()
-    fireEvent.blur(input)
+    expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   // TODO: fix act warning
@@ -94,8 +95,10 @@ describe('Location Search', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
 
     const input = screen.getByLabelText(LABEL_MATCHER)
+
     fireEvent.change(input, { target: { value: 'Praia de Botafogo' } })
     const button = screen.getByRole('button')
+
     expect(button.tabIndex).toBe(UNTABABBLE)
 
     fireEvent.click(button)
@@ -120,19 +123,26 @@ describe('Location Search', () => {
   })
 
   it('should display failure message when the search term is not found', async () => {
+    jest.useFakeTimers()
+
     renderComponent({ graphqlMocks: [noSuggestions] })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
+
     fireEvent.change(input, { target: { value: 'asdfasdfasdf' } })
 
-    expect(await screen.findByText('No results found')).toBeInTheDocument()
-    fireEvent.blur(input)
+    act(() => {
+      jest.runAllTimers()
+    })
+
+    expect(screen.queryByText('No results found')).toBeInTheDocument()
   })
 
   it('should render provider logo', async () => {
     renderComponent({ graphqlMocks: [simpleSuggestions] })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
+
     fireEvent.change(input, { target: { value: 'Praia de Botafogo' } })
 
     expect(await screen.findByAltText('Google logo')).toBeInTheDocument()

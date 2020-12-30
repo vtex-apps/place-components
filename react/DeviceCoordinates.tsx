@@ -7,12 +7,19 @@ import { Address } from 'vtex.places-graphql'
 
 import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
-enum PermissionState {
-  PROMPT,
-  PENDING,
-  GRANTED,
-  DENIED,
+interface GeolocationPosition {
+  coords: {
+    latitude: number
+    longitude: number
+  }
 }
+
+interface GeolocationPositionError {
+  code: number
+  message: string
+}
+
+type PermissionState = 'prompt' | 'pending' | 'granted' | 'denied'
 
 interface Props {
   onSuccess?: (address: Address) => void
@@ -22,7 +29,7 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
   const { setAddress } = useAddressContext()
   const [geolocationPermission, setGeolocationPermission] = useState<
     PermissionState
-  >(PermissionState.PROMPT)
+  >('prompt')
 
   const [executeReverseGeocode, geoResult] = useLazyQuery(REVERSE_GEOCODE_QUERY)
 
@@ -40,8 +47,8 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
   }, [geoResult, setAddress, onSuccess])
 
   const onGetCurrentPositionSuccess = useCallback(
-    ({ coords }: Position) => {
-      setGeolocationPermission(PermissionState.GRANTED)
+    ({ coords }: GeolocationPosition) => {
+      setGeolocationPermission('granted')
 
       executeReverseGeocode({
         variables: {
@@ -53,13 +60,16 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
     [executeReverseGeocode]
   )
 
-  const onGetCurrentPositionError = useCallback((err: PositionError) => {
-    setGeolocationPermission(PermissionState.DENIED)
-    console.warn(`ERROR(${err.code}): ${err.message}`)
-  }, [])
+  const onGetCurrentPositionError = useCallback(
+    (err: GeolocationPositionError) => {
+      setGeolocationPermission('denied')
+      console.warn(`ERROR(${err.code}): ${err.message}`)
+    },
+    []
+  )
 
   const requestGeolocation = useCallback(() => {
-    setGeolocationPermission(PermissionState.PENDING)
+    setGeolocationPermission('pending')
     navigator.geolocation.getCurrentPosition(
       onGetCurrentPositionSuccess,
       onGetCurrentPositionError,
@@ -78,23 +88,23 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
       .query({ name: 'geolocation' })
       .then((result: PermissionStatus) => {
         if (result.state === 'denied') {
-          setGeolocationPermission(PermissionState.DENIED)
+          setGeolocationPermission('denied')
         }
       })
   }, [requestGeolocation])
 
   const locationIcon = useMemo(() => {
     switch (geolocationPermission) {
-      case PermissionState.PROMPT:
+      case 'prompt':
         return <IconLocation block />
 
-      case PermissionState.GRANTED:
+      case 'granted':
         return <IconLocation solid block />
 
-      case PermissionState.PENDING:
+      case 'pending':
         return <Spinner size={16} block />
 
-      case PermissionState.DENIED:
+      case 'denied':
         return <IconLocation block />
 
       default:
@@ -104,7 +114,7 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
 
   let buttonElement = (
     <ButtonPlain
-      disabled={geolocationPermission === PermissionState.DENIED}
+      disabled={geolocationPermission === 'denied'}
       onClick={handleButtonClick}
     >
       <div className="flex items-center">
@@ -118,7 +128,7 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
     </ButtonPlain>
   )
 
-  if (geolocationPermission === PermissionState.DENIED) {
+  if (geolocationPermission === 'denied') {
     buttonElement = (
       <Tooltip label="Permission not granted">{buttonElement}</Tooltip>
     )

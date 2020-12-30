@@ -49,8 +49,10 @@ const PlaceDetails: React.FC<Props> = ({
             {line.map((fragment, index) => {
               const hasPreviousFragment =
                 index > 0 && address[line[index - 1].name]
+
               const hasNextFragment =
                 index + 1 < line.length && address[line[index + 1].name]
+
               const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
               const shouldShowDelimiter =
                 hasNextFragment ?? hasDifferentDelimiter

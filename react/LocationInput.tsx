@@ -31,6 +31,7 @@ const LocationInput: React.FC<Props> = ({
     Query,
     QueryGetAddressFromPostalCodeArgs
   >(GET_ADDRESS_FROM_POSTAL_CODE)
+
   const [loading, setLoading] = useState(false)
   const [invalidPostalCode, setInvalidPostalCode] = useState(false)
 

@@ -35,10 +35,12 @@ import PlaceIcon from './components/PlaceIcon'
 const DEBOUNCE_DELAY_IN_MS = 500
 
 const useProviderLogo = (): Image | undefined => {
-  const { data, error } = useQuery<Query, {}>(PROVIDER_LOGO)
+  const { data, error } = useQuery<Query, never>(PROVIDER_LOGO)
+
   if (error) {
     console.error(error.message)
   }
+
   return data?.providerLogo
 }
 
@@ -49,6 +51,7 @@ const useDebouncedValue = (value: string, delayInMs: number): string => {
     const handler = setTimeout(() => {
       setDebouncedValue(value)
     }, delayInMs)
+
     return () => {
       clearTimeout(handler)
     }
@@ -121,11 +124,15 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     searchTerm,
     DEBOUNCE_DELAY_IN_MS
   )
+
   const {
     data: sessionTokenData,
     error: sessionTokenError,
     refetch: refetchSessionToken,
-  } = useQuery<Query, {}>(SESSION_TOKEN, { notifyOnNetworkStatusChange: true })
+  } = useQuery<Query, never>(SESSION_TOKEN, {
+    notifyOnNetworkStatusChange: true,
+  })
+
   const sessionToken = sessionTokenData?.sessionToken ?? null
   const [suggestions, loadingSuggestions] = useSuggestions(
     debouncedSearchTerm,
@@ -152,6 +159,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       }))
       onSelectAddress?.(data.address)
     }
+
     if (error) {
       console.error(error.message)
     }
@@ -161,6 +169,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     if (event.key !== 'Escape') {
       return
     }
+
     setSearchTerm('')
     setDisplayedSearchTerm('')
   }
@@ -172,6 +181,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
     if (externalId == null) {
       console.error(`${selectedSuggestion} was not found`)
+
       return
     }
 
