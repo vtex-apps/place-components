@@ -38,6 +38,7 @@ export interface Fields {
 }
 
 export interface LocationSelect {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   countryData: object
   fields: Field[]
 }

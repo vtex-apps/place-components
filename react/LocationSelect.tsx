@@ -115,7 +115,10 @@ const LocationSelect: React.FC = () => {
         </div>
       )
 
-      currentOptions = fieldValue ? currentOptions[fieldValue as keyof {}] : {}
+      currentOptions = fieldValue
+        ? // eslint-disable-next-line @typescript-eslint/ban-types
+          currentOptions[fieldValue as keyof object]
+        : {}
     }
 
     return locationSelects
