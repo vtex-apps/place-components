@@ -32,11 +32,6 @@ const messages = defineMessages({
   },
 })
 
-interface Option {
-  label: string
-  value: string
-}
-
 const renderCountryFlagWithName = ({
   country,
   name,
