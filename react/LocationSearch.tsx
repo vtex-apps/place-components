@@ -35,7 +35,7 @@ import PlaceIcon from './components/PlaceIcon'
 const DEBOUNCE_DELAY_IN_MS = 500
 
 const useProviderLogo = (): Image | undefined => {
-  const { data, error } = useQuery<Query, {}>(PROVIDER_LOGO)
+  const { data, error } = useQuery<Query, never>(PROVIDER_LOGO)
 
   if (error) {
     console.error(error.message)
@@ -129,7 +129,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     data: sessionTokenData,
     error: sessionTokenError,
     refetch: refetchSessionToken,
-  } = useQuery<Query, {}>(SESSION_TOKEN, { notifyOnNetworkStatusChange: true })
+  } = useQuery<Query, never>(SESSION_TOKEN, {
+    notifyOnNetworkStatusChange: true,
+  })
 
   const sessionToken = sessionTokenData?.sessionToken ?? null
   const [suggestions, loadingSuggestions] = useSuggestions(
