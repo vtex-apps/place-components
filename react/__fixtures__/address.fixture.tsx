@@ -63,3 +63,19 @@ export const sampleAddress: Address = {
   receiverName: null,
   reference: null,
 }
+
+export const vtexOfficeAddress = {
+  addressId: '1',
+  addressType: 'residential',
+  city: 'Rio de Janeiro',
+  complement: null,
+  country: 'BRA',
+  geoCoordinates: [-43.18037200000001, -22.9418474],
+  neighborhood: 'Botafogo',
+  number: '200',
+  postalCode: '22250-145',
+  receiverName: null,
+  reference: null,
+  state: 'RJ',
+  street: 'Rua Praia de Botafogo',
+}
