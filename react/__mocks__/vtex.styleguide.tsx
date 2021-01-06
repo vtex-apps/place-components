@@ -15,3 +15,5 @@ export { default as IconSearch } from '@vtex/styleguide/lib/icon/Search'
 export { default as IconClear } from '@vtex/styleguide/lib/icon/Clear'
 // @ts-ignore
 export { default as IconWarning } from '@vtex/styleguide/lib/icon/Warning'
+// @ts-ignore
+export { default as IconLocation } from '@vtex/styleguide/lib/icon/Location'
