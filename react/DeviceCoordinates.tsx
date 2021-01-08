@@ -84,6 +84,11 @@ const DeviceCoordinates: React.FC<Props> = ({ onSuccess }) => {
   }
 
   useEffect(() => {
+    // some browsers do not have/require permissions
+    if (!navigator.permissions) {
+      return
+    }
+
     navigator.permissions
       .query({ name: 'geolocation' })
       .then((result: PermissionStatus) => {
