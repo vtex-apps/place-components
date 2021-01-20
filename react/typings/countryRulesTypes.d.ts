@@ -21,6 +21,7 @@ export interface Field {
 
 export interface Display {
   minimal: LineFragment[][]
+  brief: LineFragment[][]
   compact: LineFragment[][]
   extended: LineFragment[][]
 }
