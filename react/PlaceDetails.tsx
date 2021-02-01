@@ -69,11 +69,15 @@ const PlaceDetails: React.FC<Props> = ({
               return (
                 <div className="dib" key={fragment.name}>
                   {fragment.delimiter && hasPreviousFragment && (
-                    <span>{fragment.delimiter}</span>
+                    <span style={{ whiteSpace: 'pre-wrap' }}>
+                      {fragment.delimiter}
+                    </span>
                   )}
                   <span className={fragment.name}>{addressValue}</span>
                   {fragment.delimiterAfter && shouldShowDelimiter && (
-                    <span>{fragment.delimiterAfter}</span>
+                    <span style={{ whiteSpace: 'pre-wrap' }}>
+                      {fragment.delimiterAfter}
+                    </span>
                   )}
                 </div>
               )
