@@ -190,8 +190,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
               if (
                 !field ||
                 ignoredFields.has(fragment.name) ||
-                hiddenFields.includes(fragment.name) ||
-                address[fragment.name] == null
+                hiddenFields.includes(fragment.name)
               ) {
                 return false
               }
@@ -219,7 +218,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
                   }))
                 }
 
-                const value = address[fragment.name] as string
+                const value = address[fragment.name] ?? ''
 
                 const commonProps = {
                   label: intl.formatMessage(
