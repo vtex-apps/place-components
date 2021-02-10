@@ -1,8 +1,6 @@
-import React, { useState, useRef } from 'react'
-import { useAddressContext } from 'vtex.address-context/AddressContext'
+import React, { useState, useRef, useMemo } from 'react'
 import { Input, Checkbox } from 'vtex.styleguide'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
-import { Address } from 'vtex.checkout-graphql'
 
 const messages = defineMessages({
   wn: {
@@ -28,23 +26,29 @@ interface Props {
   name: string
   label: React.ReactNode
   value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
+  onChange?: (value: string) => void
   disabled?: boolean
   maxLength?: number
   autoComplete?: string
 }
 
-const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
+const NumberOption: React.FC<Props> = ({
+  showCheckbox,
+  onChange,
+  ...props
+}) => {
   const intl = useIntl()
   const inputRef = useRef<HTMLInputElement>(null)
-  const { setAddress } = useAddressContext()
-  const [disabled, setDisabled] = useState(false)
+  const withoutNumberMessage = useMemo(() => intl.formatMessage(messages.wn), [
+    intl,
+  ])
+
+  const [disabled, setDisabled] = useState(
+    showCheckbox && props.value === withoutNumberMessage
+  )
 
   const onCheckboxChange = () => {
-    setAddress((prevAddress: Address) => ({
-      ...prevAddress,
-      number: disabled ? '' : intl.formatMessage(messages.wn),
-    }))
+    onChange?.(disabled ? '' : intl.formatMessage(messages.wn))
     setDisabled(!disabled)
 
     setTimeout(() => {
@@ -66,6 +70,9 @@ const NumberOption: React.FC<Props> = ({ showCheckbox, ...props }) => {
         <Input
           ref={inputRef}
           {...props}
+          onChange={({
+            target: { value },
+          }: React.ChangeEvent<HTMLInputElement>) => onChange?.(value)}
           disabled={disabled || props.disabled}
         />
       </div>

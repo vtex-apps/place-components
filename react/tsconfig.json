@@ -3,7 +3,7 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["es2017", "dom", "es2018.promise"],
+    "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
