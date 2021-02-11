@@ -1,7 +1,8 @@
 import { useState, useCallback, useMemo } from 'react'
 import { defineMessages, MessageDescriptor } from 'react-intl'
 import { AddressFields } from 'vtex.address-context/types'
-import { Utils, AddressContext } from 'vtex.address-context'
+import Utils from 'vtex.address-context/Utils'
+import AddressContext from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
 
 const { createEmptyAddress, validateAddress } = Utils

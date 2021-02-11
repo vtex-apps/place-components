@@ -1,11 +1,11 @@
 import React from 'react'
 import { render, screen, fireEvent, act } from '@vtex/test-tools/react'
-import { MockedProvider, MockedResponse } from '@apollo/react-testing'
+import { MockedResponse } from '@apollo/react-testing'
 import { Address } from 'vtex.checkout-graphql'
 import { AddressRules } from 'vtex.address-context/types'
+import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 
 import LocationSearch from '../LocationSearch'
-import { AddressContextProvider } from '../__mocks__/vtex.address-context/AddressContext'
 import { googleLogo } from '../__fixtures__/graphql/providerLogo.fixture'
 import {
   noSuggestions,
@@ -44,18 +44,19 @@ describe('Location Search', () => {
     graphqlMocks = [],
   }: RenderComponentProps) => {
     return render(
-      <MockedProvider
-        addTypename={false}
-        mocks={[...defaultGraphqlMocks, ...graphqlMocks]}
+      <AddressContextProvider
+        address={address}
+        countries={countries}
+        rules={rules}
       >
-        <AddressContextProvider
-          address={address}
-          countries={countries}
-          rules={rules}
-        >
-          <LocationSearch />
-        </AddressContextProvider>
-      </MockedProvider>
+        <LocationSearch />
+      </AddressContextProvider>,
+      {
+        graphql: {
+          mocks: [...defaultGraphqlMocks, ...graphqlMocks],
+          addTypename: false,
+        },
+      }
     )
   }
 

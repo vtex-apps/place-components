@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "vtex-test-tools test"
+    "test": "vtex-test-tools test --testPathIgnorePatterns third_party"
   },
   "dependencies": {
     "@reach/combobox": "^0.10.5",

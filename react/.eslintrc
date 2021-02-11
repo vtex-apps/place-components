@@ -6,7 +6,6 @@
     "jest": true
   },
   "rules": {
-    "jest/no-mocks-import": "off",
     "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/ban-ts-ignore": "off"
   }

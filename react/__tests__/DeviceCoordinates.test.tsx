@@ -3,9 +3,9 @@ import { fireEvent, render, screen, waitFor } from '@vtex/test-tools/react'
 import { MockedProvider, MockedResponse } from '@apollo/react-testing'
 import { Address } from 'vtex.checkout-graphql'
 import { AddressRules } from 'vtex.address-context/types'
+import { AddressContextProvider } from 'vtex.address-context/AddressContext'
 
-import { AddressContextProvider } from '../__mocks__/vtex.address-context/AddressContext'
-import DeviceCoordinates from '../DeviceCoordinates'
+import DeviceCoordinates, { GeolocationPosition } from '../DeviceCoordinates'
 import { reverseGeocode } from '../__fixtures__/graphql/reverseGeocode.fixture'
 import { vtexOfficeAddress } from '../__fixtures__/address.fixture'
 
