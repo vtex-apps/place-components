@@ -75,26 +75,77 @@ export function useAddressForm({
     [updateFieldMeta]
   )
 
-  const onFieldChange = useCallback(
-    (fieldName: FieldName, value: string) => {
-      const updatedAddress = { ...address, [fieldName]: value }
+  const executeFieldValidation = useCallback(
+    (name: string, value?: string | boolean | null | Array<number | null>) => {
+      const countryRules =
+        address.country != null ? addressRules[address.country] : null
 
-      const fieldRule = addressRules[address.country!].fields[fieldName]
+      if (!countryRules) {
+        return
+      }
+
+      const fieldName =
+        name in countryRules.fields
+          ? (name as keyof typeof countryRules['fields'])
+          : null
+
+      if (!fieldName) {
+        return
+      }
+
+      const fieldRule = countryRules.fields[fieldName]
+
       let errorMessage
 
-      if (fieldRule?.required && value.length === 0) {
+      if (
+        fieldRule?.required &&
+        typeof value === 'string' &&
+        value.length === 0
+      ) {
         errorMessage = messages.fieldRequired
       }
 
       updateFieldMeta(fieldName, { errorMessage })
+    },
+    [address.country, addressRules, updateFieldMeta]
+  )
+
+  const onFieldChange = useCallback(
+    (fieldName: FieldName, value: string) => {
+      const updatedAddress = { ...address, [fieldName]: value }
+
+      executeFieldValidation(fieldName, value)
+
       setAddress(updatedAddress)
       onAddressChange?.(updatedAddress)
     },
-    [address, onAddressChange, updateFieldMeta, addressRules]
+    [address, onAddressChange, executeFieldValidation]
+  )
+
+  const updateAddress = useCallback(
+    (update: React.SetStateAction<Address>) => {
+      setAddress(prevAddress => {
+        let updatedAddress
+
+        if (typeof update === 'function') {
+          updatedAddress = update(prevAddress)
+        } else {
+          updatedAddress = update
+        }
+
+        Object.entries(updatedAddress).forEach(([fieldName, fieldValue]) => {
+          executeFieldValidation(fieldName, fieldValue)
+        })
+
+        return updatedAddress
+      })
+    },
+    [executeFieldValidation]
   )
 
   return {
     address,
+    setAddress: updateAddress,
     isValid,
     invalidFields,
     meta: fieldsMeta,
