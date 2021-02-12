@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { IconSearch, Input, Button, ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage, useIntl } from 'react-intl'
@@ -27,10 +27,13 @@ const LocationInput: React.FC<Props> = ({
   const { culture } = useRuntime()
   const intl = useIntl()
   const [inputValue, setInputValue] = useState('')
+  // the network-only fetch policy asserts that if an incorrect postal code
+  // has been submitted twice in a row, it won't return the cached error,
+  // re-triggering the effect hook and avoiding an infinite loop state
   const [executeGetAddressFromPostalCode, { error, data }] = useLazyQuery<
     Query,
     QueryGetAddressFromPostalCodeArgs
-  >(GET_ADDRESS_FROM_POSTAL_CODE)
+  >(GET_ADDRESS_FROM_POSTAL_CODE, { fetchPolicy: 'network-only' })
 
   const [loading, setLoading] = useState(false)
   const [invalidPostalCode, setInvalidPostalCode] = useState(false)
@@ -38,6 +41,34 @@ const LocationInput: React.FC<Props> = ({
   const country = address?.country ?? culture.country
 
   const countryRules = country ? rules[country] : undefined
+
+  const prevCountryRulesRef = useRef(countryRules)
+
+  const formatAndValidate = useCallback(() => {
+    const { mask, pattern } = countryRules?.fields.postalCode ?? {}
+
+    if (!mask) {
+      return
+    }
+
+    setInputValue(msk(inputValue, mask))
+    const patternInvalid =
+      inputValue.length && pattern && !inputValue.match(pattern)
+
+    if (patternInvalid) {
+      setInvalidPostalCode(true)
+    }
+  }, [countryRules?.fields.postalCode, inputValue])
+
+  useEffect(() => {
+    if (prevCountryRulesRef.current === countryRules) {
+      return
+    }
+
+    prevCountryRulesRef.current = countryRules
+    setInvalidPostalCode(false)
+    formatAndValidate()
+  }, [countryRules, formatAndValidate])
 
   useEffect(() => {
     let cancelled = false
@@ -68,7 +99,7 @@ const LocationInput: React.FC<Props> = ({
     }
 
     if (error) {
-      console.warn(error.message)
+      console.error(error.message)
       setInvalidPostalCode(true)
       setLoading(false)
     }
@@ -80,10 +111,13 @@ const LocationInput: React.FC<Props> = ({
 
   const handleSubmit: React.EventHandler<
     React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
-  > = evt => {
-    evt.preventDefault()
+  > = event => {
+    event.preventDefault()
+    if (invalidPostalCode) {
+      return
+    }
+
     setLoading(true)
-    setInvalidPostalCode(false)
     executeGetAddressFromPostalCode({
       variables: {
         postalCode: inputValue,
@@ -92,18 +126,18 @@ const LocationInput: React.FC<Props> = ({
     })
   }
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
-    setInputValue(evt.target.value)
-  }
-
-  const handleInputBlur = () => {
-    const postalCodeMask = countryRules?.fields.postalCode?.mask
-
-    if (!postalCodeMask) {
-      return
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+    if (invalidPostalCode) {
+      setInvalidPostalCode(false)
     }
 
-    setInputValue(msk(inputValue, postalCodeMask))
+    setInputValue(event.target.value)
+  }
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = event => {
+    if (event.key === 'Enter') {
+      formatAndValidate()
+    }
   }
 
   if (!countryRules) {
@@ -130,7 +164,8 @@ const LocationInput: React.FC<Props> = ({
           size="large"
           value={inputValue}
           onChange={handleInputChange}
-          onBlur={handleInputBlur}
+          onBlur={formatAndValidate}
+          onKeyDown={handleKeyDown}
           disabled={loading}
           error={invalidPostalCode}
           errorMessage={
