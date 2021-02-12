@@ -10,6 +10,7 @@ import {
 } from 'vtex.address-context/types'
 import { useIntl, defineMessages } from 'react-intl'
 
+import { useAddressForm, FieldName } from './useAddressForm'
 import { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
@@ -51,10 +52,6 @@ const messages = defineMessages({
     defaultMessage: '',
     id: 'place-components.label.stateAbbreviation',
   },
-  fieldRequired: {
-    defaultMessage: '',
-    id: 'place-components.error.fieldRequired',
-  },
   postalCode: {
     defaultMessage: '',
     id: 'place-components.label.postalCode',
@@ -89,49 +86,54 @@ const getExcludedFields = (
   return excludedFields
 }
 
-const hasWithoutNumberOption = (label: string) => {
-  return label.endsWith('Option')
-}
-
 interface AddressFormProps {
   hiddenFields?: AddressFields[]
   mandatoryEditableFields?: AddressFields[]
   onResetAddress?: () => void
-}
-
-interface FieldMeta {
-  blurred: boolean
-}
-
-type FieldsMeta = {
-  [field in AddressFields]?: FieldMeta
+  form?: ReturnType<typeof useAddressForm>
+  expanded?: boolean
+  onExpandForm?: () => void
 }
 
 const AddressForm: React.FC<AddressFormProps> = ({
   hiddenFields = [],
   mandatoryEditableFields = [],
   onResetAddress,
+  form: propsForm,
+  expanded: propsExpanded,
+  onExpandForm,
 }) => {
   const intl = useIntl()
-  const { address, setAddress, invalidFields, rules } = useAddressContext()
-  const [editing, setEditing] = useState(false)
+  const addressContext = useAddressContext()
+  const localForm = useAddressForm({
+    initialAddress: addressContext.address,
+    onAddressChange: addressContext.setAddress,
+  })
 
-  const countryRules = (address.country && rules[address.country]) || undefined
+  const [localExpanded, setLocalExpanded] = useState(false)
 
-  const { fields, display } = countryRules ?? {}
+  const expanded = propsExpanded ?? localExpanded
+
+  const form = propsForm ?? localForm
+  const address = propsForm?.address ?? addressContext.address
+
+  const countryRules =
+    (address.country && addressContext.rules[address.country]) || undefined
+
+  const { fields: countryRulesFields, display } = countryRules ?? {}
   const summary = display?.extended
 
-  const [fieldsMeta, setFieldsMeta] = useState<FieldsMeta>({})
-
   const handleEditButtonClick = () => {
-    if (editing) {
+    if (expanded) {
       onResetAddress?.()
+    } else if (onExpandForm != null) {
+      onExpandForm()
     } else {
-      setEditing(true)
+      setLocalExpanded(true)
     }
   }
 
-  const displayMode = editing ? 'minimal' : 'compact'
+  const displayMode = expanded ? 'minimal' : 'compact'
 
   // The use of `useRef` is to prevent the fields from suddenly disappearing
   // from the form while typing the value
@@ -142,7 +144,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
   // longer be invalid causing it to suddenly "disappear" from the screen if we don't use
   // the `useRef` hook.
   const initialInvalidFields = useRef([
-    ...invalidFields,
+    ...form.invalidFields,
     ...mandatoryEditableFields,
   ])
 
@@ -164,12 +166,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
       return
     }
 
-    setFieldsMeta(prevMeta => ({
-      ...prevMeta,
-      [fieldName]: {
-        blurred: true,
-      },
-    }))
+    form.onFieldBlur(fieldName as FieldName)
   }
 
   return (
@@ -185,7 +182,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
         {summary
           ?.map(line =>
             line.filter(fragment => {
-              const field = fields?.[fragment.name as keyof Fields]
+              const field = countryRulesFields?.[fragment.name as keyof Fields]
 
               if (
                 !field ||
@@ -202,52 +199,64 @@ const AddressForm: React.FC<AddressFormProps> = ({
           .map((line, index, renderedSummary) => (
             <div className="flex flex-wrap" key={index}>
               {line.map((fragment, fragmentIndex) => {
-                const field = fields?.[fragment.name as keyof Fields] as Field
+                const field = countryRulesFields?.[
+                  fragment.name as keyof Fields
+                ] as Field
+
                 const style = styleRules[field.label]
 
                 let fragmentElement = null
 
-                const { maxLength, autoComplete, required, label } = field
+                const { maxLength, autoComplete, label } = field
 
-                const handleChange: React.ChangeEventHandler<
+                const handleChange = (value: string) => {
+                  form.onFieldChange(fragment.name, value)
+                }
+
+                const handleInputChange: React.ChangeEventHandler<
                   HTMLInputElement | HTMLSelectElement
-                > = ({ target: { value } }) => {
-                  setAddress(prevAddress => ({
-                    ...prevAddress,
-                    [fragment.name]: value,
-                  }))
+                > = evt => {
+                  handleChange(evt.target.value)
                 }
 
                 const value = address[fragment.name] ?? ''
+
+                const fragmentMeta = form.meta[fragment.name]
 
                 const commonProps = {
                   label: intl.formatMessage(
                     messages[label as keyof typeof messages]
                   ),
                   value,
-                  onChange: handleChange,
                   name: fragment.name,
                   onBlur: handleFieldBlur,
                   ...(maxLength && { maxLength }),
                   ...(autoComplete && { autoComplete }),
-                  ...(required &&
-                  address[fragment.name]?.length === 0 &&
-                  fieldsMeta[fragment.name]?.blurred
+                  ...(fragmentMeta?.blurred && fragmentMeta.errorMessage
                     ? {
                         errorMessage: intl.formatMessage(
-                          messages.fieldRequired
+                          fragmentMeta.errorMessage!
                         ),
                       }
                     : null),
                 }
 
-                fragmentElement = hasWithoutNumberOption(field.label) ? (
-                  <NumberOption {...commonProps} showCheckbox />
-                ) : field.options ? (
-                  <Dropdown {...commonProps} options={field.options} />
-                ) : (
-                  <Input {...commonProps} />
-                )
+                fragmentElement =
+                  fragment.name === 'number' ? (
+                    <NumberOption
+                      {...commonProps}
+                      onChange={handleChange}
+                      showCheckbox
+                    />
+                  ) : field.options ? (
+                    <Dropdown
+                      {...commonProps}
+                      onChange={handleInputChange}
+                      options={field.options}
+                    />
+                  ) : (
+                    <Input {...commonProps} onChange={handleInputChange} />
+                  )
 
                 return (
                   <div

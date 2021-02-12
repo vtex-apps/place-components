@@ -7,7 +7,7 @@ import { Address } from 'vtex.places-graphql'
 
 import REVERSE_GEOCODE_QUERY from './graphql/reverseGeocode.graphql'
 
-interface GeolocationPosition {
+export interface GeolocationPosition {
   coords: {
     latitude: number
     longitude: number

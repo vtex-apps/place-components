@@ -43,4 +43,6 @@ jobs:
           node-version: 12.x
         env:
           RUNNER_TEMP: /tmp
+      - name: update submodules
+        run: git submodule update --init --recursive
       - uses: vtex/action-io-app-test@master

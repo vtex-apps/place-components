@@ -3,7 +3,7 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["es2017", "dom", "es2018.promise"],
+    "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -14,7 +14,12 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es2017"
+    "target": "es2017",
+    "baseUrl": ".",
+    "paths": {
+      "vtex.address-context/*": ["./third_party/address-context/react/*"]
+    }
   },
+  "exclude": ["node_modules", "third_party"],
   "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts", "setupTests.js"]
 }
