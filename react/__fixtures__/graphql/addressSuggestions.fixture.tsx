@@ -13,6 +13,7 @@ export const simpleSuggestions: MockedResponse = {
     variables: {
       searchTerm: 'Praia de Botafogo',
       sessionToken: DEFAULT_SESSION_TOKEN,
+      country: 'BRA',
     } as QueryAddressSuggestionsArgs,
   },
   result: {
@@ -60,6 +61,7 @@ export const noSuggestions: MockedResponse = {
     variables: {
       searchTerm: 'asdfasdfasdf',
       sessionToken: DEFAULT_SESSION_TOKEN,
+      country: 'BRA',
     } as QueryAddressSuggestionsArgs,
   },
   result: {
