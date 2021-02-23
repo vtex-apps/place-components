@@ -64,7 +64,7 @@ export const sampleAddress: Address = {
   reference: null,
 }
 
-export const vtexOfficeAddress = {
+export const vtexOfficeAddress: Address = {
   addressId: '1',
   addressType: 'residential',
   city: 'Rio de Janeiro',

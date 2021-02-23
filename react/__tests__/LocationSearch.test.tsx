@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent, act } from '@vtex/test-tools/react'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
 import { MockedResponse } from '@apollo/react-testing'
 import { Address } from 'vtex.checkout-graphql'
 import { AddressRules } from 'vtex.address-context/types'
@@ -38,7 +38,7 @@ const defaultGraphqlMocks = [
 
 describe('Location Search', () => {
   const renderComponent = ({
-    address = null,
+    address = { country: 'BRA' },
     countries = [],
     rules = {},
     graphqlMocks = [],
@@ -86,10 +86,11 @@ describe('Location Search', () => {
     )
 
     // same as waiting loading to finish
-    expect(screen.queryByRole('button')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByRole('button')).toBeInTheDocument()
+    })
   })
 
-  // TODO: fix act warning
   it('should be able to clear the input with clear button when something is typed', () => {
     renderComponent({ graphqlMocks: [simpleSuggestions] })
 
@@ -108,7 +109,6 @@ describe('Location Search', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
-  // TODO: fix act warning
   it('should be able to clear the input with ESC key when something is typed', () => {
     renderComponent({ graphqlMocks: [simpleSuggestions] })
 
@@ -124,19 +124,15 @@ describe('Location Search', () => {
   })
 
   it('should display failure message when the search term is not found', async () => {
-    jest.useFakeTimers()
-
     renderComponent({ graphqlMocks: [noSuggestions] })
 
     const input = screen.getByLabelText(LABEL_MATCHER)
 
     fireEvent.change(input, { target: { value: 'asdfasdfasdf' } })
 
-    act(() => {
-      jest.runAllTimers()
+    await waitFor(() => {
+      expect(screen.queryByText('No results found')).toBeInTheDocument()
     })
-
-    expect(screen.queryByText('No results found')).toBeInTheDocument()
   })
 
   it('should render provider logo', async () => {

@@ -17,3 +17,5 @@ export { default as IconClear } from '@vtex/styleguide/lib/icon/Clear'
 export { default as IconWarning } from '@vtex/styleguide/lib/icon/Warning'
 // @ts-ignore
 export { default as IconLocation } from '@vtex/styleguide/lib/icon/Location'
+// @ts-ignore
+export { default as Button } from '@vtex/styleguide/lib/Button'
