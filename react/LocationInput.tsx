@@ -77,7 +77,7 @@ const LocationInput: React.FC<Props> = ({
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       ;(onSuccess?.(data.getAddressFromPostalCode) || Promise.resolve())
         .then(() => {
-          setAddress(prevAddress => ({
+          setAddress((prevAddress) => ({
             ...prevAddress,
             ...data.getAddressFromPostalCode,
           }))
@@ -111,7 +111,7 @@ const LocationInput: React.FC<Props> = ({
 
   const handleSubmit: React.EventHandler<
     React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
-  > = event => {
+  > = (event) => {
     event.preventDefault()
     if (invalidPostalCode) {
       return
@@ -126,7 +126,9 @@ const LocationInput: React.FC<Props> = ({
     })
   }
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     if (invalidPostalCode) {
       setInvalidPostalCode(false)
     }
@@ -134,7 +136,9 @@ const LocationInput: React.FC<Props> = ({
     setInputValue(event.target.value)
   }
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = event => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     if (event.key === 'Enter') {
       formatAndValidate()
     }

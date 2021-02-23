@@ -4,7 +4,7 @@ import { Query, QueryReverseGeocodeArgs } from 'vtex.places-graphql'
 import { vtexOfficeAddress } from '../address.fixture'
 import REVERSE_GEOCODE_QUERY from '../../graphql/reverseGeocode.graphql'
 
-const [lat, lng] = vtexOfficeAddress.geoCoordinates.map(coordinate =>
+const [lat, lng] = vtexOfficeAddress.geoCoordinates.map((coordinate) =>
   coordinate.toString()
 )
 

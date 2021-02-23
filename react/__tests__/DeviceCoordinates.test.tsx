@@ -54,7 +54,7 @@ describe('Device Coordinates', () => {
       const { query } = navigator.permissions
       const mockedPermissionsQuery = query as jest.MockedFunction<typeof query>
 
-      mockedPermissionsQuery.mockImplementation(_permission => {
+      mockedPermissionsQuery.mockImplementation((_permission) => {
         callOrder.push('permissions')
 
         return Promise.resolve({ state: 'granted' } as PermissionStatus)
@@ -71,7 +71,7 @@ describe('Device Coordinates', () => {
         typeof getCurrentPosition
       >
 
-      mockedGetCurrentPosition.mockImplementation(success => {
+      mockedGetCurrentPosition.mockImplementation((success) => {
         callOrder.push('geolocation')
 
         return Promise.resolve(
@@ -121,7 +121,7 @@ describe('Device Coordinates', () => {
         typeof getCurrentPosition
       >
 
-      mockedGetCurrentPosition.mockImplementation(success =>
+      mockedGetCurrentPosition.mockImplementation((success) =>
         Promise.resolve(
           success({
             coords: {

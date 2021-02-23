@@ -159,7 +159,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
 
   const handleFieldBlur: React.FocusEventHandler<
     HTMLInputElement | HTMLSelectElement
-  > = evt => {
+  > = (evt) => {
     const fieldName = evt.target.name
 
     if (!(fieldName in address)) {
@@ -180,8 +180,8 @@ const AddressForm: React.FC<AddressFormProps> = ({
       </div>
       <div>
         {summary
-          ?.map(line =>
-            line.filter(fragment => {
+          ?.map((line) =>
+            line.filter((fragment) => {
               const field = countryRulesFields?.[fragment.name as keyof Fields]
 
               if (
@@ -195,7 +195,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
               return true
             })
           )
-          .filter(line => line.length > 0)
+          .filter((line) => line.length > 0)
           .map((line, index, renderedSummary) => (
             <div className="flex flex-wrap" key={index}>
               {line.map((fragment, fragmentIndex) => {
@@ -215,7 +215,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
 
                 const handleInputChange: React.ChangeEventHandler<
                   HTMLInputElement | HTMLSelectElement
-                > = evt => {
+                > = (evt) => {
                   handleChange(evt.target.value)
                 }
 
@@ -235,7 +235,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
                   ...(fragmentMeta?.blurred && fragmentMeta.errorMessage
                     ? {
                         errorMessage: intl.formatMessage(
-                          fragmentMeta.errorMessage!
+                          fragmentMeta.errorMessage
                         ),
                       }
                     : null),

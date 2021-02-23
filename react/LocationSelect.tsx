@@ -57,10 +57,10 @@ const LocationSelect: React.FC = () => {
   const { countryData, fields } = countryRules.locationSelect
 
   const addressFields = fields.map(
-    field => address[field.name as AddressFields]
+    (field) => address[field.name as AddressFields]
   )
 
-  const firstMissingIdx = addressFields.findIndex(field => !field)
+  const firstMissingIdx = addressFields.findIndex((field) => !field)
   const completedFields =
     firstMissingIdx === -1
       ? addressFields
@@ -90,7 +90,7 @@ const LocationSelect: React.FC = () => {
             options={(Array.isArray(currentOptions) // Workaround, fix JSON country data
               ? currentOptions
               : Object.keys(currentOptions)
-            ).map(name => {
+            ).map((name) => {
               return { label: name, value: name }
             })}
             onChange={({

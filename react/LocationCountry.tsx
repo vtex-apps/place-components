@@ -80,7 +80,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   }
 
   useEffect(() => {
-    setAddress(prevAddress => ({
+    setAddress((prevAddress) => ({
       ...prevAddress,
       country,
       // reset all other fields related
@@ -125,7 +125,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
         </ListboxButton>
         <ListboxPopover translate={undefined}>
           <ListboxList>
-            {countries.map(countryCode => {
+            {countries.map((countryCode) => {
               const name =
                 countryCode in messages
                   ? intl.formatMessage(

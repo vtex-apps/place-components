@@ -48,7 +48,7 @@ export function useAddressForm({
 
   const [fieldsMeta, setFieldsMeta] = useState<FieldsMeta>(
     Object.fromEntries(
-      invalidFields.map(field => [
+      invalidFields.map((field) => [
         field,
         { errorMessage: messages.fieldRequired },
       ])
@@ -57,7 +57,7 @@ export function useAddressForm({
 
   const updateFieldMeta = useCallback(
     (fieldName: FieldName, meta: Partial<FieldMeta>) => {
-      setFieldsMeta(prevMeta => ({
+      setFieldsMeta((prevMeta) => ({
         ...prevMeta,
         [fieldName]: {
           ...prevMeta[fieldName],
@@ -124,7 +124,7 @@ export function useAddressForm({
 
   const updateAddress = useCallback(
     (update: React.SetStateAction<Address>) => {
-      setAddress(prevAddress => {
+      setAddress((prevAddress) => {
         let updatedAddress
 
         if (typeof update === 'function') {

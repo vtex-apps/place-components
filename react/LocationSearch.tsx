@@ -153,7 +153,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   useEffect(() => {
     if (data) {
-      setAddress(prevAddress => ({
+      setAddress((prevAddress) => ({
         ...prevAddress,
         ...data.address,
       }))
@@ -176,7 +176,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   const handleSuggestionSelection = (selectedSuggestion: string) => {
     const externalId = suggestions.find(
-      suggestion => suggestion.description === selectedSuggestion
+      (suggestion) => suggestion.description === selectedSuggestion
     )?.externalId
 
     if (externalId == null) {

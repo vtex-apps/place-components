@@ -12,9 +12,9 @@ export default function formatAddressToString(
   const displaySpec = rules.display[displayType]
 
   return displaySpec
-    .map(line => line.filter(fragment => address[fragment.name]))
-    .filter(line => line.length > 0)
-    .map(line =>
+    .map((line) => line.filter((fragment) => address[fragment.name]))
+    .filter((line) => line.length > 0)
+    .map((line) =>
       line
         .map((fragment, index) => {
           const hasPreviousFragment = index > 0 && address[line[index - 1].name]

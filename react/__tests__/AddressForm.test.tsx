@@ -34,7 +34,7 @@ describe('AddressForm', () => {
     const Component: React.VFC = () => {
       const form = useAddressForm({
         initialAddress: { ...createEmptyAddress(), country: 'BRA' },
-        onAddressChange: address => changes.push(address),
+        onAddressChange: (address) => changes.push(address),
       })
 
       return (
@@ -42,7 +42,7 @@ describe('AddressForm', () => {
           <AddressForm form={form} />
           <button
             onClick={() => {
-              form.invalidFields.map(field =>
+              form.invalidFields.map((field) =>
                 form.onFieldBlur(field as FieldName)
               )
             }}

@@ -37,13 +37,13 @@ const PlaceDetails: React.FC<Props> = ({
   return (
     <div className="flex flex-column">
       {displaySpec
-        .map(line => {
+        .map((line) => {
           return line.filter(
-            fragment =>
+            (fragment) =>
               address[fragment.name] && !hiddenFields.includes(fragment.name)
           )
         })
-        .filter(line => line.length > 0)
+        .filter((line) => line.length > 0)
         .map((line, displayIndex) => (
           <div className="flex" key={displayIndex}>
             {line.map((fragment, index) => {
