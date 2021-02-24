@@ -5,6 +5,8 @@ import { FormattedMessage, defineMessages } from 'react-intl'
 import { Address } from 'vtex.checkout-graphql'
 import { AddressFields } from 'vtex.address-context/types'
 
+import { useCountry } from './useCountry'
+
 const messages = defineMessages({
   province: {
     defaultMessage: '',
@@ -46,11 +48,12 @@ const messages = defineMessages({
 
 const LocationSelect: React.FC = () => {
   const { address, setAddress, rules } = useAddressContext()
-  const countryRules = rules[address.country as string]
+  const country = useCountry()
+  const countryRules = rules[country]
 
   if (!countryRules?.locationSelect) {
     throw new Error(
-      `The country "${address.country}" is not applicable to the LocationSelect component`
+      `The country "${country}" is not applicable to the LocationSelect component`
     )
   }
 

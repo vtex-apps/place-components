@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { Listbox } from 'vtex.checkout-components'
 import { CountryFlag } from 'vtex.country-flags'
 import { defineMessages, useIntl } from 'react-intl'
-import { useRuntime } from 'vtex.render-runtime'
+
+import { useCountry } from './useCountry'
 
 const {
   ListboxInput,
@@ -55,23 +56,9 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   className = '',
 }) => {
   const intl = useIntl()
-  const { address, setAddress, countries } = useAddressContext()
-  const {
-    culture: { country: storeCountry },
-  } = useRuntime()
+  const { setAddress, countries } = useAddressContext()
 
-  const [country, setCountry] = useState(() => {
-    if (address?.country) {
-      return address.country
-    }
-
-    /* should try to get by saved addresses in account */
-
-    /* should try to get by IP */
-
-    /* else, try to get by store config */
-    return storeCountry
-  })
+  const [country, setCountry] = useState(useCountry())
 
   if (country && countries && !countries.includes(country)) {
     throw new Error(

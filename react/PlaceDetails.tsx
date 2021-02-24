@@ -7,6 +7,7 @@ import { useIntl, defineMessages } from 'react-intl'
 import { DisplayData } from 'vtex.country-data-settings'
 
 import { FieldName } from './useAddressForm'
+import { useCountry } from './useCountry'
 
 interface Props {
   display?: keyof Omit<DisplayData, '__typename'>
@@ -27,7 +28,8 @@ const PlaceDetails: React.FC<Props> = ({
   onEdit,
 }) => {
   const { address, rules } = useAddressContext()
-  const countryRules = rules[address.country as string]
+  const country = useCountry()
+  const countryRules = rules[country]
 
   const intl = useIntl()
 

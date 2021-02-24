@@ -5,6 +5,8 @@ import Utils from 'vtex.address-context/Utils'
 import AddressContext from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
 
+import { useCountry } from './useCountry'
+
 const { createEmptyAddress, validateAddress } = Utils
 const { useAddressContext } = AddressContext
 
@@ -40,6 +42,7 @@ export function useAddressForm({
 }: FormOptions = {}) {
   const { rules: addressRules } = useAddressContext()
   const [address, setAddress] = useState(initialAddress ?? createEmptyAddress())
+  const country = useCountry()
 
   const { isValid, invalidFields } = useMemo(
     () => validateAddress(address, addressRules),
@@ -77,8 +80,7 @@ export function useAddressForm({
 
   const executeFieldValidation = useCallback(
     (name: string, value?: string | boolean | null | Array<number | null>) => {
-      const countryRules =
-        address.country != null ? addressRules[address.country] : null
+      const countryRules = addressRules[country]
 
       if (!countryRules) {
         return
@@ -104,7 +106,7 @@ export function useAddressForm({
 
       updateFieldMeta(fieldName as FieldName, { errorMessage })
     },
-    [address.country, addressRules, updateFieldMeta]
+    [country, addressRules, updateFieldMeta]
   )
 
   const onFieldChange = useCallback(

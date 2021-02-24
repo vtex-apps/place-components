@@ -5,7 +5,6 @@ import { DisplayDefinition } from 'vtex.country-data-settings'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { AddressFields, Field } from 'vtex.address-context/types'
 import { useIntl, defineMessages } from 'react-intl'
-import { Address } from 'vtex.checkout-graphql'
 
 import { useAddressForm, FieldName, FieldsMeta } from './useAddressForm'
 import { styleRules } from './countries/rules'
@@ -115,8 +114,8 @@ const AddressForm: React.FC<AddressFormProps> = ({
   const form = propsForm ?? localForm
   const address = propsForm?.address ?? addressContext.address
 
-  const countryRules =
-    (address.country && addressContext.rules[address.country]) || undefined
+  const country = useCountry()
+  const countryRules = addressContext.rules[country]
 
   const { fields: countryRulesFields, display } = countryRules ?? {}
   const summary = display?.extended
