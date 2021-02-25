@@ -84,10 +84,7 @@ export function useAddressForm({
         return
       }
 
-      const fieldName =
-        name in countryRules.fields
-          ? (name as keyof typeof countryRules['fields'])
-          : null
+      const fieldName = name in countryRules.fields ? (name as FieldName) : null
 
       if (!fieldName) {
         return
@@ -105,7 +102,7 @@ export function useAddressForm({
         errorMessage = messages.fieldRequired
       }
 
-      updateFieldMeta(fieldName, { errorMessage })
+      updateFieldMeta(fieldName as FieldName, { errorMessage })
     },
     [address.country, addressRules, updateFieldMeta]
   )

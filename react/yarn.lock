@@ -5913,9 +5913,13 @@ vtex-tachyons@^3.2.0:
   version "0.5.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components#77d654aea75319f3024612fe7b263777b116105f"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql":
-  version "0.56.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql#c1153ec5faf232f92abfe495f867019bfb7d510f"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.2/public/@types/vtex.checkout-graphql":
+  version "0.56.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.2/public/@types/vtex.checkout-graphql#b65cce625ba3840a3b7eec3fe83a4be0e3b31e4a"
+
+"vtex.country-data-settings@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-data-settings@0.4.0/public/@types/vtex.country-data-settings":
+  version "0.4.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-data-settings@0.4.0/public/@types/vtex.country-data-settings#bd202ad3fedd99d8da51df86b68316beab1bdce1"
 
 "vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
   version "0.1.1"

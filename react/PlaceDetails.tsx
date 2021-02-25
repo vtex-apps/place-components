@@ -1,12 +1,15 @@
 import msk from 'msk'
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { Display, AddressFields } from 'vtex.address-context/types'
+import { AddressFields } from 'vtex.address-context/types'
 import { ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
+import { DisplayData } from 'vtex.country-data-settings'
+
+import { FieldName } from './useAddressForm'
 
 interface Props {
-  display?: keyof Display
+  display?: keyof Omit<DisplayData, '__typename'>
   hiddenFields?: AddressFields[]
   onEdit?: () => void
 }
@@ -40,7 +43,8 @@ const PlaceDetails: React.FC<Props> = ({
         .map((line) => {
           return line.filter(
             (fragment) =>
-              address[fragment.name] && !hiddenFields.includes(fragment.name)
+              address[fragment.name as FieldName] &&
+              !hiddenFields.includes(fragment.name as FieldName)
           )
         })
         .filter((line) => line.length > 0)
@@ -48,10 +52,11 @@ const PlaceDetails: React.FC<Props> = ({
           <div className="flex" key={displayIndex}>
             {line.map((fragment, index) => {
               const hasPreviousFragment =
-                index > 0 && address[line[index - 1].name]
+                index > 0 && address[line[index - 1].name as FieldName]
 
               const hasNextFragment =
-                index + 1 < line.length && address[line[index + 1].name]
+                index + 1 < line.length &&
+                address[line[index + 1].name as FieldName]
 
               const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
               const shouldShowDelimiter =
@@ -59,12 +64,12 @@ const PlaceDetails: React.FC<Props> = ({
 
               const valueMask =
                 fragment.name in countryRules.fields
-                  ? countryRules.fields[fragment.name]?.mask
+                  ? countryRules.fields[fragment.name as FieldName]?.mask
                   : undefined
 
               const addressValue = valueMask
-                ? msk(address[fragment.name] as string, valueMask)
-                : address[fragment.name]
+                ? msk(address[fragment.name as FieldName] as string, valueMask)
+                : address[fragment.name as FieldName]
 
               return (
                 <div className="dib" key={fragment.name}>
