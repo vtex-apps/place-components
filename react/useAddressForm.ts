@@ -5,6 +5,8 @@ import Utils from 'vtex.address-context/Utils'
 import AddressContext from 'vtex.address-context/AddressContext'
 import { Address } from 'vtex.checkout-graphql'
 
+import { useCountry } from './useCountry'
+
 const { createEmptyAddress, validateAddress } = Utils
 const { useAddressContext } = AddressContext
 
@@ -40,6 +42,7 @@ export function useAddressForm({
 }: FormOptions = {}) {
   const { rules: addressRules } = useAddressContext()
   const [address, setAddress] = useState(initialAddress ?? createEmptyAddress())
+  const country = useCountry()
 
   const { isValid, invalidFields } = useMemo(
     () => validateAddress(address, addressRules),
@@ -48,7 +51,7 @@ export function useAddressForm({
 
   const [fieldsMeta, setFieldsMeta] = useState<FieldsMeta>(
     Object.fromEntries(
-      invalidFields.map(field => [
+      invalidFields.map((field) => [
         field,
         { errorMessage: messages.fieldRequired },
       ])
@@ -57,7 +60,7 @@ export function useAddressForm({
 
   const updateFieldMeta = useCallback(
     (fieldName: FieldName, meta: Partial<FieldMeta>) => {
-      setFieldsMeta(prevMeta => ({
+      setFieldsMeta((prevMeta) => ({
         ...prevMeta,
         [fieldName]: {
           ...prevMeta[fieldName],
@@ -77,17 +80,13 @@ export function useAddressForm({
 
   const executeFieldValidation = useCallback(
     (name: string, value?: string | boolean | null | Array<number | null>) => {
-      const countryRules =
-        address.country != null ? addressRules[address.country] : null
+      const countryRules = addressRules[country]
 
       if (!countryRules) {
         return
       }
 
-      const fieldName =
-        name in countryRules.fields
-          ? (name as keyof typeof countryRules['fields'])
-          : null
+      const fieldName = name in countryRules.fields ? (name as FieldName) : null
 
       if (!fieldName) {
         return
@@ -105,9 +104,9 @@ export function useAddressForm({
         errorMessage = messages.fieldRequired
       }
 
-      updateFieldMeta(fieldName, { errorMessage })
+      updateFieldMeta(fieldName as FieldName, { errorMessage })
     },
-    [address.country, addressRules, updateFieldMeta]
+    [country, addressRules, updateFieldMeta]
   )
 
   const onFieldChange = useCallback(
@@ -124,7 +123,7 @@ export function useAddressForm({
 
   const updateAddress = useCallback(
     (update: React.SetStateAction<Address>) => {
-      setAddress(prevAddress => {
+      setAddress((prevAddress) => {
         let updatedAddress
 
         if (typeof update === 'function') {

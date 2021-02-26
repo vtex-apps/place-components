@@ -1,12 +1,16 @@
 import msk from 'msk'
 import React from 'react'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import { Display, AddressFields } from 'vtex.address-context/types'
+import { AddressFields } from 'vtex.address-context/types'
 import { ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
+import { DisplayData } from 'vtex.country-data-settings'
+
+import { FieldName } from './useAddressForm'
+import { useCountry } from './useCountry'
 
 interface Props {
-  display?: keyof Display
+  display?: keyof Omit<DisplayData, '__typename'>
   hiddenFields?: AddressFields[]
   onEdit?: () => void
 }
@@ -24,7 +28,8 @@ const PlaceDetails: React.FC<Props> = ({
   onEdit,
 }) => {
   const { address, rules } = useAddressContext()
-  const countryRules = rules[address.country as string]
+  const country = useCountry()
+  const countryRules = rules[country]
 
   const intl = useIntl()
 
@@ -37,21 +42,23 @@ const PlaceDetails: React.FC<Props> = ({
   return (
     <div className="flex flex-column">
       {displaySpec
-        .map(line => {
+        .map((line) => {
           return line.filter(
-            fragment =>
-              address[fragment.name] && !hiddenFields.includes(fragment.name)
+            (fragment) =>
+              address[fragment.name as FieldName] &&
+              !hiddenFields.includes(fragment.name as FieldName)
           )
         })
-        .filter(line => line.length > 0)
+        .filter((line) => line.length > 0)
         .map((line, displayIndex) => (
           <div className="flex" key={displayIndex}>
             {line.map((fragment, index) => {
               const hasPreviousFragment =
-                index > 0 && address[line[index - 1].name]
+                index > 0 && address[line[index - 1].name as FieldName]
 
               const hasNextFragment =
-                index + 1 < line.length && address[line[index + 1].name]
+                index + 1 < line.length &&
+                address[line[index + 1].name as FieldName]
 
               const hasDifferentDelimiter = fragment.delimiterAfter !== '-'
               const shouldShowDelimiter =
@@ -59,12 +66,12 @@ const PlaceDetails: React.FC<Props> = ({
 
               const valueMask =
                 fragment.name in countryRules.fields
-                  ? countryRules.fields[fragment.name]?.mask
+                  ? countryRules.fields[fragment.name as FieldName]?.mask
                   : undefined
 
               const addressValue = valueMask
-                ? msk(address[fragment.name] as string, valueMask)
-                : address[fragment.name]
+                ? msk(address[fragment.name as FieldName] as string, valueMask)
+                : address[fragment.name as FieldName]
 
               return (
                 <div className="dib" key={fragment.name}>

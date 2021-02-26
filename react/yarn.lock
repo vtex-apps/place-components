@@ -5905,17 +5905,21 @@ vtex-tachyons@^3.2.0:
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-3.2.2.tgz#e9e39d939778ef7d80a92c476cecf7417f79a6e8"
   integrity sha512-4M53uuvV+2XEjplVYiPgpBuaI5dtGksVgz/20NNjbZkXklJM7Lwgod/hOoh3PtIn36+95zZVVgXYfs3e6EU8YA==
 
-"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.6.1/public/@types/vtex.address-context":
-  version "0.6.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.6.1/public/@types/vtex.address-context#7d636645e335353fa277f52e3f808e4f2d01462b"
+"vtex.address-context@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.6.2/public/@types/vtex.address-context":
+  version "0.6.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.address-context@0.6.2/public/@types/vtex.address-context#f204028dd8a15f4ea0bfe28126684fec34758774"
 
 "vtex.checkout-components@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components":
   version "0.5.1"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-components@0.5.1/public/@types/vtex.checkout-components#77d654aea75319f3024612fe7b263777b116105f"
 
-"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql":
-  version "0.56.1"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.1/public/@types/vtex.checkout-graphql#c1153ec5faf232f92abfe495f867019bfb7d510f"
+"vtex.checkout-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.2/public/@types/vtex.checkout-graphql":
+  version "0.56.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.checkout-graphql@0.56.2/public/@types/vtex.checkout-graphql#b65cce625ba3840a3b7eec3fe83a4be0e3b31e4a"
+
+"vtex.country-data-settings@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-data-settings@0.4.0/public/@types/vtex.country-data-settings":
+  version "0.4.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-data-settings@0.4.0/public/@types/vtex.country-data-settings#bd202ad3fedd99d8da51df86b68316beab1bdce1"
 
 "vtex.country-flags@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.country-flags@0.1.1/public/@types/vtex.country-flags":
   version "0.1.1"
@@ -5933,9 +5937,9 @@ vtex-tachyons@^3.2.0:
   version "8.126.11"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.11/public/@types/vtex.render-runtime#aceb734766093b56954ec19a074574b4c2c95242"
 
-"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.2/public/@types/vtex.styleguide":
-  version "9.135.2"
-  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.2/public/@types/vtex.styleguide#bed07ae468480d4c5f2b8f65d46e72d452936f80"
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.3/public/@types/vtex.styleguide":
+  version "9.135.3"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.135.3/public/@types/vtex.styleguide#744a8674d69a56594de969da36b263f94c9de66f"
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"

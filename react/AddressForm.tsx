@@ -1,19 +1,16 @@
 import classnames from 'classnames'
 import React, { useState, useMemo, useRef } from 'react'
 import { Input, Dropdown } from 'vtex.styleguide'
+import { DisplayDefinition } from 'vtex.country-data-settings'
 import { useAddressContext } from 'vtex.address-context/AddressContext'
-import {
-  LineFragment,
-  AddressFields,
-  Fields,
-  Field,
-} from 'vtex.address-context/types'
+import { AddressFields, Field } from 'vtex.address-context/types'
 import { useIntl, defineMessages } from 'react-intl'
 
-import { useAddressForm, FieldName } from './useAddressForm'
+import { useAddressForm, FieldName, FieldsMeta } from './useAddressForm'
 import { styleRules } from './countries/rules'
 import PlaceDetails from './PlaceDetails'
 import NumberOption from './components/NumberOption'
+import { useCountry } from './useCountry'
 
 const messages = defineMessages({
   receiverName: {
@@ -68,13 +65,13 @@ const messages = defineMessages({
  * all fields from the compact mode that are in the extended mode.
  */
 const getExcludedFields = (
-  summary: LineFragment[][],
+  summary: DisplayDefinition[][],
   includedFields: string[] = []
 ) => {
   const excludedFields = new Set<string>()
 
-  summary.forEach((line: LineFragment[]) => {
-    line.forEach((fragment: LineFragment) => {
+  summary.forEach((line) => {
+    line.forEach((fragment) => {
       if (includedFields.includes(fragment.name)) {
         return
       }
@@ -117,8 +114,8 @@ const AddressForm: React.FC<AddressFormProps> = ({
   const form = propsForm ?? localForm
   const address = propsForm?.address ?? addressContext.address
 
-  const countryRules =
-    (address.country && addressContext.rules[address.country]) || undefined
+  const country = useCountry()
+  const countryRules = addressContext.rules[country]
 
   const { fields: countryRulesFields, display } = countryRules ?? {}
   const summary = display?.extended
@@ -159,7 +156,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
 
   const handleFieldBlur: React.FocusEventHandler<
     HTMLInputElement | HTMLSelectElement
-  > = evt => {
+  > = (evt) => {
     const fieldName = evt.target.name
 
     if (!(fieldName in address)) {
@@ -180,14 +177,14 @@ const AddressForm: React.FC<AddressFormProps> = ({
       </div>
       <div>
         {summary
-          ?.map(line =>
-            line.filter(fragment => {
-              const field = countryRulesFields?.[fragment.name as keyof Fields]
+          ?.map((line) =>
+            line.filter((fragment) => {
+              const field = countryRulesFields?.[fragment.name as FieldName]
 
               if (
                 !field ||
                 ignoredFields.has(fragment.name) ||
-                hiddenFields.includes(fragment.name)
+                hiddenFields.includes(fragment.name as AddressFields)
               ) {
                 return false
               }
@@ -195,12 +192,12 @@ const AddressForm: React.FC<AddressFormProps> = ({
               return true
             })
           )
-          .filter(line => line.length > 0)
+          .filter((line) => line.length > 0)
           .map((line, index, renderedSummary) => (
             <div className="flex flex-wrap" key={index}>
               {line.map((fragment, fragmentIndex) => {
                 const field = countryRulesFields?.[
-                  fragment.name as keyof Fields
+                  fragment.name as FieldName
                 ] as Field
 
                 const style = styleRules[field.label]
@@ -210,18 +207,19 @@ const AddressForm: React.FC<AddressFormProps> = ({
                 const { maxLength, autoComplete, label } = field
 
                 const handleChange = (value: string) => {
-                  form.onFieldChange(fragment.name, value)
+                  form.onFieldChange(fragment.name as FieldName, value)
                 }
 
                 const handleInputChange: React.ChangeEventHandler<
                   HTMLInputElement | HTMLSelectElement
-                > = evt => {
+                > = (evt) => {
                   handleChange(evt.target.value)
                 }
 
-                const value = address[fragment.name] ?? ''
+                const value = address[fragment.name as FieldName] ?? ''
 
-                const fragmentMeta = form.meta[fragment.name]
+                const fragmentMeta =
+                  form.meta[fragment.name as keyof FieldsMeta]
 
                 const commonProps = {
                   label: intl.formatMessage(
@@ -235,7 +233,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
                   ...(fragmentMeta?.blurred && fragmentMeta.errorMessage
                     ? {
                         errorMessage: intl.formatMessage(
-                          fragmentMeta.errorMessage!
+                          fragmentMeta.errorMessage
                         ),
                       }
                     : null),

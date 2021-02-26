@@ -3,7 +3,6 @@ import { useAddressContext } from 'vtex.address-context/AddressContext'
 import { IconSearch, Input, Button, ButtonPlain } from 'vtex.styleguide'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useLazyQuery } from 'react-apollo'
-import { useRuntime } from 'vtex.render-runtime'
 import msk from 'msk'
 import {
   Address,
@@ -13,6 +12,7 @@ import {
 
 import GET_ADDRESS_FROM_POSTAL_CODE from './graphql/getAddressFromPostalCode.graphql'
 import styles from './LocationInput.css'
+import { useCountry } from './useCountry'
 
 interface Props {
   onSuccess?: (address: Address) => void | Promise<void>
@@ -23,8 +23,7 @@ const LocationInput: React.FC<Props> = ({
   variation = 'secondary',
   onSuccess,
 }) => {
-  const { address, setAddress, rules } = useAddressContext()
-  const { culture } = useRuntime()
+  const { setAddress, rules } = useAddressContext()
   const intl = useIntl()
   const [inputValue, setInputValue] = useState('')
   // the network-only fetch policy asserts that if an incorrect postal code
@@ -38,9 +37,8 @@ const LocationInput: React.FC<Props> = ({
   const [loading, setLoading] = useState(false)
   const [invalidPostalCode, setInvalidPostalCode] = useState(false)
 
-  const country = address?.country ?? culture.country
-
-  const countryRules = country ? rules[country] : undefined
+  const country = useCountry()
+  const countryRules = rules[country]
 
   const prevCountryRulesRef = useRef(countryRules)
 
@@ -77,7 +75,7 @@ const LocationInput: React.FC<Props> = ({
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       ;(onSuccess?.(data.getAddressFromPostalCode) || Promise.resolve())
         .then(() => {
-          setAddress(prevAddress => ({
+          setAddress((prevAddress) => ({
             ...prevAddress,
             ...data.getAddressFromPostalCode,
           }))
@@ -111,7 +109,7 @@ const LocationInput: React.FC<Props> = ({
 
   const handleSubmit: React.EventHandler<
     React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
-  > = event => {
+  > = (event) => {
     event.preventDefault()
     if (invalidPostalCode) {
       return
@@ -126,7 +124,9 @@ const LocationInput: React.FC<Props> = ({
     })
   }
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     if (invalidPostalCode) {
       setInvalidPostalCode(false)
     }
@@ -134,7 +134,9 @@ const LocationInput: React.FC<Props> = ({
     setInputValue(event.target.value)
   }
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = event => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     if (event.key === 'Enter') {
       formatAndValidate()
     }

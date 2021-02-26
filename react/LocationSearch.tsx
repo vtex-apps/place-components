@@ -31,6 +31,7 @@ import {
   ComboboxList,
 } from './components/Combobox'
 import PlaceIcon from './components/PlaceIcon'
+import { useCountry } from './useCountry'
 
 const DEBOUNCE_DELAY_IN_MS = 500
 
@@ -118,7 +119,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const [searchTerm, setSearchTerm] = useState('')
   const [displayedSearchTerm, setDisplayedSearchTerm] = useState('')
   const inputWrapperRef = useRef<HTMLDivElement>(null)
-  const { address, setAddress } = useAddressContext()
+  const { setAddress } = useAddressContext()
   const providerLogo = useProviderLogo()
   const debouncedSearchTerm = useDebouncedValue(
     searchTerm,
@@ -133,11 +134,12 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     notifyOnNetworkStatusChange: true,
   })
 
+  const country = useCountry()
   const sessionToken = sessionTokenData?.sessionToken ?? null
   const [suggestions, loadingSuggestions] = useSuggestions(
     debouncedSearchTerm,
     sessionToken,
-    address?.country
+    country
   )
 
   const [executeAddress, { data, error, loading }] = useLazyQuery<
@@ -153,7 +155,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   useEffect(() => {
     if (data) {
-      setAddress(prevAddress => ({
+      setAddress((prevAddress) => ({
         ...prevAddress,
         ...data.address,
       }))
@@ -176,7 +178,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   const handleSuggestionSelection = (selectedSuggestion: string) => {
     const externalId = suggestions.find(
-      suggestion => suggestion.description === selectedSuggestion
+      (suggestion) => suggestion.description === selectedSuggestion
     )?.externalId
 
     if (externalId == null) {
