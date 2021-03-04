@@ -6,10 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `PlaceDetails` allows the usage of a custom address.
 
 ## [0.14.2] - 2021-02-26
 ### Changed
-- All components request country information in a standardiezed way.
+- All components request country information in a standardized way.
 - Typings were updated to match original types.
 
 ## [0.14.1] - 2021-02-23

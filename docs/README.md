@@ -22,7 +22,7 @@ Country data is sorted according to [Figma designs](https://www.figma.com/file/u
 
 ## Place Details
 
-The Place Details component displays a summary of a place according to the address it receives from the wrapper orchestrator, and the description of the structure that receives as prop. There are three variations of PlaceDetails according to the amount of information that needs to be shown in a particular scenario. Below you can see a description of them.
+The Place Details component displays a summary of a place according to the address from the wrapper orchestrator or a custom address passed via props. There are three variations of PlaceDetails according to the amount of information that needs to be shown in a particular scenario. Below you can see a description of them.
 
 - **Extended**: complete address, with all information that's necessary for carriers and users to identify it.
 - **Compact**: displays details gathered through LocationForm or from its info.

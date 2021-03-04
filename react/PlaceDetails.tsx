@@ -5,6 +5,7 @@ import { AddressFields } from 'vtex.address-context/types'
 import { ButtonPlain } from 'vtex.styleguide'
 import { useIntl, defineMessages } from 'react-intl'
 import { DisplayData } from 'vtex.country-data-settings'
+import { Address } from 'vtex.checkout-graphql'
 
 import { FieldName } from './useAddressForm'
 import { useCountry } from './useCountry'
@@ -13,6 +14,7 @@ interface Props {
   display?: keyof Omit<DisplayData, '__typename'>
   hiddenFields?: AddressFields[]
   onEdit?: () => void
+  customAddress?: Address
 }
 
 const messages = defineMessages({
@@ -26,8 +28,10 @@ const PlaceDetails: React.FC<Props> = ({
   display = 'extended',
   hiddenFields = [],
   onEdit,
+  customAddress,
 }) => {
-  const { address, rules } = useAddressContext()
+  const { address: contextAddress, rules } = useAddressContext()
+  const address = customAddress ?? contextAddress
   const country = useCountry()
   const countryRules = rules[country]
 
