@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- New translations.
+
+### Changed
+
+- Crowdin configuration file.
+
 ## [0.14.2] - 2021-02-26
 ### Changed
 - All components request country information in a standardiezed way.
