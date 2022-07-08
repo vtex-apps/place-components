@@ -1,8 +1,6 @@
-📢 Use this project, [contribute](https://github.com/vtex-apps/place-components) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
-
 # Place Components
 
-> :warning: *Although ready to be installed, the Place Components app is currently an **open-beta project**. Bear in mind that due to that status, you can expect an accelerated state of evolution.*
+⚠️ **This is an ongoing, unsupported, unfinished and undocumented project. We do not guarantee any results after installation.** ⚠️
 
 <!-- DOCS-IGNORE:start -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
