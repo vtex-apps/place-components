@@ -84,7 +84,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   }, [country, setAddress])
 
   // Do not render anything if we only have 1 country or none.
-  if (countries.length <= 1) {
+  if ((countries ?? []).length <= 1) {
     return null
   }
 
