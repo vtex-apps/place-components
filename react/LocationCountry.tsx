@@ -60,7 +60,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
 
   const [country, setCountry] = useState(useCountry())
 
-  if (country && countries && !countries.includes(country)) {
+  if (country && countries && countries.length > 0 && !countries.includes(country)) {
     throw new Error(
       `The country "${country}" doesn't belong to the country list, can't render LocationCountry`
     )
@@ -84,7 +84,7 @@ const LocationCountry: React.FC<LocationCountryProps> = ({
   }, [country, setAddress])
 
   // Do not render anything if we only have 1 country or none.
-  if (countries.length <= 1) {
+  if ((countries ?? []).length <= 1) {
     return null
   }
 
